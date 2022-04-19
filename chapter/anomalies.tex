@@ -1,0 +1,242 @@
+\chapter{Anomalies}
+\label{chap:Anomalies}
+
+\section{Reflection of Solar Panels on Sun Sensor}
+\label{section:Reflection}
+The reflection anomaly is modelled for the specific shape and design of the CubeSat as shown in Figure~\ref{fig:CubeSat}.
+
+\begin{figure}[!htb]
+	\centering
+	\def\svgwidth{7cm}
+	\import{Figures/}{ReflectionModel.pdf_tex}
+	\caption{Cube Sat}
+	\label{fig:CubeSat}
+\end{figure}
+
+\begin{figure*}[!hbt]
+	\centering
+	\def\svgwidth{7cm}
+	\import{Figures/}{ReflectionModelPoint.pdf_tex}
+	\centering
+	\def\svgwidth{7cm}
+	\import{Figures/}{LineIntersection.pdf_tex}
+	\caption{Reflection}
+	\label{fig:LineIntersection}
+\end{figure*}
+
+The assumption is that the solar panel can be modelled as a geometric plane. Therefore, light from the solar panel will reflect as from a perfectly smooth mirror. It is further assumed that if the sun sensor detects any reflection from the solar panel, the measured sun vector will default to the reflection ray instead of the direct sun vector. Therefore the intensity of the light vector is disregarded. The reflected sun vector, $r$, can be calculated as
+\begin{equation}
+	\mathbf{r} = \mathbf{v} - 2\mathbf{n}^T(\mathbf{v} \cdot \mathbf{n}).
+\end{equation}
+Where $\mathbf{v}$ is the incoming sun vector and $\mathbf{n}$ is the average vector to the plane $ABCD$ of the solar panel, as seen in Figure~\ref{fig:CubeSat}. To calculate the intersection of the reflected vector with the plane $XWYZ$ of the sun sensor, the equation of the plane, $XWYZ$, the reflected vector, $r$, and the point of origin is required. The reflection of the sun vector, $\mathbf{v}$ is illustrated in Figure~\ref{fig:LineIntersection} The equation for a plane can be denoted as
+
+\begin{equation}
+	\mathbf{p} = ax + by + cz + d.
+	\label{eq:Plane}
+\end{equation}
+Where $x$, $y$ and $z$ are the dimensions in the SBC frame. The reflected unit vector can also be translated to 
+\begin{equation}
+	\begin{aligned}
+		&	x = \alpha t \\
+		&	y = \beta t \\
+		&	z = \zeta t \\
+	\end{aligned}
+	\label{eq:LineOfVector}
+\end{equation}
+Where the coefficients, $\alpha$, $\beta$ and $\zeta$ are the values of the reflected unit vector in each respective dimension. Since we can calculate the coefficients for Eq~\ref{eq:LineOfVector} from the reflected vector, we can calculate $t$, by substituting $x$, $y$ and $z$ into Eq~\ref{eq:Plane}. This is possible, because we determine the equation of the plane for the surface $XYZW$ based on our design. 
+
+After that, the intersecting point with the plane $XYZW$ can be calculated as
+\begin{equation}
+	P(x, y, z) = (o_1 + \alpha t, o_2 + \beta t, o_3 + \zeta t)
+	\label{eq:Intersection}
+\end{equation}
+where $o_1, o_2, o_3$ is the point of origin. Which in this case is the position of reflection from the solar panel. Therefore, if the sun vector $\mathbf{v}$ reflected from the solar panel as $\mathbf{r}$, the point of intersection $Q'$ on Figure~\ref{fig:LineIntersection} can be calculated as
+\begin{equation}
+	Q'(x, y, z) = (Q_x + \alpha t, Q_y + \beta t, Q_z + \zeta t)
+	\label{eq:SpecificIntersection}
+\end{equation}
+
+To model reflection from the solar panels to the sun sensor, only two corners of the solar panel and two corners of the sun sensor are to be considered. From Figure~\ref{fig:LineIntersection} it is evident that if the solar panel reflects on $Y$ that the reflection will also cover $X$. The same is true for corner $Z$ and $W$. Since $C'$ will be at the same position as $C$, which is valid for $D'$ and $D$, the calculation can be omitted. Therefore it is only necessary to calculate the reflected positions $A'$ and $B'$. This simplifies the reflection model significantly.
+
+The reflected position $A'$ can be calculated as the intersection of the reflected vector $R$ with plane $XYZW$ using Eq~\ref{eq:Intersection}. We also know the position of $A$, based on the satellite design and can therefore calculate $A'$. The same applies to $B$ and $B'$. To determine whether $Y$ or $X$ is within the reflection region, we assume that the plane $XYWZ$ is a 2D plane, and we omit the third dimension. Therefore, the axis changes from $x, y, z$ to only $x, y$. We calculate whether $x$ is between the lines of $A'D$ and $B'C$ and between the lines $CD$ and $A'B'$. By determining the line equation between reflected points in the form 
+\begin{equation}
+	y_{A'B'} = mx_{A'B'} + c
+	\label{eq:line equation}
+\end{equation}
+from the coordinates of $A'$ and $B'$, the corresponding $X_{A'B',y}$ can be calculated by substituting $X_x$ into Eq~\ref{eq:line equation}. With the same method the coordinates of $X_{B'C}$, $X_{A'D}$, $X_{A'B'}$ and $X_{CD}$ can be determined. After that, with logical if statements, it can be determined whether $X$ is in the reflection zone. If $X_x$ is to the right of $X_{B'C,x}$ and to the left of $X_{A'D,x}$, as well as $X_y$ is above $X_{A'B',y}$ and below $X_{CD,y}$ then $X$ is within the reflection zone. 
+
+The results for the sun vector with and without reflection is shown in Figure~\ref{fig:Sun Vector comparison}. During the modelling of the reflection, the reflection also affects the estimation and, therefore, the attitude control of the satellite. In the figures of this article, the grey zones indicate the eclipse period, as seen in Figure~\ref{fig:Sun Vector comparison}.
+
+\begin{figure*}[!htb]
+	\begin{tabular}{@{}c@{}}
+		\centering
+%		 include first image
+		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/Reflection/}{Sun.pgf}
+%		\caption[Sun vector with reflection]{Sun vector with reflection.}
+		\label{fig:Sun Vector comparison with reflection}
+	\end{tabular}
+	\begin{tabular}{@{}c@{}}
+		\centering
+		% include second image
+		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Sun.pgf} 
+%		\caption[Sun vector without reflection]{Sun vector without reflection.}
+		\label{fig:Sun Vector comparison without reflection}
+	\end{tabular}
+	
+	\caption{Comparison of Sun Vector with and without Reflection}
+	\label{fig:Sun Vector comparison}
+	
+\end{figure*}
+
+\section{Moon and Sun in Field of View of Nadir Sensor}
+An anomaly that can be experienced by an infra-red nadir sensor is the moon overlapping the horizon of the earth in die nadir sensor's FOV. This is shown in Figure~\ref{fig:ProjectionOnPlane}. This influences the edge detection and circular fit algorithm \cite{Wessels2018, Helgard2008} and consequently the calculated centre of the earth. Firstly, it is required to simulate the image seen by the nadir sensor, thereafter the algorithm for detecting the centre of the earth can be implemented.
+
+\subsection{Simulating Nadir Sensor Infra-red Image}
+Firstly the vectors of both the satellite to earth and the moon the earth is required. The moon position is determined with the Julian date, since the propagation of the moon position relative to the centre of the earth has already been done. These vectors are shown in Figure~\ref{fig:EarthMoonSatPosition}. From the vector, $\mathbf{R}_{SE}$, and the position of the centre of the earth, $P_{earth}$, a 3D plane normal to $\mathbf{R}_{SE}$ and at $P_{earth}$ can be calculated. Where both $P_{earth}$ and $\mathbf{R}_{SE}$ are defined as
+
+\begin{figure}[!htb]
+	\centering
+	\def\svgwidth{14cm}
+	\import{Figures/}{EarthMoonSatPosition.pdf_tex}
+	\caption{Earth to Moon and Earth to Satellite Vectors}
+	\label{fig:EarthMoonSatPosition}
+\end{figure}
+
+\begin{equation}
+	P_{earth} = [x_0, y_0, z_0]
+\end{equation}
+
+and  
+
+\begin{equation}
+	\mathbf{R}_{SE} = [n_x, n_y, n_z].
+\end{equation}
+
+Therefore with the equation for the 3D plane defined as 
+
+\begin{equation}
+Ax + By + Cy = D
+\end{equation}
+
+the parameters $A, B, C, D$ can be calculated as
+
+\begin{equation}
+\begin{bmatrix}
+	A\\
+	B\\
+	C\\
+	D\\
+\end{bmatrix} = \begin{bmatrix}
+n_x\\
+n_y\\
+n_z\\
+n_xx_0 + n_yy_0 + n_zz_0\\
+\end{bmatrix}
+\end{equation}
+
+This 3D plane slicing the earth in half as seen from the satellite is shown in Figure~\ref{fig:PlaneThroughEarth}. The moon and earth can both be projected unto the 3D plane to determine the image seen by the nadir sensor. Therefore the nadir vector must also be projected unto the 3D plane. A circle can be drawn for the earth. moon and the nadir sensor FOV. The radius, of the moon as projected on the 3D plane can be calculated as 
+
+\begin{equation}
+	R_{moon} = \left\lVert R_{SE} \right\rVert \frac{r_{moon}}{\left\lVert R_{SM} \right\rVert}
+\end{equation}
+
+the radius of the nadir sensor FOV, $R_{FOV}$ can calculated as 
+
+\begin{equation}
+	R_{FOV} = \left\lVert R_{SE} \right\rVert \tan \theta
+\end{equation}
+
+With these variables defined and calculated, the edges of the moon and earth within the nadir FOV can be determined.
+
+\begin{figure}[!hbt]
+	\centering
+	\def\svgwidth{14cm}
+	\import{Figures/}{PlaneThroughEarth.pdf_tex}
+	\caption{Plane perpendicular to $\mathbf{R}_{SE}$ and at center of earth}
+	\label{fig:PlaneThroughEarth}
+\end{figure}
+
+Firstly the edges of the moon and earth are discretely determined based on a fixed number of points for the earth, $N$, and the number of discrete points on the moon is determined based on the ratio of $R_{moon}$ to $R_{earth}$. The projected earth and moon unto the 3D plane is shown in Figure~\ref{fig:PlaneThroughEarth}. The discrete edges of the earth that is within the FOV and will be used for the algorithm discussed in section~\ref{section: Calculating the Centre of the Earth} are determined with the following logical statements.
+\begin{enumerate}
+	\item Distance between point and centre of nadir Sensor FOV must be smaller than $R_{FOV}$.
+	\item Distance between point and centre of moon must be larger than $R_{moon}$
+\end{enumerate}
+
+The discrete edges of the moon used for the algorithm is must satisfy the following conditions
+\begin{enumerate}
+	\item Distance between any discrete point and centre of earth must be smaller than $R_{earth}$ for the moon to overlap the horizon
+	\item Distance between point and centre of nadir Sensor FOV must be smaller than $R_{FOV}$.
+	\item Distance between point and centre of earth must be larger than $R_{earth}$
+\end{enumerate}
+
+This the creates the array of points that will be used in the algorithm used to calculate the centre of the earth.
+
+\begin{figure}[!hbt]
+	\centering
+	\def\svgwidth{14cm}
+	\import{Figures/}{ProjectionOnPlane.pdf_tex}
+	\caption{Projection of moon and earth on plane}
+	\label{fig:ProjectionOnPlane}
+\end{figure}
+
+\subsection{Calculating the Centre of the Earth}
+\label{section: Calculating the Centre of the Earth}
+The edges of the earth are detected based on a gradient between the lowest temperature and the highest temperature within the IR nadir sensor's FOV. This will not be implemented in our case, since we can determine discrete points of both the earth and the moon from the simulation environment. Furthermore the visible phases of the moon will not be accounted for. The reasoning for this is due to the coldest side of the moon being $140K$ and the warmest part, $400K$. The temperature of space is $2.7K$ and the coldest part on the earth is $180K$. Consequently, the IR horizon sensor must be calibrated to always use the minimum value for edge detection as 180K or it must use the smallest value in the image, which will most likely be $2.7K$. Therefore, it can be assumed that the moon will not have any detectable phases for the IR horizon sensor and it will always be seen as a full moon, due to it's lowest temperature being warmer than that of space. 
+
+With this assumption the circular fit algorithm as shown in Figure~\ref{fig:CircularFit} can now be used to determine the centre of the earth on the plane \cite{Wessels2018}. For this calculation the 3D plane is transformed to a 2D plane and all the coordinates is also transformed.  
+
+\begin{figure}[!hbt]
+	\centering
+	\def\svgwidth{14cm}
+	\import{Figures/}{CircularFit.pdf_tex}
+	\caption{Circular Fit Algorithm}
+	\label{fig:CircularFit}
+\end{figure}
+
+Firstly the curvature is described as 
+
+\begin{equation}
+	ax + bx + c = x^2 + y^2
+\end{equation}
+
+where 
+
+\begin{equation}
+	\begin{aligned}
+		a &= 2x_c \\
+		b &= 2y_c \\
+		c &= r_c^2-\sqrt{x_c^2 + y_c^2}
+	\end{aligned}
+\end{equation}
+
+Therefore using all the discrete edges within the image $a$, $b$ and $c$ can be calculated as
+
+\begin{equation}
+	\begin{bmatrix}
+		x_0 & y_0 & 1\\
+		x_1 & y_1 & 1\\
+		\vdots & \vdots & \vdots\\
+		x_n & y_n & 1\\
+	\end{bmatrix}	\begin{bmatrix}
+	a\\
+	b\\
+	c
+\end{bmatrix} = \begin{bmatrix}
+		x_0^2 + y_0^2\\
+		x_1^2 + y_1^2\\
+		\vdots \\
+		x_n^2 + y_n^2\\
+	\end{bmatrix}
+\end{equation}
+
+where $(x_0,y_0)$ to $(x_n, y_n)$ are the coordinates of the discrete edges. It is thus evident that when the moon overlaps the horizon of the earth from the nadir sensor's perspective the centre of the earth will be incorrectly calculated and this anomaly must be dealt with. The other anomaly in this section where the sun is in the FOV of the nadir sensor will not provide a measurement, since the sun will saturate the Infra-red nadir sensor~\cite{Wessels2018}. \textbf{A image showing the vector of the earth with and without the anomaly must be shown as in the sun reflection section}.
+
+\cite{dahl+etal_taslp12}
+
+\subsection{Erroneous}
+
+\section{Magnetometer}
+\subsection{Magnetic Moment Disturbance from Satellite Bus}
+
+\subsection{Erroneous}
+

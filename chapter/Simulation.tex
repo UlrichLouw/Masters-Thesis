@@ -1,0 +1,467 @@
+\chapter{Simulation}
+\label{chap:Simulation}
+
+To implement and research various FDIR systems on satellites an simulation of satellite dynamics and kinematics is developed. The focus of this thesis is on small satellites and more specifically cubesats. For the simulation of the ADCS of the satellite \cite{auret2012design, JansevanVuuren2015, Jordaan2016} were referenced during the development of the satellite simulation. The simulation was developed in Python to simulate the dynamics and kinematics during a satellite orbit. The faults for the subsystems are also developed within the simulation and will be discussed within this chapter.
+
+\section{Attitude Determination and Control System}
+
+For the mission of the specific satellite in this document the main operational goal of the Attitude Determination and Control System (ADCS) on this specific satellite mission is to control the payload to point towards the centre of the earth. 
+
+\subsection{Coordinate Frames}
+The coordinate frames in aerospace is a fundamental part of the ADCS. To determine the orientation and position of an object, it should be relative to a fixed frame. Consequently, the Earth inertial coordinate (EIC) frame is the fixed frame from which every other frame is relative to.
+
+A coordinate frame consists of three orthogonal vectors which is commonly referred to as x, y, and z. The axis of the coordinate frame is appropriately named as X-axis, Y-axis and Z-axis as seen in Figure... A vector (r) within the current coordinate frame can thus be expressed as 
+\begin{equation}
+\overrightarrow{r} = x\overrightarrow{i} + y\overrightarrow{j} + z\overrightarrow{k}
+\end{equation}
+where the magnitude of $\overrightarrow{r}$ is denoted as $|\overrightarrow{r}|$ and is equal to 
+\begin{equation}
+|\overrightarrow{r}| = \sqrt{x^2 + y^2 + z^2}.
+\end{equation}
+
+The Earth-centered coordinate frames are dived into two, namely the EIC and earth fixed coordinate (EFC) frame. EFC is fixed to the earth and rotates with it. This frame is important with respect to where the satellite position is with regards to position's on earth, such as the ground station. It is also import for the modelling of the geomagnetic fields. 
+
+% Insert a figure of the earth coordinate frames here
+
+The EIC is defined as the Z-axis pointing towards the north pole, the X-axis pointing towards the Vernal Equinox, $\Upsilon$, and the Y-axis completing the orthogonal set. The EFC is a copy of the EIC, with the Z-axis being identical, however the EFC rotates with the earth. The EFC in relation to the EIC can be expressed by a single angle of rotation, which is the Greenwich Hour Angle (GHA), $\alpha_G$. With the knowledge of $t$ --- the elapsed time since $t_0$, $w_E$ --- the angular rate of the earth, and $\alpha_{G,0}$ --- the GHA at $t = t_0$, $\alpha_G$ can be calculated as 
+\begin{equation}
+\alpha_G = w_Et + \alpha_{G,0}
+\end{equation}
+To transform a vector from one coordinate frame to another, a transformation matrix, $\boldsymbol{A}$, is required. For example vector $\overrightarrow{r}_{EFC}$ can be transformed to $\overrightarrow{r}_{EIC}$ with 
+\begin{equation}
+\overrightarrow{r}_{EIC} = \boldsymbol{A}^{EIC}_{EFC}\overrightarrow{r}_{EFC}
+\end{equation}
+with $\boldsymbol{A}^{EIC}_{EFC}$ being the EFC-to-EIC transformation matrix. Due to the definition of both coordinate frames, $\boldsymbol{A}^{EIC}_{EFC}$ can be defined .
+
+\begin{equation}
+\boldsymbol{A}^{EIC}_{EFC} = 
+\begin{bmatrix}
+	cos(\alpha_G) & -sin(\alpha_G) & 0\\
+	sin(\alpha_G) & cos(\alpha_G) & 0 \\
+	0 & 0 & 1
+\end{bmatrix}
+\end{equation}
+
+To determine the satellite position, satellite coordinate frames must be used. Three satellite-centred coordinate frames are used, namely the inertial-reference coordinate frame (the satellite does not rotate), the orbit-referenced coordinate (ORC) frame and the satellite body coordinate (SBC) frame. The IRC frame is only acknowledged, since it is the frame that is fixed (as it does not rotate around the centre of the satellite), however it changes position with the orbit of the satellite. This frame is not used to determine the position of the satellite and will not be referenced for the remainder of this document.
+
+The ORC frame changes location as the satellite moves, however the Z-axis is always pointing towards the centre of the earth, with the Y-axis being the anti-normal and the X-axis completing the orthogonal set. To transform a vector from the EIC frame to the ORC frame the unit position vector, $\overrightarrow{r}_{sat}$ and the unit velocity vector, $\overrightarrow{v}_{sat}$ in EIC \cite{Chen_ground-target}.
+
+\begin{equation}
+	\boldsymbol{A}^{ORC}_{EIC} = 
+	\begin{bmatrix}
+		\hat{u} & \hat{v} & \hat{w}\\
+	\end{bmatrix}^T
+\end{equation}
+where
+\begin{equation}
+\hat{w} = -\frac{r_{sat}}{||r_{sat}||}
+\end{equation}
+\begin{equation}
+\hat{v} = -\frac{r_{sat} \times v_{sat}}{||r_{sat} \times v_{sat}||}
+\end{equation}
+\begin{equation}
+\hat{u} = \hat{v} \times \hat{w}
+\end{equation}
+
+The SBC frame is the frame fixed to the satellite and it is the relative rotation of the satellite in relation to the ORC. Thus for the mission of this satellite it is required that the SBC and ORC frames coincide. For the transformation of a vector from the ORC to SBC frame, the direct cosine matrix (DCM) also referred to as $\boldsymbol{A}$ or $\boldsymbol{A}^{SBC}_{ORC}$ is used. For the remainder of the document the DCM will be referred to as $\boldsymbol{A}^{SBC}_{ORC}$ to avoid any confusion. The calculation of this transformation matrix will be discussed in $\S$\ref{subsection_quaternions}.
+
+% Insert a figure of the satellite coordinate frames here
+
+\subsection{Attitude}
+\label{subsection_quaternions}
+To determine the attitude of an object, a model must be used to determine the rotation of an object in three dimensions. For this the visual and intuitive example of the Euler angles exist. Euler angles are the rotation of an object around three orthogonal axis, that change orientation with the rotation of the object. The three axes, denoted by X, Y and Z rotate with the object as depicted in Figure~\ref{Figure-Euler_angles}.
+
+%\begin{figure}[h!tb]
+%\label{Figure-Euler_angles}
+%\begin{tikzpicture}[scale=2.5,tdplot_main_coords]
+%	%\tdplotsetmaincoords{70}{110}
+%	% Set origin of main (body) coordinate system
+%	\coordinate (O) at (0,0,0);
+%	
+%	% Draw main coordinate system
+%	\draw[red, ,->] (0,0,0) -- (1,0,0) node[anchor=north east]{$x_{\mathcal{I}}$};
+%	\draw[red, ,->] (0,0,0) -- (0,1,0) node[anchor=north west]{$y_{\mathcal{I}}$};
+%	\draw[red, ,->] (0,0,0) -- (0,0,1) node[anchor=south]{$z_{\mathcal{I}}$};
+%	
+%	
+%	
+%	% Intermediate frame 1
+%	\tdplotsetrotatedcoords{-60}{0}{0}
+%	\draw[tdplot_rotated_coords,->, blue] (0,0,0) -- (1,0,0) node[anchor=north east]{$x'$};
+%	\draw[tdplot_rotated_coords,->, blue] (0,0,0) -- (0,1,0) node[anchor=west]{$y'$};
+%	\draw[tdplot_rotated_coords,->, blue] (0,0,0) -- (0,0,1) node[anchor=west]{$z'$};
+%	
+%	\tdplotsetrotatedthetaplanecoords{90}
+%	%draw theta arc and label
+%	%\tdplotdrawarc[tdplot_rotated_coords,->,color=blue]{(0,0,0)}{0.5}{0}{350}{anchor=south west,color=gray}{$\alpha$}
+%	\tdplotdrawarc[tdplot_rotated_coords,->,color=gray]{(0,0,0)}{0.5}{80}{90}{anchor=south west,color=gray}{$\alpha$}
+%	\tdplotdrawarc[tdplot_rotated_coords,->,color=gray]{(0,0,0)}{0.5}{170}{180}{anchor=south west,color=gray,  yshift = -15 pt}{$\alpha$}
+%	
+%	%% Intermediate frame 2
+%	\tdplotsetrotatedcoords{-60}{15}{0}
+%	\draw[,tdplot_rotated_coords,->, green] (0,0,0) -- (1,0,0) node[anchor=
+%	north]{};
+%	\draw[,tdplot_rotated_coords,->, green] (0,0,0) -- (0,1,0)
+%	node[anchor=west]{$y''$};
+%	\draw[,tdplot_rotated_coords,->, green] (0,0,0) -- (0,0,1)
+%	node[anchor=south]{$z''$};
+%	\tdplotsetrotatedthetaplanecoords{60}
+%	%draw theta arc and label
+%	%\tdplotdrawarc[tdplot_rotated_coords,->,color=green]{(0,0,0)}{0.5}{0}{350}{anchor=north,color=gray}{$\beta$}
+%	\tdplotdrawarc[tdplot_rotated_coords,->,color=gray]{(0,0,0)}{0.5}{80}{90}{anchor=north,color=gray}{$\beta$}
+%	\tdplotdrawarc[tdplot_rotated_coords,->,color=gray]{(0,0,0)}{0.5}{310}{320}{anchor=south west,color=gray}{$\beta$}
+%	% 
+%	% Rotate to final frame
+%	\tdplotsetrotatedcoords{-60}{15}{45}
+%	\draw[thick,tdplot_rotated_coords,->, cyan] (0,0,0) -- (1,0,0)
+%	node[anchor=west]{$x_{\mathcal{B}}$, \textcolor{green}{$x''$}};
+%	\draw[thick,tdplot_rotated_coords,->, cyan] (0,0,0) -- (0,1,0) node[anchor=west]{$y_{\mathcal{B}}$};
+%	\draw[thick,tdplot_rotated_coords,->, cyan] (0,0,0) -- (0,0,1) node[anchor=south]{$z_{\mathcal{B}}$};
+%	
+%	\tdplotsetrotatedthetaplanecoords{30}
+%	%draw theta arc and label
+%	%\tdplotdrawarc[tdplot_rotated_coords,->,color=cyan]{(0,0,0)}{0.5}{0}{350}{anchor=north,color=gray}{$\gamma$}
+%	\tdplotdrawarc[tdplot_rotated_coords,->,color=gray]{(0,0,0)}{0.5}{215}{225}{anchor=north,color=gray, yshift = 15pt}{$\gamma$}
+%	\tdplotdrawarc[tdplot_rotated_coords,->,color=gray]{(0,0,0)}{0.5}{328}{338}{anchor=south west,color=gray}{$\gamma$}
+%	
+%\end{tikzpicture}
+%\end{figure}
+
+
+Euler angles and DCM will be acknowledged and explained why they are not applicable.
+In some literature the first and last quaternion are swapped.
+
+\subsection{Satellite Kinematics and Dynamics}
+
+\subsection{Rungka-kutta}
+The integration method used in the simulation is the 4th order Rungka-Kutta method to solve the differential equations.
+
+\begin{algorithm}[!htb]
+	\caption[Multi-variate Guassian Distribution]{Multi-variate Guassian Distribution Algorithm}
+	\label{alg}
+	\begin{algorithmic}[1]
+		\State Definitions: Ts - Timestamp; 
+		\State $h = Ts/N$ 
+		\For{$n\leftarrow 1$  $N$}
+		\State	$k_1 = hf(x_n, y_n)$
+		\State	$k_2 = hf(x_n + \frac{h}{2}, y_n + \frac{k_1}{2})$
+		\State	$k_3 = hf(x_n + \frac{h}{2}, y_n + \frac{k_2}{2})$
+		\State	$k_4 = hf(x_n + h, y_n + k_3)$
+		\State	$y_{n+1}=y_n + \frac{k_1}{6} + \frac{k_2}{3} + \frac{k_3}{3} + \frac{k_4}{6}$
+		\EndFor
+
+	\end{algorithmic}
+\end{algorithm}
+
+where h is the step height, which is set to $T_s/10$, $T_s = 1$. 
+
+
+\section{Environment}
+\subsection{Earth Orbit}
+Earth orbit according to sgp4 and also the placement of the earth sensor.
+
+Show plot of 3D earth orbit...
+
+\subsection{Sun}
+The calculations for the sun position and also the placement of the coarse and fine sun sensor.
+
+Show graph of sun plot...
+
+\subsection{Geomagnetic field}
+
+\begin{equation}
+\label{Eq-Geomagnetic_field}
+V(r_s,\theta, \lambda) = R_E \sum_{n=1}^{k}\left(\frac{R_E}{r_s}^{n+1}\right)\sum_{m=0}^{n}\left(g_n^mcos(m\lambda) + h_n^msin(m\lambda)\right)P_n^m(\theta)
+\end{equation}
+
+Show graph of geomagnetic plot...
+
+\section{Sensor models}
+\subsection{Position of Sensors and Field of View}
+
+\subsection{Noise}
+
+\section{Disturbance models}
+\subsection{Gravity Gradient}
+
+\subsection{Aerodynamic Disturbance}
+\cite{Steyn2014}
+
+\subsection{Wheel Imbalance}
+
+\section{Attitude Determination}
+In this section discuss the Kalman filter.
+
+\subsection{Extended Kalman Filter}
+The implementation of the estimated kalman filter \emph{EKF} is for estimation of the current satellite attitude with sensor fusion of the magnetometer, star tracker, sun sensor and nadir sensor to accurately estimate the attitude and rotation rate of the satellite. The EKF will be used due to the non-linear nature of the system. The EKF consists of two fundamental parts, the model update and the measurement update. The general form for a system model can be expressed as
+
+\begin{equation}
+	\dot{x_t} = \mathbf{f}(x_t) + s_t
+\end{equation}
+
+where $\mathbf{f}(x_t)$ is a non-linear function of $x_t$. The state vector, $x$, for the full 7-state EKF consists of the quaternion vector, $q$ and the inertial-referenced angular velocity, $\omega_B^I$.
+
+\begin{equation}
+	x = [q, \omega_B^I]^T
+\end{equation}
+
+The estimated state vector $x$ will be denoted as $\hat{x}$ and the estimated vector before and after the measurement update will be indicated with a superscript $'-'$ and $'+'$ respectively. To calculate the model update the dynamics and kinematics of the system model is used to calculate both $\omega_B^I$ and $q$. The integration method used in the simulation is the 4th order Rungka-Kutta method to solve the differential equations. The integration method is shown in \ref{alg: Rungka-Kutta} where $(\hat{\omega}_B^I)_k^-$ is calculated for the first step of the model update.
+
+\begin{algorithm}[!htb]
+	\caption[Rungka-Kutta]{Rungka-Kutta 4th order Algorithm at time $k$}
+	\label{alg: Rungka-Kutta}
+	\begin{algorithmic}[1]
+		\State Satellite Body Inertia $\mathbf{J} = \begin{bmatrix}
+			0.4 & 0 & 0\\
+			0 & 0.45 & 0 \\
+			0 & 0 & 0.3
+		\end{bmatrix}$
+		\State Timestep ($T_s$) $= 1s$
+		\State Number of iterations ($I$) $= 10$
+		\State Step size $h = \frac{T_s}{h}$
+		\State Disturbance torques $N_d = N_{gg} + N_{aero} + N_{rw} - N_{gyro}$
+		\State Control torques $N_c = N_m - N_w$
+		\State $\mathbf{N} = N_c + N_d$
+		\For{\texttt{$n \in I$}}
+		\State \texttt{$k_1 = h(\mathbf{J^{-1}}\mathbf{N})$}
+		\State \texttt{$k_2 = h(\mathbf{J^{-1}}\mathbf{N} + \frac{k1}{2})$}
+		\State \texttt{$k_3 = h(\mathbf{J^{-1}}\mathbf{N} + \frac{k_2}{2})$}
+		\State \texttt{$k_4 = h(\mathbf{J^{-1}}\mathbf{N} + k_3)$}
+		\State \texttt{$\omega_{n+1}=\omega_n + \frac{k_1}{6} + \frac{k_2}{3} + \frac{k_3}{3} + \frac{k_4}{6}$}
+		\EndFor
+		\State $(\hat{\omega}_B^I)_k^- = \omega_{n+1}$
+		\State \textbf{return} $(\hat{\omega}_B^I)_k^-$
+	\end{algorithmic}
+\end{algorithm}
+where $N_{gg}$, gravity gradient disturbance torque, $N_{aero}$, aerodynamic disturbance torque, $N_{rw}$, reaction wheel disturbance torque, $N_{gyro}$, gyroscopic torque, $N_m$, magnetic control torque and $N_w$, reaction wheel control torque, are modelled according to \cite{JansevanVuuren2015}. 
+
+%\begin{equation}
+%	f(x,y) = \mathbf{J^{-1}}\big((N_m)_{k-1} - (N_w)_{k-1} - (N_{gg})_{k-1} - (N_{gyro})_{k-1} \big)
+%\end{equation}
+The calculation for the $\hat{q}_k^-$ is done with Eq~\ref{eq:q-propagation} \cite{JansevanVuuren2015}
+
+\begin{equation}
+	\begin{aligned}
+		\hat{q}_k^- &= \left[cos(k_q)\mathbf{I}_{4x4} + \frac{1}{\lVert (\hat{\omega}_B^O)_k^- \rVert} sin(k_q) \mathbf{\Omega}_k^- \right] \hat{q}_{k-1}^+ \\ \\
+		\text{where } k_q &= \frac{Ts}{2} \lVert (\hat{\omega}_B^O)_k^- \rVert \\ \\
+		(\hat{\omega}_B^O)_k^- &= (\hat{\omega}_B^I)_k^- - \hat{\mathbf{A}} \begin{bmatrix} 0 & -(\omega_k) & 0\end{bmatrix}^T \\
+		&= \begin{bmatrix} \hat{\omega}_{ox} & \hat{\omega}_{oy}  & \hat{\omega}_{oz} \end{bmatrix}^T \\ \\
+		\lVert (\hat{\omega}_B^O)_k^- \rVert &= \sqrt{\hat{\omega}_{ox}^2 + \hat{\omega}_{oy}^2 + \hat{\omega}_{oz}^2} \\ \\
+		\text{and } \mathbf{\Omega}_k^- &= \begin{bmatrix} 
+			0 & \hat{\omega}_{oz} & -\hat{\omega}_{oy} & \hat{\omega}_{ox} \\
+			-\hat{\omega}_{oz} & 0 & \hat{\omega}_{ox} & \hat{\omega}_{oy}			\\
+			\hat{\omega}_{oy} & -\hat{\omega}_{ox} & 0 & \hat{\omega}_{oz}			\\
+			-\hat{\omega}_{ox} & -\hat{\omega}_{oy} & -\hat{\omega}_{oz} & 0			\\
+		\end{bmatrix}
+	\end{aligned}
+	\label{eq:q-propagation}
+\end{equation}
+
+The estimated state vector, $\hat{x}_k^-$ can now be expressed as 
+
+\begin{equation}
+	\hat{x}_k^- = \begin{bmatrix} (\hat{\omega}_B^I)_k^- & \hat{q}_k^-\end{bmatrix}
+\end{equation}
+
+$Q_k$ is the covariance matrix representing the discrete system noise and is assumed to be zero-mean and Guassian. $\Phi_k$ is the discrete system perturbation model. $H_k$ is the discrete measurement perturbation Jacobian Matrix. $\mathbf{R}_k$ is the measurement noise covariance matrix. The state covariance matrix $P_k$ can be propagated with Eq~\ref{eq:P_k}.
+
+\begin{equation}
+	\mathbf{P}_k^- = \Phi_k \mathbf{P}_{k-1}^+ \Phi_k ^T
+	\label{eq:P_k}
+\end{equation}
+The $\mathbf{e}_k$ calculated with Eq~\ref{eq:errorVector}
+
+\begin{equation}
+	\mathbf{e}_k = v_{meas,k} - \hat{\mathbf{A}}_k^- v_{model,k}
+	\label{eq:errorVector}
+\end{equation}
+
+where $v_{meas,k}$ is the measured vector in $\mathbf{SBC}$ and $v_{model,k}$ is the modelled $\mathbf{ORC}$ vector. The gain matrix $\mathbf{K}_k$ is used to determine the the influence of $\mathbf{e}_k$ on updated state vector, $\hat{x}_k^+$. $\mathbf{K}_k$ can be calculated as 
+
+\begin{equation}
+	\mathbf{K}_k = \mathbf{P}_k^- (\mathbf{H}_k^-)^T \left[\mathbf{H}_k^- \mathbf{P}_k^- (\mathbf{H}_k^-)^T + \mathbf{R}_k \right]^{-1}
+\end{equation}
+after which the updated state vector can be calculated with Eq~\ref{eq:UpdatedStateVector}
+\begin{equation}
+	\hat{x}_k^+ = \hat{x}_k^- + \mathbf{K}_k \mathbf{e}_k
+	\label{eq:UpdatedStateVector}
+\end{equation}
+
+The state covariance matric can then be updated as
+
+\begin{equation}
+	\mathbf{P}_k^+ = \left[\mathbf{I}_{7 \times 7} - \mathbf{K}_k \mathbf{H}_k^+ \right]\mathbf{P}_k \left[\mathbf{I}_{7 \times 7} - \mathbf{K}_k \mathbf{H}_k^+ \right] + \mathbf{K}_k \mathbf{R}_k \mathbf{K}_k^T
+	\label{eq:Updated_P_k}
+\end{equation}
+
+During the measurement update of $\hat{x}_k^-$ with the error of $v_{meas,k}$ and $v_{model,k}$, the $\hat{x}_k^+$ is largely affected by anomalous behaviour in the sensor measurements. The sensitivity of the Kalman filter to this behaviour as well as related work will be discussed in section~\ref{subsection:SensitivityOfKalmanFilter}.
+
+\section{Attitude Control}
+\subsection{Momentum-Dumping}
+Momentum dumping is crucial to ensure that the wheel disturbance does not cause the system to become unstable.
+
+\subsection{Quaternion Feedback Controller}
+Reaction wheel control during normal operation
+
+%\section{Constellations}
+%Explain the design of the satellite constellations and the algorithms to run communicate between satellites.
+%
+%\begin{algorithm}
+%	
+%	\SetKwInOut{Input}{Input}
+%	\SetKwInOut{Output}{Output}
+%	
+%	\SetKwData{Left}{left}
+%	\SetKwData{This}{this}
+%	\SetKwData{Up}{up}
+%	\SetKwFunction{Union}{Union}
+%	\SetKwFunction{FindCompress}{FindCompress}
+%	
+%	\Indm
+%	\Input{Description of the input to the algorithm.}
+%	\Output{Description of the output from the algorithm.}
+%	\Indp
+%	
+%	\BlankLine
+%	
+%	\emph{Initialize hyperparameters}\;
+%	Get initial data from satellite\\
+%	Update positions of each satellite\\
+%	\For{$i\leftarrow 1$ \KwTo $N$}{
+%		Determine $k$-nearest satellites to $satellite_i$ from the positions\\
+%		Select data from nearest satellites\\
+%		Send nearest satellites predictions and data to $satellite_i$\\
+%		Retrieve data from $satellite_i$ and fault predictions of $k$-nearest satellites\\
+%	}
+%	Update position of $satellite_i$\\
+%	Update data of $satellite_i$
+%	
+%	\caption[Do not end short caption with full-stop]{Algorithm example}
+%	\label{alg}
+%	
+%\end{algorithm}
+
+
+%\section{Typical Faults}
+%For the simulation of the satellite and the induced faults to train and test various anomaly detection methodologies a database of typical faults is required. \cite{tafazoli2009study} made a study of the percentage of failure per subsystem. 
+%
+%\subsection{Probability of Fault Occurence}
+%The occurrence of a fault depends on the reliability of that equipment. \cite{Guo2014} studied the reliability of small satellites and calculated the parameters for the Weibull distribution based on real data. To model the probability of a fault to occur the probability density function is used \cite{Jones2017}.
+%
+%This probability however is small and for the training of the system the data is too sparse for the computational abilities of any regular PC. Thus the probability of a failure during training is fixed to $1/1000000$ to produce the data required for the anomaly detection with a million test samples.
+%
+%\subsection{Set of faults}
+%A set of typical faults for the ADCS is shown in Table~\ref{ADCS fault table}. 
+%
+%\newpage
+%\begin{sidewaystable}[]
+%	\label{ADCS fault table}
+%	\begin{tabular}{|l|c|l|l|l|l|}
+%		\hline
+%		\multicolumn{6}{|c|}{\textbf{Internal Faults}} \\ \hline
+%		\textbf{Fault classes} &
+%		\multicolumn{1}{l|}{\textbf{\begin{tabular}[c]{@{}l@{}}Failure rate \\ per hour\end{tabular}}} &
+%		\textbf{Fault causes} &
+%		\textbf{References} &
+%		\textbf{Possible effect} &
+%		\textbf{Possible permutations} \\ \hline
+%		\multirow{4}{*}{Reaction wheels} &
+%		\multicolumn{1}{l|}{\multirow{4}{*}{2.5E-7 \cite{Spilhaus1987}}} &
+%		\begin{tabular}[c]{@{}l@{}}Reaction wheel electronics \\ fail\end{tabular} &
+%		\cite{allen2012satellite} \cite{Jacklin2019} &
+%		\begin{tabular}[c]{@{}l@{}}Does not respond \\ to control inputs\end{tabular} &
+%		\begin{tabular}[c]{@{}l@{}}Momentum remains the same \\ or decreases slightly due to \\ friction\end{tabular} \\ \cline{3-6} 
+%		&
+%		\multicolumn{1}{l|}{} &
+%		Overheated reaction wheel &
+%		\cite{Wintoft} &
+%		Decrease in speed &
+%		1\% of initial speed per second \\ \cline{3-6} 
+%		&
+%		\multicolumn{1}{l|}{} &
+%		\begin{tabular}[c]{@{}l@{}}Catastrophic failure (cause \\ unknown)\end{tabular} &
+%		\cite{Choi2011} &
+%		Stops rotating &
+%		0 \\ \cline{3-6} 
+%		&
+%		\multicolumn{1}{l|}{} &
+%		\begin{tabular}[c]{@{}l@{}}Increase in rotation speed \\ (Unknown cause)\end{tabular} &
+%		\begin{tabular}[c]{@{}l@{}}Gerhard Janse \\ van Vuuren\end{tabular} &
+%		\begin{tabular}[c]{@{}l@{}}Wheel speed \\ increases\end{tabular} &
+%		\begin{tabular}[c]{@{}l@{}}Between 90-100\% of maximum \\ wheel speed\end{tabular} \\ \hline
+%		Magnetorquers &
+%		\multicolumn{1}{l|}{ADCS fault table8.15E-9 \cite{Spilhaus1987}} &
+%		Polarities are inverted &
+%		\cite{Crowell2011} &
+%		Incorrect rotation &
+%		\\ \hline
+%		\multirow{2}{*}{Magnetometers} &
+%		\multicolumn{1}{l|}{\multirow{2}{*}{8.15E-9 \cite{Spilhaus1987}}} &
+%		Unknown &
+%		\begin{tabular}[c]{@{}l@{}}Gerhard Janse \\ van Vuuren\end{tabular} &
+%		Stops reacting &
+%		\begin{tabular}[c]{@{}l@{}}Provides no feedback or the \\ output remains constant\end{tabular} \\ \cline{3-6} 
+%		&
+%		\multicolumn{1}{l|}{} &
+%		\begin{tabular}[c]{@{}l@{}}Magnetometers and magne-\\ torquers interfered with \\ each other\end{tabular} &
+%		\cite{Jacklin2019} &
+%		\begin{tabular}[c]{@{}l@{}}Noise on magneto-\\ meters and noise \\ on control of mag-\\ netorquers\end{tabular} &
+%		\begin{tabular}[c]{@{}l@{}}Between x3 and x5 times the \\ normal noise magnitude \\ Guassian distribution\end{tabular} \\ \hline
+%		Earth Sensor &
+%		- &
+%		Unknown &
+%		\cite{Robertson2019} &
+%		\begin{tabular}[c]{@{}l@{}}Noisy Earth Sensor \\ effected pointing \\ accuracy\end{tabular} &
+%		\begin{tabular}[c]{@{}l@{}}Between x5 and x10 times the \\ normal sensor noise based on \\ Guassian distribution\end{tabular} \\ \hline
+%		\multirow{2}{*}{Sun sensor} &
+%		\multirow{2}{*}{-} &
+%		\begin{tabular}[c]{@{}l@{}}Cross-wired during instal-\\ lation\end{tabular} &
+%		\cite{Crowell2011} &
+%		\begin{tabular}[c]{@{}l@{}}Erroneous \\ measurements\end{tabular} &
+%		Uniform random values \\ \cline{3-6} 
+%		&
+%		&
+%		Unknown &
+%		\cite{Jacklin2019} &
+%		Sun sensor fails &
+%		output is 0 \\ \hline
+%		Star tracker &
+%		- &
+%		\begin{tabular}[c]{@{}l@{}}Shutter on star tracker is \\ closed\end{tabular} &
+%		\cite{Crowell2011} &
+%		Star tracker fails &
+%		output is 0 \\ \hline
+%		Overall control &
+%		- &
+%		\begin{tabular}[c]{@{}l@{}}Incorrect control law or \\ variation \\ thereof\end{tabular} &
+%		\begin{tabular}[c]{@{}l@{}}Gerhard Janse \\ van Vuuren\end{tabular} &
+%		\begin{tabular}[c]{@{}l@{}}Angular velocity \\ suddenly increases \\ or decreases or \\ oscillation results\end{tabular} &
+%		\begin{tabular}[c]{@{}l@{}}Increase to 75 - 100\% \\ Decrease to 0 - 25\%\\ Oscillates\end{tabular} \\ \hline
+%		\multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}Common data \\ transmission errors\end{tabular}} &
+%		\multirow{3}{*}{-} &
+%		Sign flip &
+%		\cite{Crowell2011} &
+%		Processor-based &
+%		\begin{tabular}[c]{@{}l@{}}Processor outputs and/or \\ inputs experience a sign flip\end{tabular} \\ \cline{3-6} 
+%		&
+%		&
+%		Bit flip &
+%		N/A &
+%		&
+%		\begin{tabular}[c]{@{}l@{}}Processor outputs and/or \\ inputs experience a bit flip flip\end{tabular} \\ \cline{3-6} 
+%		&
+%		&
+%		Insertion of zeros &
+%		\cite{Jacklin2019} &
+%		&
+%		\begin{tabular}[c]{@{}l@{}}Processor outputs and/or inputs \\ experience an insertion of a zero\end{tabular} \\ \hline
+%		\begin{tabular}[c]{@{}l@{}}Possible sensors \\ errors\end{tabular} &
+%		- &
+%		Unknown &
+%		N/A &
+%		High sensor noise &
+%		\begin{tabular}[c]{@{}l@{}}Between x5 and x10 times the \\ normal sensor noise based on \\ Guassian distribution\end{tabular} \\ \hline
+%	\end{tabular}
+%\end{sidewaystable}
+%
+%\newpage

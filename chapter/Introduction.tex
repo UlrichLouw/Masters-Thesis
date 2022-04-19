@@ -1,0 +1,57 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% start writing
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\chapter{Introduction}
+\label{chap:Introduction}
+
+
+The current trend in industry is to create systems that operate autonomously. There is also a trend seen where multi-agent systems with hundred and thousands of sub-systems work within a larger system. Even though each sub-system can operate independently, the health of the network/system is dependent on each agent within the system operating as desired. Consequently, autonomous systems must be able to detect faults within the system. To attain this, a fault detection, isolation and recovery system is required for each individual agent and the system as a whole.
+
+\section{Background}
+All systems have the inevitable problem that they will fail. Determining this failure is of a variety of importance for multiple systems. The current tendency is that many systems are more and more integrated. A web of self-driving cars, UAV's for delivery, satellite constellations and more. The problem with any of these systems is if any part of the system is faulty it can have detrimental consequences for a part of the system or the entire system.
+
+Software developers make mistakes, as all humans do. The current industry standard for number of bugs per thousand lines of code is $5$ bugs/KLOC at \$$5$ per line of code. NASA works on 0.004 bugs/KLOC at \$$805$ per line of code. Imagine having hundreds of thousands of lines of code and having that same code on thousands of satellites. Each fault detection must usually be checked with if statements and logic. This leads to more lines of code and mistakes on trying to capture mistakes. I propose a solution to this problem by using statistical models and machine learning to use satellites in close proximity to determine the health of the other nearby components within the system.
+
+\section{Problem description}
+
+https://www.theverge.com/2020/1/14/21043229/spacex-starlink-satellite-mega-constellation-concerns-astronomy-space-traffic
+
+The most detrimental effect could be on satellite constellations. Satellites are expensive, \$$500 000$ each for Starlink satellite. And this is also based on the mass production of satellites. Satellites cannot merely be accessed and fixed as other systems. Therefore satellites are used as the specific system for FDIR of systems.
+
+The current situation with cubesats is that ground stations will not be able to keep up with the fault detection and diagnosis of cubesats within constellations where thousands of cubesats are within the same height above the earth. As is the current situation with Starlink.
+
+Kessler syndrome is the effect of one satellite, that is unable to control its orientation and position, causing a collision in orbit. This leads to more debris in the orbit and more collisions and this is detrimental if considered in view of Starlink's mega-constellation.
+
+\section{Research hypothesis}
+I propose a fault detection system for each individual satellite and the constellation as a whole. The satellite will have an on-board FDIR system that also uses the information of the satellites closest to its position to provide feedback of its own "health" and the health of the other satellites in its orbit. If a satellite is determined "unhealthy" by all the nearby satellites then the satellite with go into safe mode until the ground station can determine the problem with current satellite.
+
+\section{Scope and objectives}
+
+The following objectives will be pursued in this project/thesis/dissertation:
+\begin{enumerate}[label=\Roman*]										% \usepackage{enumitem}
+ \item To \textit{conduct} a thorough survey of the literature related to:
+ \begin{enumerate}[label=(\alph*)]
+  \item facility location problems in general,
+  \item models for the placement of a network of radio transmitters in particular,
+  \item the nature of parameters required to describe effective radio transmission, and
+  \item terrain elevation data required to generate an instance of the bi-objective radio transmitter location problem described in the previous section.
+ \end{enumerate}
+ \item  To \textit{establish} an suitable framework for evaluating the effectiveness of a given set of placement locations for a network of radio transmitters in respect of its total area coverage and its mutual area coverage.
+ \item To \textit{formulate} a bi-objective facility location model suitable as a basis for decision support in respect of the location of a network of radio transmitters with a view to identify high-quality trade-offs between maximising total coverage area and maximising mutual coverage area.  The model should take as input the parameters and data identified in Objective~I(c)--(d) and function within the context of the framework of Objective~II.
+ \item To \textit{design} a generic \textit{decision support system} (DSS) capable of suggesting high-quality trade-off locations for user-specified instances of the bi-objective radio transmitter location problem described in the previous section.  This DSS should incorporate the location model of Objective~III.
+ \item To \textit{implement} a concept demonstrator of the DSS of Objective IV in an applicable software platform.  This DSS should be flexible in the sense of being able to take as input an instance of the bi-objective radio transmitter location problem described in the previous section via user-specification of the parameters and data of Objectives I(c)--(d) and produce as output a set of high-quality trade-off transmitter locations for that instance.
+ \item To \textit{verify} and validate the implementation of Objective V according to generally accepted modelling guidelines.
+ \item To \textit{apply} the concept demonstrator of Objective V to a special case study involving realistic radio transmission parameters and real elevation data for a specified portion of terrain.
+ \item To \textit{evaluate} the effectiveness of the DSS and associated concept demonstrator of Objectives~IV--VI in terms of its capability to identify a set of high-quality trade-off solutions for a network of radio transmitter locations.
+ \item To \textit{recommend} sensible follow-up work related to the work in this project which may be pursued in future.
+\end{enumerate}
+
+\section{Research methodology}
+\blindtext
+
+\section{Summary}
+\blindtext
