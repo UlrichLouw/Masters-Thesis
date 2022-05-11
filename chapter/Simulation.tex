@@ -297,6 +297,22 @@ The state covariance matric can then be updated as
 During the measurement update of $\hat{x}_k^-$ with the error of $v_{meas,k}$ and $v_{model,k}$, the $\hat{x}_k^+$ is largely affected by anomalous behaviour in the sensor measurements. The sensitivity of the Kalman filter to this behaviour as well as related work will be discussed in section~\ref{subsection:SensitivityOfKalmanFilter}.
 
 \section{Attitude Control}
+The attitude command vector during nadir-pointing in the SBC frame is $\mathbf{u}_c = [0, 0, 1]$, since the SBC frame $z$ coordinate should line up with the ORC frame. During the sun following phase, the attitude command according to \cite{chen2000ground} can be calculated as 
+
+\begin{equation}
+	\mathbf{u}_c = \frac{\mathbf{u}_{sp}^{SBC} \times \mathbf{s}_o}{\norm{\mathbf{u}_{sp}^{SBC} \times \mathbf{s}_o}}
+\end{equation}
+
+Where $\mathbf{s}_o$ is the measured unit sun vector in ORC, and the main solar panel's position is denoted as a unit vector, $\mathbf{u}_{sp}^{SBC}$. The angle between $\mathbf{u}_{sp}^{SBC}$ and $\mathbf{s}_o$, $\delta$, can be calculated with the vector dot-product. The command quaternion $\mathbf{q}_c$ can then be calculated
+
+\begin{equation}
+	\mathbf{q}_c = \begin{bmatrix}
+		\mathbf{u}_c sin(\frac{\delta}{2}) \\
+		cos(\frac{\delta}{2})
+	\end{bmatrix}
+\end{equation}
+This can then be used as the reference for the control. The reference $\boldsymbol{\omega}_b^I$ is always $[0, 0, 0]$. The 
+
 \subsection{Momentum-Dumping}
 Momentum dumping is crucial to ensure that the wheel disturbance does not cause the system to become unstable.
 
