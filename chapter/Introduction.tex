@@ -8,6 +8,19 @@
 \chapter{Introduction}
 \label{chap:Introduction}
 
+Fault detection and isolation research for satellites are highly dependent on simulation environments for quick development. However the current trend focuses on general anomalies and not specifically modelled anomalies. This therefore produces FDIR systems that in effective at predicting anomalies and which subsystem produces the current anomaly. The focus of this research is to model specific sensor anomalies and develop and analyse prediction models. 
+
+The general sensor anomalies are large noise, sudden failures or bias drift. These anomalies are however not based on natural occurrences, but on sensor failures. This thesis focuses on natural occurring anomalies that can produce inaccurate sensor measurements. These anomalies are accurately modelled and recovered by implementing different recovery systems for the Kalman Filter. 
+
+\begin{figure}[h!b!t]
+	\centering
+	\def\svgwidth{14cm}
+	\import{Figures/}{Control_Diagram.pdf_tex}
+	\caption{System Diagram}
+	\label{fig:System_Diagram}
+\end{figure}
+
+%%% New introduction is written above
 
 The current trend in industry is to create systems that operate autonomously. There is also a trend seen where multi-agent systems with hundred and thousands of sub-systems work within a larger system. Even though each sub-system can operate independently, the health of the network/system is dependent on each agent within the system operating as desired. Consequently, autonomous systems must be able to detect faults within the system. To attain this, a fault detection, isolation and recovery system is required for each individual agent and the system as a whole.
 

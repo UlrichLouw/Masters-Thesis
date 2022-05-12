@@ -1,9 +1,10 @@
 \chapter{Anomalies}
 \label{chap:Anomalies}
+To ensure that the prediction and classification of anomalies are not based on generalised sensor failures a few anomalies are simulated. These anomalies are either chosen to show the significant effect of these anomalies on the ADCS or are modelled based on research that label the anomaly as a possible influence on the ADCS. There is a anomaly for each sensor, that will create inaccuracies for that specific sensor measurement. An anomaly for the reaction wheels is also implemented to show the resulting estimation failure based on a inaccurate model update, since the control torque and the torque implemented is not the same. This anomaly will aslo be predicted based on the sensor readings, since the effect will be evident on all the sensors.
 
 \section{Reflection of Solar Panels on Sun Sensor}
 \label{section:Reflection}
-The reflection anomaly is modelled for the specific shape and design of the CubeSat as shown in Figure~\ref{fig:CubeSat}.
+Sun reflection from solar panels unto sun sensors is a very probable anomaly, if the sun sensor is not placed in a position where the reflection will not influence the sensor. Reflection on the sun sensor is modelled to determine whether the reflection has a significant effect on the ADCS. The reflection anomaly is modelled for the specific shape and design of the CubeSat as shown in Figure~\ref{fig:CubeSat}. The CubeSat will also be the same design for all of the modelled anomalies.
 
 \begin{figure}[!htb]
 	\centering
@@ -87,6 +88,17 @@ The results for the sun vector with and without reflection is shown in Figure~\r
 	\label{fig:Sun Vector comparison}
 	
 \end{figure*}
+
+\subsection{Influence of anomaly on estimation}
+To determine whether the reflection on the sun sensor has a influence on the ADCS, the estimation metric is shown in Figure~\ref{fig:reflectionEstimation}. The estimation metric, is the angle difference between the actual attitude and the estimated attitude. It is evident that the reflection has a large influence on the estimation. It is also clear that during the eclipse the estimation returns to a more accurate estimation. This is due to the fact that all sensors are ignored if the measured vector is $0$.
+\begin{figure}[!htb]
+	\centering
+	
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/Reflection/}{Estimation Metric.pgf}
+	
+	\caption{Estimation Metric with reflection on sun sensor}
+	\label{fig:reflectionEstimation}
+\end{figure}
 
 \section{Moon and Sun in Field of View of Nadir Sensor}
 An anomaly that can be experienced by an infra-red nadir sensor is the moon overlapping the horizon of the earth in die nadir sensor's FOV. This is shown in Figure~\ref{fig:ProjectionOnPlane}. This influences the edge detection and circular fit algorithm \cite{Wessels2018, Helgard2008} and consequently the calculated centre of the earth. Firstly, it is required to simulate the image seen by the nadir sensor, thereafter the algorithm for detecting the centre of the earth can be implemented.
@@ -235,6 +247,7 @@ Therefore using all the discrete edges within the image $a$, $b$ and $c$ can be 
 where $(x_0,y_0)$ to $(x_n, y_n)$ are the coordinates of the discrete edges. It is thus evident that when the moon overlaps the horizon of the earth from the nadir sensor's perspective the centre of the earth will be incorrectly calculated and this anomaly must be dealt with. The other anomaly in this section where the sun is in the FOV of the nadir sensor will not provide a measurement, since the sun will saturate the Infra-red nadir sensor~\cite{Wessels2018}.
 
 \subsection{Influence of anomaly on estimation}
+To determine the effect of the moon in the circular fit algorithm the measured earth vector with and without the moon on horizon anomaly is shown in Figure~\ref{fig:Earth Vector comparison}. It is clear from Figure~\ref{fig:Earth Vector comparison} that the anomaly has no visible effect on the earth vector. It is also evident in Figure~\ref{fig:Moon On Horizon Estimation Metric} that the estimation metric is also not influenced negatively by this anomaly. Therefore, this anomaly is not included in the FDIR development, since there is no evident difference due to the anomaly.
 \begin{figure*}[!htb]
 	\begin{tabular}{@{}c@{}}
 	\centering
@@ -266,9 +279,8 @@ where $(x_0,y_0)$ to $(x_n, y_n)$ are the coordinates of the discrete edges. It 
 \end{figure}
 
 
-\section{Magnetometer}
-\cite{Ruckerl2019}
-\subsection{Magnetic Moment Disturbance from Satellite Bus}
+\section{Magnetic Moment Disturbance from Satellite Bus}
+Magnetic moments produced by a coil in solar panels on a CubeSat can create a disturbance torque an influence the magnetometer measurements due to the induced magnetic field in the coil of the solar panel~\cite{Ruckerl2019}. This magnetic moment is modelled for the specific size of the CubeSat model in Figure~\ref{fig:CubeSat}. The coil in the solar panel and the resulting magnetic field, $B(r)$, as well as the resulting dipole moment, $m$, is shown in Figure~\ref{fig:solarPanelDipole}. The inner area of the coil is assumed to be the same as the surface area of the solar panel. 
 
 \begin{figure}[!hbt]
 	\centering
@@ -278,43 +290,35 @@ where $(x_0,y_0)$ to $(x_n, y_n)$ are the coordinates of the discrete edges. It 
 	\label{fig:solarPanelDipole}
 \end{figure}
 
-
+The dipole moment is calculated as
 \begin{equation}
 m = AI
 \end{equation}
-
-where $A$ is the area within the loop and $I$ is the current.
-
+where $A$ is the area within the loop and $I$ is the current within the coil. The current is generated by the solar panel and thus depends on the incoming sun vector. Therefore the current, $I$, can be calculated with
 \begin{equation}
 I = I_{max}cos(\theta)
 \end{equation}
-where $\theta$ is the angle between the normal vector to the solar panel and the incoming sun vector.
-
-The resulting torque can be expressed as
-
+where $\theta$ is the angle between the normal vector to the solar panel and the incoming sun vector and $I_{max}$ depends on the solar panel. The dipole moment in term produces a disturbance torque on the CubeSat. With the resulting torque expressed as
 \begin{equation}
 \tau = m \times B
 \end{equation}
-
+where $B$ is the magnetic field of the earth. Since the only external magnetic field that create a resulting torque is that of the earth. The resulting torque for five orbits are shown in Figure~\ref{fig:solarPanel Disturbance Torques}.
 \begin{figure}[!htb]
-\centering
-
-\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/solarPanelDipole/}{SolarPanelDipole Torques.pgf}
-
-\caption{Solar Panel Disturbance Torques}
-\label{fig:solarPanel Disturbance Torques}
+	\centering
+	
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/solarPanelDipole/}{SolarPanelDipole Torques.pgf}
+	
+	\caption{Solar Panel Disturbance Torques}
+	\label{fig:solarPanel Disturbance Torques}
 \end{figure}
 
-where $B$ is the magnetic field of the earth.
-
-The magnetometer is disturbed by the magnetic field produced by the coil in the solar panel. This magnetic field experienced at the magnetometer can be calculated with 
-
+The magnetometer measurement influenced by the magnetic field produced by the coil in the solar panel. This magnetic field experienced at the magnetometer can be calculated with 
 \begin{equation}
 B(r) = \frac{\mu_0}{4\pi} \frac{3 \hat{r} (\hat{r} \cdot m) - m}{\norm{r}^3}
 \end{equation}
-The vector $r$ between the position of the magnetometer and the solar panel influences the magnetic field significantly. The magnetic field for each solar panel will therefore be different.
 
-The resulting measured vector by the magnetometer is the summation of the earth's magnetic field and the magnetic field produced by the coil in the solar panel.
+\subsection{Influence of anomaly on estimation}
+The vector $r$ between the position of the magnetometer and the solar panel influences the magnetic field significantly. The experienced magnetic field  by the magnetometer will be different for each solar panel. The resulting measured vector by the magnetometer is the summation of the earth's magnetic field and the magnetic field produced by the coils in the solar panels. The resulting magnetometer measurement with and without the induce moment is shown in Figure~\ref{fig:Magnetometer Vector comparison}. From Figure~\ref{fig:solarPanelDipoleOnEstimation} is is evident that this anomaly has a significant effect on the estimation, but not as large as the reflection on the sun sensor. 
 
 \begin{figure*}[!htb]
 	\begin{tabular}{@{}c@{}}
@@ -334,11 +338,19 @@ The resulting measured vector by the magnetometer is the summation of the earth'
 	
 	\caption{Comparison of Magnetic field Vector with and without solar Panel magnetic field}
 	\label{fig:Magnetometer Vector comparison}
-	
 \end{figure*}
 
+\begin{figure}[!htb]
+	\centering
+	
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/solarPanelDipole/}{Estimation Metric.pgf}
+	
+	\caption{Estimation Metric with induced dipole moment}
+	\label{fig:solarPanelDipoleOnEstimation}
+\end{figure}
+
 \section{Reaction wheels}
-When an actuator fails it influences all the sensor measurements. A common anomaly is when reaction wheels failure. The anomaly will be modelled as a sudden failure in the actuator when it does not react to inputs. 
+When an actuator fails it influences all the sensor measurements. The anomaly will be modelled as a sudden failure in the actuator when it does not react to inputs. This will influence the EKF, since the model update will be inaccurate. Therefore, this anomaly is included even though it is not a sensor anomaly, because it often occurs and a lot of research is done in this. The recovery of this will however will not be within the specification of this thesis, but the model update for the estimation will be modified based on a modified torque vector. The resulting estimation metric for this anomaly is shown in Figure~\ref{fig:catastrophicReactionWheels} and it is evident that this anomaly has a large negative effect on the EKF. \textbf{maybe use the angular moment sensors to update the torque}.
 
 \begin{figure}[!htb]
 \centering
@@ -348,3 +360,6 @@ When an actuator fails it influences all the sensor measurements. A common anoma
 \caption{Estimation Metric with failure of Reaction Wheels}
 \label{fig:catastrophicReactionWheels}
 \end{figure}
+
+\section{Summary}
+Based on the influence of the modelled anomalies on the estimation metric. Therefore the reflection of the solar panels on the sun sensor, the induced magnetic dipole and the failed reaction wheel are used for the FDIR development.
