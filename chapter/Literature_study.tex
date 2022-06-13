@@ -244,32 +244,7 @@ K-clustering: Clustering multiple points with similar features.
 %\subsection{Linear Discriminant Analysis}
 %\subsection{Autoencoder}
 \subsection{t-Distributed Stochastic Neighbor Embedding}
-\subsection{Dynamic Mode Decomposition}
-The proposed method by \cite{DeSilva2020} uses Dynamic Mode Decomposition (DMD), which was initially developed by \cite{schmid2011applications} and further expanded to include control by \cite{proctor2016dynamic}, to provide an estimation of a sensor vector based on the previous measurement of the sensor as well as the measurements of the other sensors in the system. DMD was first developed in the fluids community and constructed a matrix $\mathbf{A}$ to relate the state vector $x$ with the following time step of the state vector, $x_{k+1}$. The state vector, in our case, will be the measurement vector of the specific sensor that we want to monitor.
-\begin{equation}
-	\mathbf{x}_{k+1} = \mathbf{Ax}_k
-\end{equation}
-Where $\mathbf{x}_k$ and $\mathbf{x}_{k+1}$ during a specified number of time steps, will be denoted as $\mathbf{X}$ and $\mathbf{X'}$ respectively.
 
-The method of DMD, however, is useful for high order systems where the calculation of $\mathbf{A}$ is computationally intensive. This is not the case for our system, and using DMD is not justifiable and consequently, a linear regression model is implemented. Therefore with the pseudo-inverse of $\mathbf{X}$, denoted as $\mathbf{X^{\dagger}}$, we calculate $\mathbf{A}$ as
-\begin{equation}
-	\mathbf{A} = \mathbf{X}\mathbf{X^{\dagger}}
-\end{equation}
-This necessitates data of the state vector over time. The article by \cite{DeSilva2020} however includes $\mathbf{B}$ to relate the vector measurements of the other sensors to adjust the predicted state, $X_{k+1}$ of the monitored sensor. 
-\begin{equation}
-	\mathbf{X}_{k+1} = \mathbf{AX}_k + \mathbf{BY}_k
-	\label{control DMD}
-\end{equation}
-Where $\mathbf{Y}_k$ is the other sensor measurements, this is adjusted for our use case, where $\mathbf{Y}_k$ is the control torques for the magnetorquers and reaction wheels, while $\mathbf{X}_k$ is all of the sensor measurements. Consequently, the model of Eq~\ref{control DMD} denotes the prediction of the sensor measurements at time step $k+1$ based on the current sensor measurements and control inputs.
-Thereafter, as implemented by \cite{DeSilva2020} the model is adjusted with a Kalman Filter. From $\mathbf{A}$ and $\mathbf{B}$ the Kalman filter can be implemented to predict $\mathbf{X}_{k+1}$
-\begin{equation}
-	\hat{\mathbf{X}}_{k+1} = \mathbf{A}\hat{\mathbf{X}}_k + \mathbf{B}\mathbf{Y}_k + K(\mathbf{X}_k - \hat{\mathbf{X}}_k)
-\end{equation}
-where $K = 0.001$. After the calculation of $\hat{\mathbf{X}}_{k+1}$ \cite{DeSilva2020} proposes a moving average of the innovation covariance
-\begin{equation}
-	\mathbf{V}_k = \frac{1}{N} \sum_{i=k-N}^k (\mathbf{X}_i - \hat{\mathbf{X}}_i)(\mathbf{X}_i - \hat{\mathbf{X}}_i)^T
-\end{equation}
-where $N$ is the number of timesteps to account for. The moving average is used as an additional input parameter for the classification of anomalies based on $\mathbf{X}$.
 
 \section{Supervised Learning}
 Supervised learning consists of models that are trained on labelled data. This is not a problem with simulation, but with the real data, it is a problem and to provide tests on the real data to label it must be proficient. If unsupervised learning and statistical methods are not sufficient in their accuracy, a method for labelling the real data must be provided.

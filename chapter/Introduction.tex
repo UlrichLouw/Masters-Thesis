@@ -8,9 +8,18 @@
 \chapter{Introduction}
 \label{chap:Introduction}
 
-Fault detection and isolation research for satellites are highly dependent on simulation environments for quick development. However the current trend focuses on general anomalies and not specifically modelled anomalies. This therefore produces FDIR systems that in effective at predicting anomalies and which subsystem produces the current anomaly. The focus of this research is to model specific sensor anomalies and develop and analyse prediction models. 
+Fault detection and isolation research for satellites are highly dependent on simulation environments for quick development. However the current trend focuses on general anomalies and not specific modelled anomalies. This therefore produces FDIR systems that are less effective at predicting anomalies and classifying which subsystem or component produces the current anomaly. The focus of this research is to model specific sensor anomalies and develop and analyse prediction models. 
 
-The general sensor anomalies are large noise, sudden failures or bias drift. These anomalies are however not based on natural occurrences, but on sensor failures. This thesis focuses on natural occurring anomalies that can produce inaccurate sensor measurements. These anomalies are accurately modelled and recovered by implementing different recovery systems for the Kalman Filter. 
+The general sensor anomalies are large noise on sensors or sudden sensor failures. These anomalies are however not based on natural occurrences, but on sensor failures. This thesis focuses on natural occurring anomalies that can produce inaccurate sensor measurements. These anomalies are accurately modelled and recovered by implementing different recovery systems for the Kalman Filter. 
+
+\begin{figure}[h!b!t]
+	\centering
+	\def\svgwidth{14cm}
+	\import{Figures/}{Normal_EKF.pdf_tex}
+	\caption{Control Diagram}
+	\label{fig:Control_Diagram}
+\end{figure}
+
 
 \begin{figure}[h!b!t]
 	\centering
