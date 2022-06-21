@@ -5,18 +5,18 @@ To implement and research various FDIR systems on satellites an simulation of sa
 
 \section{Attitude Determination and Control System}
 
-For the mission of the specific satellite in this document the main operational goal of the Attitude Determination and Control System (ADCS) on this specific satellite mission is to control the payload to point towards the centre of the earth. 
+For the mission of the specific satellite in this document the main operational goal of the Attitude Determination and Control System (ADCS) on this specific satellite mission is to control the payload to point towards the centre of the earth during eclipse and point the solar panels towards the sun during the sunlit phase. 
 
 \subsection{Coordinate Frames}
 The coordinate frames in aerospace is a fundamental part of the ADCS. To determine the orientation and position of an object, it should be relative to a fixed frame. Consequently, the Earth inertial coordinate (EIC) frame is the fixed frame from which every other frame is relative to.
 
-A coordinate frame consists of three orthogonal vectors which is commonly referred to as x, y, and z. The axis of the coordinate frame is appropriately named as X-axis, Y-axis and Z-axis as seen in Figure... A vector (r) within the current coordinate frame can thus be expressed as 
+A coordinate frame consists of three orthogonal vectors which is commonly referred to as x, y, and z. The axis of the coordinate frame is appropriately named as X-axis, Y-axis and Z-axis as seen in Figure... A vector ($\mathbf{r}$) within the current coordinate frame can thus be expressed as 
 \begin{equation}
-\overrightarrow{r} = x\overrightarrow{i} + y\overrightarrow{j} + z\overrightarrow{k}
+\mathbf{r} = x\mathbf{i} + y\mathbf{j} + z\mathbf{k}
 \end{equation}
-where the magnitude of $\overrightarrow{r}$ is denoted as $|\overrightarrow{r}|$ and is equal to 
+where the magnitude of $\mathbf{r}$ is denoted as $\norm{\mathbf{r}}$ and is equal to 
 \begin{equation}
-|\overrightarrow{r}| = \sqrt{x^2 + y^2 + z^2}.
+\norm{\mathbf{r}} = \sqrt{x^2 + y^2 + z^2}.
 \end{equation}
 
 The Earth-centered coordinate frames are dived into two, namely the EIC and earth fixed coordinate (EFC) frame. EFC is fixed to the earth and rotates with it. This frame is important with respect to where the satellite position is with regards to position's on earth, such as the ground station. It is also import for the modelling of the geomagnetic fields. 
@@ -27,9 +27,9 @@ The EIC is defined as the Z-axis pointing towards the north pole, the X-axis poi
 \begin{equation}
 \alpha_G = w_Et + \alpha_{G,0}
 \end{equation}
-To transform a vector from one coordinate frame to another, a transformation matrix, $\boldsymbol{A}$, is required. For example vector $\overrightarrow{r}_{EFC}$ can be transformed to $\overrightarrow{r}_{EIC}$ with 
+To transform a vector from one coordinate frame to another, a transformation matrix, $\boldsymbol{A}$, is required. For example vector $\mathbf{r}_{EFC}$ can be transformed to $\mathbf{r}_{EIC}$ with 
 \begin{equation}
-\overrightarrow{r}_{EIC} = \boldsymbol{A}^{EIC}_{EFC}\overrightarrow{r}_{EFC}
+\mathbf{r}_{EIC} = \boldsymbol{A}^{EIC}_{EFC}\mathbf{r}_{EFC}
 \end{equation}
 with $\boldsymbol{A}^{EIC}_{EFC}$ being the EFC-to-EIC transformation matrix. Due to the definition of both coordinate frames, $\boldsymbol{A}^{EIC}_{EFC}$ can be defined .
 
@@ -44,23 +44,20 @@ with $\boldsymbol{A}^{EIC}_{EFC}$ being the EFC-to-EIC transformation matrix. Du
 
 To determine the satellite position, satellite coordinate frames must be used. Three satellite-centred coordinate frames are used, namely the inertial-reference coordinate frame (the satellite does not rotate), the orbit-referenced coordinate (ORC) frame and the satellite body coordinate (SBC) frame. The IRC frame is only acknowledged, since it is the frame that is fixed (as it does not rotate around the centre of the satellite), however it changes position with the orbit of the satellite. This frame is not used to determine the position of the satellite and will not be referenced for the remainder of this document.
 
-The ORC frame changes location as the satellite moves, however the Z-axis is always pointing towards the centre of the earth, with the Y-axis being the anti-normal and the X-axis completing the orthogonal set. To transform a vector from the EIC frame to the ORC frame the unit position vector, $\overrightarrow{r}_{sat}$ and the unit velocity vector, $\overrightarrow{v}_{sat}$ in EIC \cite{Chen_ground-target}.
+The ORC frame changes location as the satellite moves, however the Z-axis is always pointing towards the centre of the earth, with the Y-axis being the anti-normal and the X-axis completing the orthogonal set. To transform a vector from the EIC frame to the ORC frame the unit position vector, $\mathbf{r}_{sat}$ and the unit velocity vector, $\mathbf{v}_{sat}$ in EIC \cite{Chen_ground-target}.
 
 \begin{equation}
-	\boldsymbol{A}^{ORC}_{EIC} = 
+\label{Eq: ORC to EIC}
+\begin{aligned}
+	\boldsymbol{A}^{ORC}_{EIC} &= 
 	\begin{bmatrix}
-		\hat{u} & \hat{v} & \hat{w}\\
-	\end{bmatrix}^T
-\end{equation}
-where
-\begin{equation}
-\hat{w} = -\frac{r_{sat}}{||r_{sat}||}
-\end{equation}
-\begin{equation}
-\hat{v} = -\frac{r_{sat} \times v_{sat}}{||r_{sat} \times v_{sat}||}
-\end{equation}
-\begin{equation}
-\hat{u} = \hat{v} \times \hat{w}
+		\mathbf{u} & \mathbf{v} & \mathbf{w}\\
+	\end{bmatrix}^T \\
+\text{where} \quad
+\mathbf{w} &= -\frac{r_{sat}}{||r_{sat}||} \\
+\mathbf{v} &= -\frac{r_{sat} \times v_{sat}}{||r_{sat} \times v_{sat}||} \\
+\mathbf{u} &= \hat{v} \times \hat{w} \\
+\end{aligned}
 \end{equation}
 
 The SBC frame is the frame fixed to the satellite and it is the relative rotation of the satellite in relation to the ORC. Thus for the mission of this satellite it is required that the SBC and ORC frames coincide. For the transformation of a vector from the ORC to SBC frame, the direct cosine matrix (DCM) also referred to as $\boldsymbol{A}$ or $\boldsymbol{A}^{SBC}_{ORC}$ is used. For the remainder of the document the DCM will be referred to as $\boldsymbol{A}^{SBC}_{ORC}$ to avoid any confusion. The calculation of this transformation matrix will be discussed in $\S$\ref{subsection_quaternions}.
@@ -69,47 +66,81 @@ The SBC frame is the frame fixed to the satellite and it is the relative rotatio
 
 \subsection{Attitude}
 \label{subsection_quaternions}
-To determine the attitude of an object, a model must be used to determine the rotation of an object in three dimensions. For this the visual and intuitive example of the Euler angles exist. Euler angles are the rotation of an object around three orthogonal axis, that change orientation with the rotation of the object. The three axes, denoted by X, Y and Z rotate with the object as depicted in Figure~\ref{Figure-Euler_angles}.
+To determine the attitude of an object, a model must be used to determine the rotation of an object in three dimensions. For this the visual and intuitive example of the Euler angles exist. Euler angles are the rotation of an object around three orthogonal axis, that change orientation with the rotation of the object. The three axes, denoted by X, Y and Z rotate with the object as depicted in Figure~\ref{Figure-Euler_angles}. \textbf{TODO: The figures must be in theta, phi and psi}.
 \begin{figure}[!htb]
-%	\begin{tabular}{@{}c@{}}
-		\centering
-		\def\svgwidth{12cm}
-		\import{Figures/}{Pitch.pdf_tex}
-		\label{fig:Pitch}
-		\caption{Euler angles}
-%	\end{tabular}
-%	\begin{tabular}{@{}c@{}}
-%		\centering
-%		\def\svgwidth{4.5cm}
-%		\import{Figures/}{roll.pdf_tex}
-%		\label{fig:roll}
-%	\end{tabular}
-%	\begin{tabular}{@{}c@{}}
-%		\centering
-%		\def\svgwidth{4.5cm}
-%		\import{Figures/}{yaw.pdf_tex}
-%		\label{fig:yaw}
-%	\end{tabular}
-%	\caption{Euler angles}
-%	\label{fig:Euler angles}
-	
+	\centering
+	\def\svgwidth{12cm}
+	\import{Figures/}{Pitch.pdf_tex}
+	\label{fig:Pitch}
+	\caption{Euler angles}
 \end{figure}
 
-Euler angles and DCM will be acknowledged and explained why they are not applicable.
-In some literature the first and last quaternion are swapped.
+The $\boldsymbol{A}^{SBC}_{ORC}$ can be used to calculate the attitude transformation from given Euler angle rotations. This is done by multiplying representing each individual Euler angle rotation as a transformation matrix. These matrices form the  $\boldsymbol{A}^{SBC}_{ORC}$ as given by 
+
+\begin{equation}
+	\begin{aligned}
+		\mathbf{A} &= \mathbf{A}_{\psi} \mathbf{A}_{\phi} \mathbf{A}_{\theta} \\
+			&= \begin{bmatrix}
+			cos \psi & sin \psi & 0 \\
+			-sin \psi & cos \psi & 0 \\
+			0 & 0 & 1
+			\end{bmatrix} \begin{bmatrix}
+			1 & 0 & 0 \\
+			0 & cos \phi & sin \phi \\
+			0 & -sin \phi & cos \phi
+			\end{bmatrix} \begin{bmatrix}
+			cos \theta &  0 & -sin \theta \\
+			0 & 1 & 0 \\
+			sin \theta & 0 & cos \theta
+			\end{bmatrix} \\
+	\end{aligned}
+\end{equation}
+
+Euler angles however is not always a suitable method in determining the attitude of a satellite. This is because of singularities that can occur such as the gimbal-lock effect. Where two rotational axis, coincide to form a single rotational axis. Consequently, not all $3D$ rotations can then be described with the Euler angles, since effectively only two rotations can occur in stead of three \cite{diebel2006representing}. Therefore the method of describing 3D rotation with quaternions is more often used and more convenient. 
+
+A quaternion, $\mathbf{q}$, has four components that are dependent on one another and constrained by 
+\begin{equation} 
+\label{Eq-quaternion dependency}
+q_1^2 + q_2^2 + q_3^2 + q_4^2 = 1.
+\end{equation}
+The attitude quaternion is also related to the Euler angles in that if the Euler rotational axis from ORC to SBC is defined as a unit vector $\mathbf{e} = \begin{bmatrix} e_1  & e_2 & e_3 \end{bmatrix}^T$ and the angle of the Euler rotation is $\Phi$ then $\mathbf{q}$ can be expressed as
+\begin{equation}
+\mathbf{q} = \begin{bmatrix} e_1 sin(\frac{\Phi}{2}) \\ e_2 sin(\frac{\Phi}{2}) \\ e_3 sin(\frac{\Phi}{2}) \\ cos(\frac{\Phi}{2}) \end{bmatrix}
+\end{equation}
+It is difficult to visualize a quaternion, however the most simplistic method of understanding it is shown in Figure \textbf{TODO: Provide figure of quaternion}. A quaternion is consequently a unit vector protruding from the centre point of an object as well as the angle of rotation of that object around that unit vector. As seen in Figure~\ref{fig:Pitch} the angle $\theta$ is the angle of rotation around the $y$-axis, for quaternions the angle of rotation is the same principle, however the axis around which the object is rotating, is the unit vector. Therefore, $q_4$ provides the angle of rotation while, $q_1, q_2, q_3$ represents the unit vector, however with the condition of Eq~\ref{Eq-quaternion dependency}.
+
+$\boldsymbol{A}^{SBC}_{ORC}$ can also be transformed as a function of $\mathbf{q}$ \cite{wertz2012spacecraft} through
+
+\begin{equation}
+	\mathbf{A}
+		= \begin{bmatrix}
+		q_1^2 - q_2^2 - q_3^2 + q_4^2 & 2(q_1q_2 + q_3q_4) & 2(q_1q_3 - q_2q_4) \\
+		2(q_1q_2 - q_3q_4) & -q_1^2 + q_2^2 - q_3^2 + q_4^2 & 2(q_2q_3 + q_1q_4) \\
+		2(q_1q_3 + q_2q_4) & 2(q_2q_3 - q_1q_4) & -q_1^2 - q_2^2 + q_3^2 + q_4^2 \\
+		\end{bmatrix}.
+\end{equation}
+Since the quaternion is used for attitude determination it will also be used for the attitude control. Therefore, a error between the commanded quaternion, $\mathbf{q}_c$ and the current quaternion, $\mathbf{q}$, must be calculated. This is discussed in section~\ref{section: Quaternion Feedback Controller}.
 
 \subsection{Satellite Kinematics and Dynamics}
+The conservation of momentum dominates the dynamics of a satellite. This is dominated by the torques applied to the satellite, and are mainly control torques, $\mathbf{N_c}$, or disturbance torques, $\mathbf{N_d}$, as well as the moment of inertia of the satellite, $\mathbf{I}$, multiplied by the inertial-referenced angular acceleration of the satellite, $\boldsymbol{\dot{\omega}}_B^I$ . The control torques used in this design are only reaction wheel torques, $\mathbf{N}_w$ and magnetic torques, $\mathbf{N}_m$. The disturbance torques are discussed in detail in section~\ref{section: disturbance models}, therefore it can only be mentioned that the disturbance torques are the gravity gradient torque, $\mathbf{N}_{gg}$, the wheel imbalance torque, $\mathbf{N}_{rw}$, the gyroscopic coupling torque, $\mathbf{N}_{gyro}$, and the aerodynamic disturbance torque, $\mathbf{N}_{aero}$. The Euler dynamic equation can therefore be given as
 
-\subsection{Rungka-kutta}
-The integration method used in the simulation is the 4th order Rungka-Kutta method to solve the differential equations.
+\begin{equation}
+\begin{aligned}
+	\mathbf{I}\boldsymbol{\dot{\omega}}_B^I &= \mathbf{N_c} + \mathbf{N_d}, \\
+	\text{where} \quad \mathbf{N_d} &\approx \mathbf{N}_{aero} - \mathbf{N}_{gyro} + \mathbf{N}_{gg} + \mathbf{N}_{rw}, \\
+	\text{and} \quad \mathbf{N_c} &= \mathbf{N}_{m} - \mathbf{N}_{w}.
+\end{aligned}
+\end{equation}
+
+This is the overarching equation that will be used to determine the control torque as well as the model update of the extended Kalman Filter (EKF). The integration method used in the simulation is the $4^{th}$ order Rungka-Kutta method to solve the differential equations. This is demonstrated with algorithm~\ref{alg: rungka-kutta}.
 
 \begin{algorithm}[!htb]
 	\caption[Multi-variate Guassian Distribution]{Multi-variate Guassian Distribution Algorithm}
-	\label{alg}
+	\label{alg: rungka-kutta}
 	\begin{algorithmic}[1]
 		\State Definitions: Ts - Timestamp; 
 		\State $h = Ts/N$ 
-		\For{$n\leftarrow 1$  $N$}
+		\For{$n\leftarrow 1$ to $N$}
 		\State	$k_1 = hf(x_n, y_n)$
 		\State	$k_2 = hf(x_n + \frac{h}{2}, y_n + \frac{k_1}{2})$
 		\State	$k_3 = hf(x_n + \frac{h}{2}, y_n + \frac{k_2}{2})$
@@ -120,19 +151,47 @@ The integration method used in the simulation is the 4th order Rungka-Kutta meth
 	\end{algorithmic}
 \end{algorithm}
 
-where h is the step height, which is set to $T_s/10$, $T_s = 1$. 
+where $h$ is the step size, which is set to $T_s/10$, where the time step, $T_s$, is equal to one second. With this procedure the dynamics and kinematics of the satellite can be simulated after each time step.
 
 
 \section{Environment}
-\subsection{Earth Orbit}
-Earth orbit according to sgp4 and also the placement of the earth sensor.
+To ensure an accurate simulation environment certain phenomena must be determined to ensure that the satellite's eclipse
 
-Show plot of 3D earth orbit...
+\subsection{Orbit Propagation}
+The satellite position, $\mathbf{r}_{sat}$ and velocity $\mathbf{v}_{sat}$ at a given time step is required to determine the multiple different variables required for the simulation environment. Therefore the refined version of the simplified general perturbations (SGP) model, namely SGP4, is used as orbit propagator of the satellite after each time step \cite{vallado2006revisiting}. 
+
+To determine $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ at time step, $k$, the two-line element, (TLE), set of the satellite is required. The TLE set is an encoding of the specified satellite orbit, which requires parameters such as the semimajor axis, $a$, right ascension of the ascending node (RAAN), $\Omega$, argument of perigee (AP), $\omega$, inclination, $i$, eccentricity, $e$, and the time at the beginning of the orbit as a Julian date, $J_t$. With these parameters and the elapse time since $J_t$, both $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ can be determined from the World Geodetic System 72 constants that is implemented by the SGP4 model.
+
+\textbf{TODO: Show plot of 3D earth orbit...}
+
+The SGP4 outputs the $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ in the EIC reference frame. Therefore, $\boldsymbol{A}^{ORC}_{EIC}$ can now be calculated according to Eq-\ref{Eq: ORC to EIC}.
 
 \subsection{Sun}
 The calculations for the sun position and also the placement of the coarse and fine sun sensor.
 
-Show graph of sun plot...
+\begin{equation}
+	\begin{aligned}
+		\mathbf{r}_{sun} &= r_{\oplus} \begin{bmatrix}
+		cos(\lambda_e) \\ cos(\epsilon)sin(\lambda_e) \\ sin(\epsilon)sin(\lambda_e) \\
+		\end{bmatrix}, \\
+		\text{where} \quad r_{\oplus} &= \num{1.000140612} - \num{0.016708617} \, cos(M_{\oplus}) - \num{0.00139589} \, cos(2M_{\oplus}), \\
+		M_{\oplus} &= \num{357.527723300}^o + \num{35999.050340} \, T_{JC}, \\
+		\lambda_e &= \lambda_{M_{\oplus}} + \num{1.914666471} \, sin(M_{\oplus}) + \num{0.019994643} \, sin(2M_{\oplus}), \\
+		\lambda_{M_{\oplus}} &= \num{280.460618400}^o + \num{36000.770053610} \, T_{JC}, \\
+		\epsilon &= \num{23.439291}^o - \num{0.013004200} \, T_{JC} \\
+		\text{and} \quad T_{JC} &= \frac{J_t - \num{2451545}}{\num{36525}}.
+	\end{aligned}
+\end{equation}
+
+
+
+\begin{equation}
+S_{EIC} = \mathbf{r}_{sun} - \mathbf{r}_{sat}
+\end{equation}
+
+\textbf{TODO: Show drawing of sun relative to earth and satellite...}
+
+\textbf{TODO: Show graph of sun plot...}
 
 \subsection{Geomagnetic field}
 
@@ -141,20 +200,100 @@ Show graph of sun plot...
 V(r_s,\theta, \lambda) = R_E \sum_{n=1}^{k}\left(\frac{R_E}{r_s}^{n+1}\right)\sum_{m=0}^{n}\left(g_n^mcos(m\lambda) + h_n^msin(m\lambda)\right)P_n^m(\theta)
 \end{equation}
 
-Show graph of geomagnetic plot...
+\textbf{TODO: Show graph of geomagnetic plot...}
 
 \section{Sensor models}
-\subsection{Position of Sensors and Field of View}
 
-\subsection{Noise}
+Sun sensor, nadir, magnetometer.
+
+\begin{equation}
+\mathbf{v}_b = \mathbf{A}_{ORC}^{EIC} \mathbf{v}_{ORC} + \mathbf{m}_v
+\end{equation}
+
+\subsection{Sun Sensor}
+
+\textbf{TODO: Show position of sun sensor...}
+
+\subsection{Nadir Sensor}
+
+\textbf{TODO: Show position of nadir sensor...}
+
+\subsection{Magnetometer}
+
+\textbf{TODO: Show position of magnetometer...}
 
 \section{Disturbance models}
+The first disturbance torque is that of the gyroscopic coupling which can be calculated with
+
+\begin{equation}
+\mathbf{N}_{gyro} = \boldsymbol{\dot{\omega}}_B^I \times (\mathbf{I}\boldsymbol{\dot{\omega}}_B^I + \mathbf{h}_w),
+\end{equation}
+where $h_w$ is the angular momentum of the reaction wheels. The other disturbance torques are discussed in more detail below.
+
+\label{section: disturbance models}
 \subsection{Gravity Gradient}
+
+\begin{equation}
+\boldsymbol{N}_{gg} = 3 \, \omega_o^2 (\mathbf{z}_o^B \times \mathbf{Iz}_o^B)
+\end{equation}
+
+\begin{equation}
+\mathbf{z}_o^B = \mathbf{A} \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}^T
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+\mathbf{N}_{gg} &= \begin{bmatrix}
+					k_{gx}A_{23}A_{33} \\
+					k_{gy}A_{13}A_{33} \\
+					k_{gz}A_{13}A_{23} \\
+					 \end{bmatrix} \\
+\text{where} \quad 	k_{gx} &= 3 \, \omega_o^2(\mathbf{I}_{zz} - \mathbf{I}_{yy}), \\
+					k_{gy} &= 3 \, \omega_o^2(\mathbf{I}_{xx} - \mathbf{I}_{zz}), \\
+\text{and} \quad  	k_{gz} &= 3 \, \omega_o^2(\mathbf{I}_{yy} - \mathbf{I}_{xx}),
+\end{aligned}
+\end{equation}
 
 \subsection{Aerodynamic Disturbance}
 \cite{Steyn2014}
 
+\begin{equation}
+\begin{aligned}
+\mathbf{N}_{aero} = \sum_{i=1}^{n}\Big(& \rho \norm{\mathbf{v}_A^B}^2 A_i H \{cos(\alpha_i)\} \, cos(\alpha_i) \big(\sigma_t (\mathbf{r}_{pi} \times \mathbf{\bar{v}}_A^B) \\
+					 & + \big[ \sigma_nS + (2 - \sigma_n - \sigma_t) cos(\alpha_i)\big] (\mathbf{r}_pi \times \mathbf{\bar{n}}_i) \big) \vphantom{\norm{\mathbf{v}_A^B}^2}\Big)
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\rho = \rho_o e^{-\frac{h-h_o}{H}}
+\end{equation}
+
+\begin{equation}
+\mathbf{v}_A^{EIC} = \begin{bmatrix} 0 \\ 0 \\ \omega_E \end{bmatrix} \times \mathbf{r}_{sat} - \mathbf{v}_{sat}
+\end{equation}
+
+\textbf{TODO: Show drawing of aerodynamic disturbance...}
+
 \subsection{Wheel Imbalance}
+
+\begin{equation}
+\mathbf{F}_{xs} = U_s\omega^2 \begin{bmatrix} sin(\omega t + \phi_s) \\ cos(\omega t + \phi_s) \\ 0 \end{bmatrix}
+\end{equation}
+
+\begin{equation}
+\mathbf{N}_{xs} = w_z + F_{xs}
+\end{equation}
+
+\begin{equation}
+F_{xd} = mr\omega^2
+\end{equation}
+
+\begin{equation}
+\mathbf{N}_{xs} = U_d\omega^2 \begin{bmatrix} sin(\omega t + \phi_d) \\ cos(\omega t + \phi_d) \\ 0 \end{bmatrix},
+\end{equation}
+where $U_d = mrd$ is the dynamic imbalance. \textbf{TODO: Get values of Us and Ud used in simulation}
+
+\textbf{TODO: Show drawing of static and dynamic wheel imbalance...}
 
 \section{Attitude Determination}
 In this section discuss the Kalman filter.
@@ -186,7 +325,7 @@ The estimated state vector $x$ will be denoted as $\hat{x}$ and the estimated ve
 		\State Timestep ($T_s$) $= 1s$
 		\State Number of iterations ($I$) $= 10$
 		\State Step size $h = \frac{T_s}{h}$
-		\State Disturbance torques $N_d = N_{gg} + N_{aero} + N_{rw} - N_{gyro}$
+		\State Disturbance torques $N_d = N_{gg} - N_{gyro} $ % + N_{aero} + N_{rw}$
 		\State Control torques $N_c = N_m - N_w$
 		\State $\mathbf{N} = N_c + N_d$
 		\For{\texttt{$n \in I$}}
@@ -254,7 +393,7 @@ after which the updated state vector can be calculated with Eq~\ref{eq:UpdatedSt
 	\label{eq:UpdatedStateVector}
 \end{equation}
 
-The state covariance matric can then be updated as
+The state covariance matrix can then be updated as
 
 \begin{equation}
 	\mathbf{P}_k^+ = \left[\mathbf{I}_{7 \times 7} - \mathbf{K}_k \mathbf{H}_k^+ \right]\mathbf{P}_k \left[\mathbf{I}_{7 \times 7} - \mathbf{K}_k \mathbf{H}_k^+ \right] + \mathbf{K}_k \mathbf{R}_k \mathbf{K}_k^T
@@ -263,9 +402,13 @@ The state covariance matric can then be updated as
 
 During the measurement update of $\hat{x}_k^-$ with the error of $v_{meas,k}$ and $v_{model,k}$, the $\hat{x}_k^+$ is largely affected by anomalous behaviour in the sensor measurements. The sensitivity of the Kalman filter to this behaviour as well as related work will be discussed in section~\ref{subsection:SensitivityOfKalmanFilter}.
 
+\textbf{TODO: Produce graphs for the estimation (Estimation Metric) with the eclipse phases.}
+
 \section{Attitude Control}
+To ensure that the satellite is able to satisfy the mission requirements, control of the satellite attitude is required. Therefore, the satellite's payload must be in the direction of the earth during eclipse and the solar panels should be pointing in the direction of the sun during the sunlit phase. For this control a quaternion feedback controller of the reaction wheels is implemented and a momentum dumping with the magnetorquers is implemented to ensure that the wheel disturbance remains within reasonable boundaries.
 
 \subsection{Quaternion Feedback Controller}
+\label{section: Quaternion Feedback Controller}
 To ensure that the satellite is in the desired orientation the reaction wheels are used. To ensure stable control in all three axis \cite{wie1989quarternion} the quaternion feedback reaction wheel controller is implemented. The controller is designed from the estimated orientation and angular velocity, while ignoring disturbance torques. Eq~\ref{Eq-EulerDynamic} without the disturbance torques becomes
 \begin{equation}
 \mathbf{J}\dot{\boldsymbol{\omega}_B^I} = -\mathbf{N}_w - \mathbf{N}_{gyro}
@@ -282,10 +425,10 @@ where $\mathbf{h}_{w}(k)$ is the measured angular momentum of the wheels, the co
 	\end{aligned}
 	\label{eq:controlGain}
 \end{equation}
-the quaternion error is calculated with 
+the quaternion error is calculated with the quaternion difference operator, $\Theta$, as
 \begin{equation}
 	\begin{aligned}
-		\mathbf{q}_{err}(k) &= \mathbf{q_c}(k) \delta \hat{\mathbf{q}}(k) \\
+		\mathbf{q}_{err}(k) &= \mathbf{q_c}(k) \Theta \hat{\mathbf{q}}(k) \\
 		\begin{bmatrix} 
 			q_{1e} \\
 			q_{2e} \\
@@ -306,7 +449,7 @@ the quaternion error is calculated with
 	\end{aligned}
 	\label{eq:quaternionError}
 \end{equation}
-where $q_{com}$ is the command quaternion which is $\begin{Bmatrix}
+where $\hat{\mathbf{q}}$ is the current estimated quaternion and $q_{c}$ is the command quaternion which is $\begin{Bmatrix}
 	0 & 0 & 0& 1
 \end{Bmatrix}^T$ during eclipse and during the sun following phase, the attitude command according to \cite{chen2000ground} can be calculated as 
 \begin{equation}
@@ -321,6 +464,7 @@ where
 \end{equation}
 $\mathbf{s}_o$ is the measured unit sun vector in ORC, and the main solar panel's position is denoted as a unit vector, $\mathbf{u}_{sp}^{SBC}$. The angle between $\mathbf{u}_{sp}^{SBC}$ and $\mathbf{s}_o$, $\delta$, can be calculated with the vector dot-product. This can then be used as the reference for the control. The reference $\boldsymbol{\omega}_b^I$ is always $[0, 0, 0]$. 
 
+\textbf{TODO: Produce graphs for the control (Pointing accuracy) with the eclipse phases.}
 
 \subsection{Momentum Dumping}
 Momentum dumping is crucial to ensure that the wheel disturbance does not cause the system to become unstable. Momentum dumping is implemented during eclipse after the satellite is in a stable nadir-pointing attitude. The momentum dumping is implemented with magnetic torquers based on a Cross-Product controller. 
@@ -335,7 +479,7 @@ where $\mathbf{B}_b$ is the geomagnetic field and the error vector, $\mathbf{e}$
 \end{equation}
 where $K_w$ is a positive gain. This momentum dumping is implemented $200s$ after sun-following phase is implemented, to ensure stable control and reduce the momentum in the reaction wheels.
 
-\section{Validation of simulation}
+\textbf{TODO: Show graph of momentum dumping plot (Reaction wheels momentum with and without momentum dumping)...}
 
 %\section{Constellations}
 %Explain the design of the satellite constellations and the algorithms to run communicate between satellites.

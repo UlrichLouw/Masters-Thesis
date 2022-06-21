@@ -59,7 +59,6 @@
 \usepackage{subcaption}
 \setlength{\abovecaptionskip}{7.5pt}  % spacing above and below captions
 \newcommand*{\WaterMark}[2][0.2\paperwidth]{\AddToShipoutPicture*{\AtTextCenter{\parbox[c]{0pt}{\makebox[0pt][c]{\includegraphics[width=#1]{#2}}}}}}
-
 % Mathematics
 \usepackage[cmex10]{amsmath}
 \usepackage{amssymb}
@@ -69,7 +68,6 @@
 \newcommand{\tr}{\textrm{tr}}
 \renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}
 \newcommand{\defeq}{\triangleq}
-
 % Tables
 \usepackage{booktabs}
 \usepackage{tabularx}
@@ -122,14 +120,12 @@
 % Fix titlesec issue
 \usepackage{etoolbox}
 
-
 \makeatletter
 \patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
 \patchcmd{\ttlh@hang}{\noindent}{}{}{}
 \makeatother
 
 \begin{document}
-
 % Front matter
 %\input{frontmatter/skripsie_title_page}
 \input{frontmatter/masters_title_page}
@@ -165,4 +161,3 @@
 \input{appendices/appendices}
 
 \end{document}
-
