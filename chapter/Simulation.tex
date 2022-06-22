@@ -66,7 +66,7 @@ The SBC frame is the frame fixed to the satellite and it is the relative rotatio
 
 \subsection{Attitude}
 \label{subsection_quaternions}
-To determine the attitude of an object, a model must be used to determine the rotation of an object in three dimensions. For this the visual and intuitive example of the Euler angles exist. Euler angles are the rotation of an object around three orthogonal axis, that change orientation with the rotation of the object. The three axes, denoted by X, Y and Z rotate with the object as depicted in Figure~\ref{Figure-Euler_angles}. \textbf{TODO: The figures must be in theta, phi and psi}.
+To determine the attitude of an object, a model must be used to determine the rotation of an object in three dimensions. For this the visual and intuitive example of the Euler angles exist. Euler angles are the rotation of an object around three orthogonal axis, that change orientation with the rotation of the object. The three axes, denoted by X, Y and Z rotate with the object as depicted in Figure~\ref{fig:Pitch}.
 \begin{figure}[!htb]
 	\centering
 	\def\svgwidth{12cm}
@@ -107,7 +107,15 @@ The attitude quaternion is also related to the Euler angles in that if the Euler
 \begin{equation}
 \mathbf{q} = \begin{bmatrix} e_1 sin(\frac{\Phi}{2}) \\ e_2 sin(\frac{\Phi}{2}) \\ e_3 sin(\frac{\Phi}{2}) \\ cos(\frac{\Phi}{2}) \end{bmatrix}
 \end{equation}
-It is difficult to visualize a quaternion, however the most simplistic method of understanding it is shown in Figure \textbf{TODO: Provide figure of quaternion}. A quaternion is consequently a unit vector protruding from the centre point of an object as well as the angle of rotation of that object around that unit vector. As seen in Figure~\ref{fig:Pitch} the angle $\theta$ is the angle of rotation around the $y$-axis, for quaternions the angle of rotation is the same principle, however the axis around which the object is rotating, is the unit vector. Therefore, $q_4$ provides the angle of rotation while, $q_1, q_2, q_3$ represents the unit vector, however with the condition of Eq~\ref{Eq-quaternion dependency}.
+It is difficult to visualize a quaternion, however the most simplistic method of understanding it is shown in Figure~\ref{fig:quaternion}. A quaternion is consequently a unit vector protruding from the centre point of an object as well as the angle of rotation of that object around that unit vector. As seen in Figure~\ref{fig:Pitch} the angle $\theta$ is the angle of rotation around the $z$-axis, for quaternions the angle of rotation is the same principle, however the axis around which the object is rotating, is the unit vector. Therefore, $q_4$ provides the angle of rotation while, $q_{1-3}$ represents the unit vector, however with the condition of Eq~\ref{Eq-quaternion dependency}.
+
+\begin{figure}[!htb]
+	\centering
+	\def\svgwidth{12cm}
+	\import{Figures/}{quaternion.pdf_tex}
+	\label{fig:quaternion}
+	\caption{Graphical quaternion representation}
+\end{figure}
 
 $\boldsymbol{A}^{SBC}_{ORC}$ can also be transformed as a function of $\mathbf{q}$ \cite{wertz2012spacecraft} through
 
@@ -162,7 +170,14 @@ The satellite position, $\mathbf{r}_{sat}$ and velocity $\mathbf{v}_{sat}$ at a 
 
 To determine $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ at time step, $k$, the two-line element, (TLE), set of the satellite is required. The TLE set is an encoding of the specified satellite orbit, which requires parameters such as the semimajor axis, $a$, right ascension of the ascending node (RAAN), $\Omega$, argument of perigee (AP), $\omega$, inclination, $i$, eccentricity, $e$, and the time at the beginning of the orbit as a Julian date, $J_t$. With these parameters and the elapse time since $J_t$, both $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ can be determined from the World Geodetic System 72 constants that is implemented by the SGP4 model.
 
-\textbf{TODO: Show plot of 3D earth orbit...}
+\begin{figure}[!htb]
+	\centering
+	\def\svgwidth{12cm}
+	\import{Figures/}{EarthOrbit.pdf_tex}
+	\label{fig:EarthOrbit}
+	\caption{SGP4 orbit propagation}
+\end{figure}
+
 
 The SGP4 outputs the $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ in the EIC reference frame. Therefore, $\boldsymbol{A}^{ORC}_{EIC}$ can now be calculated according to Eq-\ref{Eq: ORC to EIC}.
 
@@ -189,9 +204,14 @@ The calculations for the sun position and also the placement of the coarse and f
 S_{EIC} = \mathbf{r}_{sun} - \mathbf{r}_{sat}
 \end{equation}
 
-\textbf{TODO: Show drawing of sun relative to earth and satellite...}
+\begin{figure}[!htb]
+	\centering
+	\def\svgwidth{12cm}
+	\import{Figures/}{SunToEarthToSat.pdf_tex}
+	\label{fig:SunToEarthToSat}
+	\caption{Geometry for satellite eclipse}
+\end{figure}
 
-\textbf{TODO: Show graph of sun plot...}
 
 \subsection{Geomagnetic field}
 
@@ -199,8 +219,6 @@ S_{EIC} = \mathbf{r}_{sun} - \mathbf{r}_{sat}
 \label{Eq-Geomagnetic_field}
 V(r_s,\theta, \lambda) = R_E \sum_{n=1}^{k}\left(\frac{R_E}{r_s}^{n+1}\right)\sum_{m=0}^{n}\left(g_n^mcos(m\lambda) + h_n^msin(m\lambda)\right)P_n^m(\theta)
 \end{equation}
-
-\textbf{TODO: Show graph of geomagnetic plot...}
 
 \section{Sensor models}
 
@@ -214,13 +232,38 @@ Sun sensor, nadir, magnetometer.
 
 \textbf{TODO: Show position of sun sensor...}
 
+\begin{figure}[!htb]
+	\centering
+	\def\pgfwidth{12cm}
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Sun_large.pgf}
+	
+	\caption{Sun vector in SBC}
+	\label{fig:SunSensorPlot}
+\end{figure}
+
 \subsection{Nadir Sensor}
 
 \textbf{TODO: Show position of nadir sensor...}
+\begin{figure}[!htb]
+	\centering
+	\def\pgfwidth{12cm}
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Earth_large.pgf}
+	
+	\caption{Earth vector in SBC}
+	\label{fig:EarthSensorPlot}
+\end{figure}
 
 \subsection{Magnetometer}
 
 \textbf{TODO: Show position of magnetometer...}
+\begin{figure}[!htb]
+	\centering
+	\def\pgfwidth{12cm}
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Magnetometer_large.pgf}
+	
+	\caption{Magnetometer in SBC}
+	\label{fig:MagnetometerPlot}
+\end{figure}
 
 \section{Disturbance models}
 The first disturbance torque is that of the gyroscopic coupling which can be calculated with
@@ -272,7 +315,14 @@ where $h_w$ is the angular momentum of the reaction wheels. The other disturbanc
 \mathbf{v}_A^{EIC} = \begin{bmatrix} 0 \\ 0 \\ \omega_E \end{bmatrix} \times \mathbf{r}_{sat} - \mathbf{v}_{sat}
 \end{equation}
 
-\textbf{TODO: Show drawing of aerodynamic disturbance...}
+\begin{figure}[!htb]
+	\centering
+	\def\pgfwidth{12cm}
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Aerodynamic Torques.pgf}
+	
+	\caption{Aerodynamic Torques in SBC}
+	\label{fig:AerodynamicTorques}
+\end{figure}
 
 \subsection{Wheel Imbalance}
 
@@ -291,9 +341,18 @@ F_{xd} = mr\omega^2
 \begin{equation}
 \mathbf{N}_{xs} = U_d\omega^2 \begin{bmatrix} sin(\omega t + \phi_d) \\ cos(\omega t + \phi_d) \\ 0 \end{bmatrix},
 \end{equation}
-where $U_d = mrd$ is the dynamic imbalance. \textbf{TODO: Get values of Us and Ud used in simulation}
+where $U_d = mrd$ is the dynamic imbalance. $U_s = 2.08e^{-7}$, $U_d = 2.08e^{-9}$
 
 \textbf{TODO: Show drawing of static and dynamic wheel imbalance...}
+
+\begin{figure}[!htb]
+	\centering
+	\def\pgfwidth{12cm}
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Wheel disturbance Torques.pgf}
+	
+	\caption{Wheel disturbance torques in SBC}
+	\label{fig:Wheel disturbance Torques}
+\end{figure}
 
 \section{Attitude Determination}
 In this section discuss the Kalman filter.
@@ -402,7 +461,15 @@ The state covariance matrix can then be updated as
 
 During the measurement update of $\hat{x}_k^-$ with the error of $v_{meas,k}$ and $v_{model,k}$, the $\hat{x}_k^+$ is largely affected by anomalous behaviour in the sensor measurements. The sensitivity of the Kalman filter to this behaviour as well as related work will be discussed in section~\ref{subsection:SensitivityOfKalmanFilter}.
 
-\textbf{TODO: Produce graphs for the estimation (Estimation Metric) with the eclipse phases.}
+\begin{figure}[!htb]
+	\centering
+	\def\pgfwidth{12cm}
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Estimation Metric.pgf}
+	
+	\caption{Estimation Metric}
+	\label{fig:Estimation Metric}
+\end{figure}
+
 
 \section{Attitude Control}
 To ensure that the satellite is able to satisfy the mission requirements, control of the satellite attitude is required. Therefore, the satellite's payload must be in the direction of the earth during eclipse and the solar panels should be pointing in the direction of the sun during the sunlit phase. For this control a quaternion feedback controller of the reaction wheels is implemented and a momentum dumping with the magnetorquers is implemented to ensure that the wheel disturbance remains within reasonable boundaries.
@@ -464,7 +531,14 @@ where
 \end{equation}
 $\mathbf{s}_o$ is the measured unit sun vector in ORC, and the main solar panel's position is denoted as a unit vector, $\mathbf{u}_{sp}^{SBC}$. The angle between $\mathbf{u}_{sp}^{SBC}$ and $\mathbf{s}_o$, $\delta$, can be calculated with the vector dot-product. This can then be used as the reference for the control. The reference $\boldsymbol{\omega}_b^I$ is always $[0, 0, 0]$. 
 
-\textbf{TODO: Produce graphs for the control (Pointing accuracy) with the eclipse phases.}
+\begin{figure}[!htb]
+	\centering
+	\def\pgfwidth{12cm}
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Pointing Metric.pgf}
+	
+	\caption{Pointing Metric}
+	\label{fig:Pointing Metric}
+\end{figure}
 
 \subsection{Momentum Dumping}
 Momentum dumping is crucial to ensure that the wheel disturbance does not cause the system to become unstable. Momentum dumping is implemented during eclipse after the satellite is in a stable nadir-pointing attitude. The momentum dumping is implemented with magnetic torquers based on a Cross-Product controller. 
@@ -477,9 +551,17 @@ where $\mathbf{B}_b$ is the geomagnetic field and the error vector, $\mathbf{e}$
 \begin{equation}
 \mathbf{e} = -K_w(\mathbf{h_w} - \mathbf{h_w,ref})
 \end{equation}
-where $K_w$ is a positive gain. This momentum dumping is implemented $200s$ after sun-following phase is implemented, to ensure stable control and reduce the momentum in the reaction wheels.
+where $K_w$ is a positive gain. This momentum dumping is implemented $200s$ after sun-following phase is implemented, to ensure stable control and reduce the momentum in the reaction wheels. The magnetorquers torques are shown in Figure~\ref{fig:Magnetic Control Torques} and it is evident that when the satellite control changes from eclipse to sunlit and from sunlit to eclipse the magnetorquers torques increase to compensate for the increase in reaction wheel torques and to minimise the dynamic reaction wheel disturbance.
 
-\textbf{TODO: Show graph of momentum dumping plot (Reaction wheels momentum with and without momentum dumping)...}
+\begin{figure}[!htb]
+	\centering
+	\def\pgfwidth{12cm}
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Magnetic Control Torques.pgf}
+	
+	\caption{Magnetic Control Torques}
+	\label{fig:Magnetic Control Torques}
+\end{figure}
+
 
 %\section{Constellations}
 %Explain the design of the satellite constellations and the algorithms to run communicate between satellites.
