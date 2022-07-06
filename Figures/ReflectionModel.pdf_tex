@@ -38,7 +38,7 @@
   \newcommand*\fsize{\dimexpr\f@size pt\relax}%
   \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{905.9177919bp}%
+    \setlength{\unitlength}{913.79278325bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -50,29 +50,27 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.69989734)%
+  \begin{picture}(1,0.64836704)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{ReflectionModel.pdf}}%
-    \put(0.68229756,0.10163961){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{x}}_{\mathcal{I}}$\end{tabular}}}}%
-    \put(0.61742716,0.1341218){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{z}}_{\mathcal{I}}$\end{tabular}}}}%
-    \put(0.59907365,0.06729269){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{y}}_{\mathcal{I}}$\end{tabular}}}}%
+    \put(0.67641758,0.10076369){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{x}}_{\mathcal{O}}$\end{tabular}}}}%
+    \put(0.61210622,0.13296595){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{z}}_{\mathcal{O}}$\end{tabular}}}}%
+    \put(0.59391088,0.06671277){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{y}}_{\mathcal{O}}$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{ReflectionModel.pdf}}%
-    \put(0.34042089,0.33911404){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}X\end{tabular}}}}%
-    \put(0.31685783,0.25313625){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Y\end{tabular}}}}%
-    \put(0.3938471,0.2534964){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Z\end{tabular}}}}%
-    \put(0.44211689,0.33662673){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}W\end{tabular}}}}%
+    \put(0.33748717,0.33619158){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}X\end{tabular}}}}%
+    \put(0.31412717,0.25095475){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Y\end{tabular}}}}%
+    \put(0.39045295,0.25131179){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Z\end{tabular}}}}%
+    \put(0.43830676,0.33372571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}W\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{ReflectionModel.pdf}}%
-    \put(0.53126854,0.40546304){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}D\end{tabular}}}}%
-    \put(0.2998353,0.40794737){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}C\end{tabular}}}}%
+    \put(0.52669011,0.4019688){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}D\end{tabular}}}}%
+    \put(0.29725135,0.40443171){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}C\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{ReflectionModel.pdf}}%
-    \put(0.29924537,0.61569119){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}B\end{tabular}}}}%
-    \put(0.53365456,0.6090508){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}A\end{tabular}}}}%
+    \put(0.2966665,0.61038521){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}B\end{tabular}}}}%
+    \put(0.52905557,0.60380205){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}A\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=5]{ReflectionModel.pdf}}%
-    \put(0.38914842,0.6622545){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{z}}_{\mathcal{B}}$\end{tabular}}}}%
-    \put(0.54857218,0.17257256){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{x}}_{\mathcal{B}}$\end{tabular}}}}%
-    \put(0.2406004,0.06235082){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{y}}_{\mathcal{B}}$\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=6]{ReflectionModel.pdf}}%
-    \put(0.30082128,0.17389086){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}CoM\end{tabular}}}}%
+    \put(0.37393995,0.34800065){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{z}}_{\mathcal{B}}$\end{tabular}}}}%
+    \put(0.54294505,0.19347332){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{x}}_{\mathcal{B}}$\end{tabular}}}}%
+    \put(0.23321579,0.06582214){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{y}}_{\mathcal{B}}$\end{tabular}}}}%
   \end{picture}%
 \endgroup%

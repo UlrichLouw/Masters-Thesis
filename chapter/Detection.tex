@@ -16,13 +16,12 @@ However, to split the data for the anomalies, we need to decide which input para
 \end{equation}
 
 The operator split that produces the lowest Gini index provides the purest split and will be used as the root node. For our use case, the CART algorithm will be used to optimise the decision tree, which also considers the most prominent information gain to construct the decision tree. Figure~\ref{fig:DecisionTree} is a graphical representation of the decision tree developed to classify anomalies. The depth of a decision tree determines how many splits occur from the root node to the leaf node the furthest from the first split. If the depth is unspecified, the decision tree will split until all the data samples are perfectly split into anomalous and normal data samples. However, the larger the depth, the more biased the decision tree is to the training data. This depth can be altered to optimise the efficiency and accuracy of the decision tree.
-
-\begin{figure*}[!htb]
+\begin{figure}[!hbt]
 	\centering
-	\includegraphics[trim = {4cm 8cm 4cm 8cm},clip, width = 15cm]{Figures/DecisionTreeBinaryClass.png}
+	\import{Figures/}{DecisionTree.pgf}
 	\caption{Decision Tree}
 	\label{fig:DecisionTree}
-\end{figure*}
+\end{figure}
 
 \subsection{Support Vector Machines}
 
@@ -35,6 +34,13 @@ The distance measured from the first split the \emph{tree top} to the isolated d
 
 Figure~\ref{Figure-Isolation_Forest} demonstrates the splitting of the data points until isolated. Each split or \emph{branch} only splits the data into two groups. After training multiple trees, a single data point is "sent through the forest" and the distance from the tree top for each tree is calculated and the average of all the trees are used to calculated the average distance for the data point. Using a threshold for the distance, the data point is classified as anomalous or not.
 
+
+\begin{figure}[!hbt]
+	\centering
+	\import{Figures/}{IsolationForest.pgf}
+	\caption{Isolation Forest}
+	\label{fig:IsolationForest}
+\end{figure}
 \begin{figure}[h!tb]
 	\centering
 	
@@ -84,13 +90,11 @@ It is evident that applying an angle of $0\degree$ to all the slices the general
 \subsection{Local Outlier Factor}
 Most algorithms for anomaly detection are based on a metric which accounts for the entire dataset~\cite{breunig2000lof}. However, many anomalies are identifiable in relation to the local neighbourhood of data points and not the overall dataset. Therefore, \cite{breunig2000lof} developed the local outlier factor \(LOF\) algorithm that provides a measure of a data point's "outlierness". This implies that a data point is not classified as an anomaly or not, but a local outlier factor is calculated to determine how much a data point is distantiated from it's $k$-nearest neighbours. This is clearly demonstrated in Figure~\ref{Figure-LOF_measure} where the data points which are clustered together have smaller LOF's than data points which are removed from the highly dense areas.
 
-\begin{figure}[h!tb]
+\begin{figure}[!hbt]
 	\centering
-	
-	\includegraphics[width=10cm]{fig/LOF_measure} % not necessary to give extension - now you can shift between compiling to ps or to pdf without any problems
-	
-	\caption[Local outlier measure]{LOF measure}
-	\label{Figure-LOF_measure} 
+	\import{Figures/}{LOF.pgf}
+	\caption{Plane perpendicular to $\mathbf{R}_{SE}$ and at center of earth}
+	\label{fig:localOutlierFactor}
 \end{figure}
 
 To calculate the LOF, the $k$-distance must be calculated and also the local reachability density \(lrd\). The $k$-distance, is the $k^{th}$ ranked $distance(o,p_i)$. Where $distance(o,p_i)$ is the distance between data point $o$ and any data point $p_i$, with $i \in N$, where $N$ is the number of data points within the dataset with a minimum value of $MinPts$. To reduce fluctuations in the $distance(o,p_i)$ the distance between $o$ and $p_i$ is replaced with 
