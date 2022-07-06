@@ -1,11 +1,11 @@
 \chapter{Simulation}
 \label{chap:Simulation}
 
-To implement and research various FDIR systems on satellites an simulation of satellite dynamics and kinematics is developed. The focus of this thesis is on small satellites and more specifically cubesats. For the simulation of the ADCS of the satellite \cite{auret2012design, JansevanVuuren2015, Jordaan2016} were referenced during the development of the satellite simulation. The simulation was developed in Python to simulate the dynamics and kinematics during a satellite orbit. The faults for the subsystems are also developed within the simulation and will be discussed within this chapter.
+To implement and research various FDIR systems on satellites an simulation of satellite dynamics and kinematics is developed. The focus of this thesis is on small satellites and more specifically CubeSats. For the simulation of the ADCS of the satellite \cite{auret2012design, JansevanVuuren2015, Jordaan2016} were referenced during the development of the satellite simulation. The simulation was developed in Python to simulate the dynamics and kinematics during a satellite orbit. The faults for the subsystems are also developed within the simulation and will be discussed within this chapter.
 
 \section{Attitude Determination and Control System}
 
-For the mission of the specific satellite in this document the main operational goal of the Attitude Determination and Control System (ADCS) on this specific satellite mission is to control the payload to point towards the centre of the earth during eclipse and point the solar panels towards the sun during the sunlit phase. 
+For the mission of the specific satellite in this document the main operational goal of the ADCS on this specific satellite mission is to control the payload to point towards the centre of the earth during eclipse and point the solar panels towards the sun during the sunlit phase. 
 
 \subsection{Coordinate Frames}
 The coordinate frames in aerospace is a fundamental part of the ADCS. To determine the orientation and position of an object, it should be relative to a fixed frame. Consequently, the Earth inertial coordinate (EIC) frame, $\mathcal{E}\{\bar{\mathbf{x}}_{\mathcal{E}},~\bar{\mathbf{y}}_{\mathcal{E}},~\bar{\mathbf{z}}_{\mathcal{E}}\}$, is the fixed frame from which every other frame is relative to.
@@ -163,10 +163,10 @@ This is the overarching equation that will be used to determine the control torq
 where $h$ is the step size, which is set to $T_s/10$, where the time step, $T_s$, is equal to one second. With this procedure the dynamics and kinematics of the satellite can be simulated after each time step.
 
 \section{Environment}
-To ensure an accurate simulation environment certain aerospace phenomena must be simulated to ensure that all anomalies can be accurately modelled as well as creating an accurate representation of the satellite mission. Therefore, the position of the satellite with respect to the earth (orbit propagation) is required to determine most of the elementary principles of the satellite mission. The orbit propagation is further used to determine the moon on the earth horizon anomaly. The sun position is required for eclipse as well as simulating the sun reflecting from the solar panels unto the sun sensor. Where the magnetic field is required for the magnetometer anomaly as well as the solar panel dipole disturbance. \textbf{TODO: Consider a section on cubesat design}.
+To ensure an accurate simulation environment certain aerospace phenomena must be simulated to ensure that all anomalies can be accurately modelled as well as creating an accurate representation of the satellite mission. Therefore, the position of the satellite with respect to the earth (orbit propagation) is required to determine most of the elementary principles of the satellite mission. The orbit propagation is further used to determine the moon on the earth horizon anomaly. The sun position is required for eclipse as well as simulating the sun reflecting from the solar panels unto the sun sensor. Where the magnetic field is required for the magnetometer anomaly as well as the solar panel dipole disturbance. \textbf{TODO: Consider a section on CubeSat design}.
 
 \subsection{Orbit Propagation}
-The satellite position, $\mathbf{r}_{sat}$ and velocity $\mathbf{v}_{sat}$ at a given time step is required to determine the multiple different variables required for the simulation environment. Therefore the refined version of the simplified general perturbations (SGP) model, namely SGP4, is used as orbit propagator of the satellite after each time step \cite{vallado2006revisiting}. 
+The satellite position, $\mathbf{r}_{sat}$ and velocity $\mathbf{v}_{sat}$ at a given time step is required to determine the multiple different variables required for the simulation environment. Therefore the refined version and fourth generation of the simplified general perturbations (SGP) model, namely SGP4, is used as orbit propagator of the satellite after each time step \cite{vallado2006revisiting}. 
 
 To determine $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ at time step, $k$, the two-line element, (TLE), set of the satellite is required. The TLE set is an encoding of the specified satellite orbit, which requires parameters such as the semimajor axis, $a$, right ascension of the ascending node (RAAN), $\Omega$, argument of perigee (AP), $\omega$, inclination, $i$, eccentricity, $e$, and the time at the beginning of the orbit as a Julian date, $J_t$. With these parameters and the elapsed time since $J_t$, both $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ can be determined from the World Geodetic System 72 constants that is implemented by the SGP4 model. An example of the satellite orbit propagated by the SGP4 model is illustrated in Figure~\ref{fig:EarthOrbit}.
 
@@ -365,13 +365,13 @@ The aerodynamic disturbance torques are cause by air density in the atmosphere c
 					 & + \big[ \sigma_nS + (2 - \sigma_n - \sigma_t) cos(\alpha_i)\big] (\mathbf{r}_pi \times \mathbf{\bar{n}}_i) \big) \vphantom{\norm{\mathbf{v}_{\mathcal{B}}}^2}\Big),
 \end{aligned}
 \end{equation}
-where $n$ is the number of segments of the satellite. The factors that influence the aerodynamic disturbance torque is the atmospheric velocity in SBC, $\mathbf{v}_{\mathcal{B}}$, the atmospheric density, $\rho$, each segment's surface area, $A_i$ and the offset vector between the segment's centre of mass (COM) and the centre of pressure (CoP), $\mathbf{r}_p$. $H\{x\}$ is the Heaviside function which is equal to $0$ when $x$ is smaller than $0$ and equal $1$ otherwise. $\alpha_i$ is the incidence angle of $\mathbf{v}_{\mathcal{B}}$ on segment $i$, while $\sigma_t$ is the tangential accommodation coefficient and $sigma_n$ is the normal accommodation coefficient. $S$ is the ratio of molecular exit velocity to $\mathbf{v}_{\mathcal{B}}$ and $\mathbf{\bar{n}}_i)$ is the unit inward normal vector of segment $i$ \cite{JansevanVuuren2015}.
+where $n$ is the number of segments of the satellite. The factors that influence the aerodynamic disturbance torque is the atmospheric velocity in SBC, $\mathbf{v}_{\mathcal{B}}$, the atmospheric density, $\rho$, each segment's surface area, $A_i$ and the offset vector between the segment's centre of mass (CoM) and the centre of pressure (CoP), $\mathbf{r}_p$. $H\{x\}$ is the Heaviside function which is equal to $0$ when $x$ is smaller than $0$ and equal $1$ otherwise. $\alpha_i$ is the incidence angle of $\mathbf{v}_{\mathcal{B}}$ on segment $i$, while $\sigma_t$ is the tangential accommodation coefficient and $sigma_n$ is the normal accommodation coefficient. $S$ is the ratio of molecular exit velocity to $\mathbf{v}_{\mathcal{B}}$ and $\mathbf{\bar{n}}_i$ is the unit inward normal vector of segment $i$ \cite{JansevanVuuren2015}.
 
 The atmospheric density is a function of the distance from the Earth surface. The density model provided by \cite{vallado2001fundamentals} is given as 
 \begin{equation}
 \rho = \rho_o e^{-\frac{h(t)-h_o}{H}},
 \end{equation}
-where $\rho_o$ is the reference density at the reference altitude, $h_o$, and $h(t)$ is the satellite's altitude as a function of time and $H$ is the scale height. According to \cite{steyn2011cubesat} the atmospheric density is $\frac{1}{2}\rho$ during during eclipse. Furthermore $\mathbf{v}_{\mathcal{B}}$ is calculated as
+where $\rho_o$ is the reference density at the reference altitude, $h_o$, and $h(t)$ is the satellite's altitude as a function of time and $H$ is the scale height. According to \cite{steyn2011CubeSat} the atmospheric density is $\frac{1}{2}\rho$ during during eclipse. Furthermore $\mathbf{v}_{\mathcal{B}}$ is calculated as
 \begin{equation}
 \begin{aligned}
 \mathbf{v}_{\mathcal{B}} &= \mathbf{A}_{ORC}^{SBC} \mathbf{A}_{EIC}^{ORC} \mathbf{v}_{\mathcal{E}} \\
@@ -379,7 +379,7 @@ where $\rho_o$ is the reference density at the reference altitude, $h_o$, and $h
 \end{aligned}
 \end{equation}
 
-$\sigma_n$ and $\sigma_t$ are both assumed to be equal to 0.8, while $S$ is $\num{0.8}$~\cite{steyn2011cubesat}. From these equations the aerodynamic disturbance can be calculated and is shown in Figure~\ref{fig:AerodynamicTorques}.
+$\sigma_n$ and $\sigma_t$ are both assumed to be equal to 0.8, while $S$ is $\num{0.8}$~\cite{steyn2011CubeSat}. From these equations the aerodynamic disturbance can be calculated and is shown in Figure~\ref{fig:AerodynamicTorques}.
 \begin{figure}[!htb]
 	\centering
 	\def\pgfwidth{10cm}

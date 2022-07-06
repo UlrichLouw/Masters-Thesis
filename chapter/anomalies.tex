@@ -171,7 +171,7 @@ To determine whether the reflection on the sun sensor has a influence on the ADC
 \end{figure}
 
 \section{Moon and Sun in Field of View of Nadir Sensor}
-An anomaly that can be experienced by an infra-red nadir sensor is the moon overlapping the horizon of the earth in die nadir sensor's FOV. This is shown in Figure~\ref{fig:ProjectionOnPlane}. This influences the edge detection and circular fit algorithm \cite{Wessels2018, Helgard2008} and consequently the calculated centre of the earth. Firstly, it is required to simulate the image seen by the nadir sensor, thereafter the algorithm for detecting the centre of the earth can be implemented.
+An anomaly that can be experienced by an infra-red (IR) nadir sensor is the moon overlapping the horizon of the earth in die nadir sensor's field of view (FoV). This is shown in Figure~\ref{fig:ProjectionOnPlane}. This influences the edge detection and circular fit algorithm \cite{Wessels2018, Helgard2008} and consequently the calculated centre of the earth. Firstly, it is required to simulate the image seen by the nadir sensor, thereafter the algorithm for detecting the centre of the earth can be implemented.
 
 \subsection{Simulating Nadir Sensor Infra-red Image}
 Firstly the vectors of both the satellite to earth and the moon the earth is required. The moon position is determined with the Julian date, since the propagation of the moon position relative to the centre of the earth has already been done. These vectors are shown in Figure~\ref{fig:EarthMoonSatPosition}. From the vector, $\mathbf{R}_{SE}$, and the position of the centre of the earth, $P_{earth}$, a 3D plane normal to $\mathbf{R}_{SE}$ and at $P_{earth}$ can be calculated. Where both $P_{earth}$ and $\mathbf{R}_{SE}$ are defined as
@@ -216,19 +216,19 @@ n_xx_0 + n_yy_0 + n_zz_0\\
 \end{bmatrix}
 \end{equation}
 
-This 3D plane slicing the earth in half as seen from the satellite is shown in Figure~\ref{fig:PlaneThroughEarth}. The moon and earth can both be projected unto the 3D plane to determine the image seen by the nadir sensor. Therefore the nadir vector must also be projected unto the 3D plane. A circle can be drawn for the earth. moon and the nadir sensor FOV. The radius, of the moon as projected on the 3D plane can be calculated as 
+This 3D plane slicing the earth in half as seen from the satellite is shown in Figure~\ref{fig:PlaneThroughEarth}. The moon and earth can both be projected unto the 3D plane to determine the image seen by the nadir sensor. Therefore the nadir vector must also be projected unto the 3D plane. A circle can be drawn for the earth. moon and the nadir sensor FoV. The radius, of the moon as projected on the 3D plane can be calculated as 
 
 \begin{equation}
 	R_{moon} = \norm{R_{SE}} \frac{r_{moon}}{\norm{R_{SM}}}
 \end{equation}
 
-the radius of the nadir sensor FOV, $R_{FOV}$ can calculated as 
+the radius of the nadir sensor FoV, $R_{FoV}$ can calculated as 
 
 \begin{equation}
-	R_{FOV} = \norm{R_{SE}} \tan \theta
+	R_{FoV} = \norm{R_{SE}} \tan \theta
 \end{equation}
 
-With these variables defined and calculated, the edges of the moon and earth within the nadir FOV can be determined.
+With these variables defined and calculated, the edges of the moon and earth within the nadir FoV can be determined.
 
 % Update the image that Rse should be the vector from the nadir sensor (SBC to ORC)
 % because the vector is normal to the plane, the depth coordinate can be ignored
@@ -241,16 +241,16 @@ With these variables defined and calculated, the edges of the moon and earth wit
 	\label{fig:PlaneThroughEarth}
 \end{figure}
 
-Firstly the edges of the moon and earth are discretely determined based on a fixed number of points for the earth, $N$, and the number of discrete points on the moon is determined based on the ratio of $R_{moon}$ to $R_{earth}$. The projected earth and moon unto the 3D plane is shown in Figure~\ref{fig:PlaneThroughEarth}. The discrete edges of the earth that is within the FOV and will be used for the algorithm discussed in section~\ref{section: Calculating the Centre of the Earth} are determined with the following logical statements.
+Firstly the edges of the moon and earth are discretely determined based on a fixed number of points for the earth, $N$, and the number of discrete points on the moon is determined based on the ratio of $R_{moon}$ to $R_{earth}$. The projected earth and moon unto the 3D plane is shown in Figure~\ref{fig:PlaneThroughEarth}. The discrete edges of the earth that is within the FoV and will be used for the algorithm discussed in section~\ref{section: Calculating the Centre of the Earth} are determined with the following logical statements.
 \begin{enumerate}
-	\item Distance between point and centre of nadir Sensor FOV must be smaller than $R_{FOV}$.
+	\item Distance between point and centre of nadir Sensor FoV must be smaller than $R_{FoV}$.
 	\item Distance between point and centre of moon must be larger than $R_{moon}$
 \end{enumerate}
 
 The discrete edges of the moon used for the algorithm is must satisfy the following conditions
 \begin{enumerate}
 	\item Distance between any discrete point and centre of earth must be smaller than $R_{earth}$ for the moon to overlap the horizon
-	\item Distance between point and centre of nadir Sensor FOV must be smaller than $R_{FOV}$.
+	\item Distance between point and centre of nadir Sensor FoV must be smaller than $R_{FoV}$.
 	\item Distance between point and centre of earth must be larger than $R_{earth}$
 \end{enumerate}
 
@@ -266,7 +266,7 @@ This the creates the array of points that will be used in the algorithm used to 
 
 \subsection{Calculating the Centre of the Earth}
 \label{section: Calculating the Centre of the Earth}
-The edges of the earth are detected based on a gradient between the lowest temperature and the highest temperature within the IR nadir sensor's FOV. This will not be implemented in our case, since we can determine discrete points of both the earth and the moon from the simulation environment. Furthermore the visible phases of the moon will not be accounted for. The reasoning for this is due to the coldest side of the moon being $140K$ and the warmest part, $400K$. The temperature of space is $2.7K$ and the coldest part on the earth is $180K$. Consequently, the IR horizon sensor must be calibrated to always use the minimum value for edge detection as 180K or it must use the smallest value in the image, which will most likely be $2.7K$. Therefore, it can be assumed that the moon will not have any detectable phases for the IR horizon sensor and it will always be seen as a full moon, due to it's lowest temperature being warmer than that of space. 
+The edges of the earth are detected based on a gradient between the lowest temperature and the highest temperature within the IR nadir sensor's FoV. This will not be implemented in our case, since we can determine discrete points of both the earth and the moon from the simulation environment. Furthermore the visible phases of the moon will not be accounted for. The reasoning for this is due to the coldest side of the moon being $140K$ and the warmest part, $400K$. The temperature of space is $2.7K$ and the coldest part on the earth is $180K$. Consequently, the IR horizon sensor must be calibrated to always use the minimum value for edge detection as 180K or it must use the smallest value in the image, which will most likely be $2.7K$. Therefore, it can be assumed that the moon will not have any detectable phases for the IR horizon sensor and it will always be seen as a full moon, due to it's lowest temperature being warmer than that of space. 
 
 With this assumption the circular fit algorithm as shown in Figure~\ref{fig:CircularFit} can now be used to determine the centre of the earth on the plane \cite{Wessels2018}. For this calculation the 3D plane is transformed to a 2D plane and all the coordinates is also transformed.  
 
@@ -314,7 +314,7 @@ Therefore using all the discrete edges within the image $a$, $b$ and $c$ can be 
 	\end{bmatrix}
 \end{equation}
 
-where $(x_0,y_0)$ to $(x_n, y_n)$ are the coordinates of the discrete edges. It is thus evident that when the moon overlaps the horizon of the earth from the nadir sensor's perspective the centre of the earth will be incorrectly calculated and this anomaly must be dealt with. The other anomaly in this section where the sun is in the FOV of the nadir sensor will not provide a measurement, since the sun will saturate the Infra-red nadir sensor~\cite{Wessels2018}.
+where $(x_0,y_0)$ to $(x_n, y_n)$ are the coordinates of the discrete edges. It is thus evident that when the moon overlaps the horizon of the earth from the nadir sensor's perspective the centre of the earth will be incorrectly calculated and this anomaly must be dealt with. The other anomaly in this section where the sun is in the FoV of the nadir sensor will not provide a measurement, since the sun will saturate the Infra-red nadir sensor~\cite{Wessels2018}.
 
 \subsection{Influence of anomaly on estimation}
 To determine the effect of the moon in the circular fit algorithm the measured earth vector with and without the moon on horizon anomaly is shown in Figure~\ref{fig:Earth Vector comparison}. It is clear from Figure~\ref{fig:Earth Vector comparison} that the anomaly has no visible effect on the earth vector. It is also evident in Figure~\ref{fig:Moon On Horizon Estimation Metric} that the estimation metric is also not influenced negatively by this anomaly. Therefore, this anomaly is not included in the FDIR development, since there is no evident difference due to the anomaly.
