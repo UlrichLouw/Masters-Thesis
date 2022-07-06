@@ -1,72 +1,59 @@
 \chapter{Anomalies}
 \label{chap:Anomalies}
-To ensure that the prediction and classification of anomalies are not based on generalised sensor failures a few anomalies are simulated. These anomalies are either chosen to show the significant effect of these anomalies on the ADCS or are modelled based on research that label the anomaly as a possible influence on the ADCS. There is a anomaly for each sensor, that will create inaccuracies for that specific sensor measurement. An anomaly for the reaction wheels is also implemented to show the resulting estimation failure based on a inaccurate model update, since the control torque and the torque implemented is not the same. This anomaly will aslo be predicted based on the sensor readings, since the effect will be evident on all the sensors.
+To ensure that the prediction and classification of anomalies are not based on generalised sensor failures a few anomalies are simulated. These anomalies are either chosen to show the significant effect of these anomalies on the ADCS or are modelled based on research that label the anomaly as a possible influence on the ADCS. There is a anomaly for each sensor, that will create inaccuracies for that specific sensor measurement. An anomaly for the reaction wheels is also implemented to show the resulting estimation failure based on a inaccurate model update, since the control torque and the torque implemented is not the same. This anomaly will also be predicted based on the sensor readings, since the effect will be evident on all the sensors.
 
 \section{Reflection of Solar Panels on Sun Sensor}
 \label{section:Reflection}
 Sun reflection from solar panels unto sun sensors is a very probable anomaly, if the sun sensor is not placed in a position where the reflection will not influence the sensor. Reflection on the sun sensor is modelled to determine whether the reflection has a significant effect on the ADCS. The reflection anomaly is modelled for the specific shape and design of the CubeSat as shown in Figure~\ref{fig:CubeSat}. The CubeSat will also be the same design for all of the modelled anomalies.
 
-\begin{figure}[!htb]
+The reflection anomaly is modelled for the specific shape and design of the satellite as shown in Figure~\ref{fig:CubeSat}.  The modelling takes place within the SBC frame.
+
+\begin{figure}[h!t!b]
 	\centering
-	\def\svgwidth{14cm}
+	\def\svgwidth{12cm}
 	\import{Figures/}{ReflectionModel.pdf_tex}
-	\caption{Cube Sat}
+	\caption{The modelled satellite, with solar panels and sun sensor within the SBC frame.}
 	\label{fig:CubeSat}
 \end{figure}
 
-\begin{figure*}[!hbt]
+\begin{figure*}[h!t!b]
 	\centering
 	\def\svgwidth{7cm}
 	\import{Figures/}{ReflectionModelPoint.pdf_tex}
 	\centering
 	\def\svgwidth{7cm}
 	\import{Figures/}{LineIntersection.pdf_tex}
-	\caption{Reflection}
+	\caption{Definition of solar reflection point from $ABCD$-plane.}
 	\label{fig:LineIntersection}
 \end{figure*}
 
-The assumption is that the solar panel can be modelled as a geometric plane. Therefore, light from the solar panel will reflect as from a perfectly smooth mirror. It is further assumed that if the sun sensor detects any reflection from the solar panel, the measured sun vector will default to the reflection ray instead of the direct sun vector. Therefore the intensity of the light vector is disregarded. The reflected sun vector, $r$, can be calculated as
-\begin{equation}
-	\mathbf{r} = \mathbf{v} - 2\mathbf{n}^T(\mathbf{v} \cdot \mathbf{n}).
-\end{equation}
-Where $\mathbf{v}$ is the incoming sun vector and $\mathbf{n}$ is the average vector to the plane $ABCD$ of the solar panel, as seen in Figure~\ref{fig:CubeSat}. To calculate the intersection of the reflected vector with the plane $XWYZ$ of the sun sensor, the equation of the plane, $XWYZ$, the reflected vector, $r$, and the point of origin is required. The reflection of the sun vector, $\mathbf{v}$ is illustrated in Figure~\ref{fig:LineIntersection} The equation for a plane can be denoted as
+The assumption is that the solar panel can be modeled as a geometric plane. Therefore, light from the solar panel will reflect similarly to a perfectly smooth mirror. This model also assumes, that if the sun sensor detects any reflection from the solar panel, the measured sun vector will default to the reflection ray instead of the direct sun vector. In practice, this is a function of the exact detection algorithm within the sensor, and some reflections might be ignored.  This assumption will produce the worst-case behaviour.  The intensity of the light vector is also disregarded.
 
+The solar panel $ABCD$-plane can be represented in the SBC by a point and normal vector defined as
 \begin{equation}
-	\mathbf{p} = ax + by + cz + d.
-	\label{eq:Plane}
+\begin{split}
+\mathbf{p}_{ABCD} &= [p_x,~p_y,~p_z]^\top, \text{and}\\
+\bar{\mathbf{n}}_{ABCD} &= [n_px,~n_py,~np_z]^\top,
+\end{split}
 \end{equation}
-Where $x$, $y$ and $z$ are the dimensions in the SBC frame. The reflected unit vector can also be translated to 
-\begin{equation}
-	\begin{aligned}
-		&	x = \alpha t \\
-		&	y = \beta t \\
-		&	z = \zeta t \\
-	\end{aligned}
-	\label{eq:LineOfVector}
-\end{equation}
-Where the coefficients, $\alpha$, $\beta$ and $\zeta$ are the values of the reflected unit vector in each respective dimension. Since we can calculate the coefficients for Eq~\ref{eq:LineOfVector} from the reflected vector, we can calculate $t$, by substituting $x$, $y$ and $z$ into Eq~\ref{eq:Plane}. This is possible, because we determine the equation of the plane for the surface $XYZW$ based on our design. 
+respectively.  Similarly, the sun sensor $WXYZ$-plane is represented by the point, $\mathbf{p}_{WXYZ}$, and normal vector, $\bar{\mathbf{n}}_{WXYZ}$.
 
-After that, the intersecting point with the plane $XYZW$ can be calculated as
+The reflected sun vector, $\mathbf{r}_{\text{ref}}$, can be calculated by
 \begin{equation}
-	P(x, y, z) = (o_1 + \alpha t, o_2 + \beta t, o_3 + \zeta t)
-	\label{eq:Intersection}
+\mathbf{r}_{\text{ref}} = \mathbf{r}_{\text{sun}} - 2\bar{\mathbf{n}}_{ABCD}^\top(\mathbf{r}_{\text{sun}} \cdot \bar{\mathbf{n}}_{ABCD}),
 \end{equation}
-where $o_1, o_2, o_3$ is the point of origin. Which in this case is the position of reflection from the solar panel. Therefore, if the sun vector $\mathbf{v}$ reflected from the solar panel as $\mathbf{r}$, the point of intersection $Q'$ on Figure~\ref{fig:LineIntersection} can be calculated as
-\begin{equation}
-	Q'(x, y, z) = (Q_x + \alpha t, Q_y + \beta t, Q_z + \zeta t)
-	\label{eq:SpecificIntersection}
-\end{equation}
+where $\mathbf{r}_{\text{sun}}$ is the incoming sun vector.  To calculate the intersection of the reflected vector with the $WXYZ$-plane of the sun sensor, the equation of the $WXYZ$-plane, the reflected vector, and the point of origin is required. The reflection of the sun vector is illustrated in Figure~\ref{fig:LineIntersection}. The reflection from $Q$ to $Q'$ can thus be calculated as a projection of $\mathbf{r}_{\text{ref}}$ unto the $WXYZ$-plane.
 
 To model reflection from the solar panels to the sun sensor, only two corners of the solar panel and two corners of the sun sensor are to be considered. From Figure~\ref{fig:LineIntersection} it is evident that if the solar panel reflects on $Y$ that the reflection will also cover $X$. The same is true for corner $Z$ and $W$. Since $C'$ will be at the same position as $C$, which is valid for $D'$ and $D$, the calculation can be omitted. Therefore it is only necessary to calculate the reflected positions $A'$ and $B'$. This simplifies the reflection model significantly.
 
-The reflected position $A'$ can be calculated as the intersection of the reflected vector $R$ with plane $XYZW$ using Eq~\ref{eq:Intersection}. We also know the position of $A$, based on the satellite design and can therefore calculate $A'$. The same applies to $B$ and $B'$. To determine whether $Y$ or $X$ is within the reflection region, we assume that the plane $XYWZ$ is a 2D plane, and we omit the third dimension. Therefore, the axis changes from $x, y, z$ to only $x, y$. We calculate whether $x$ is between the lines of $A'D$ and $B'C$ and between the lines $CD$ and $A'B'$. By determining the line equation between reflected points in the form 
+The reflected position $A'$ can be calculated as the intersection of the reflected vector $R$ with plane $WXYZ$. We also know the position of $A$, based on the satellite design, and can therefore calculate $A'$. The same applies to $B$ and $B'$. To determine whether $Y$ or $X$ is within the reflection region, we assume that the plane $WXYZ$ is a 2D plane, and we omit the third dimension. Therefore, the axis changes from $x, y, z$ to only $x, y$. We calculate whether $x$ is between the lines of $A'D$ and $B'C$ and between the lines $CD$ and $A'B'$. By determining the line equation between reflected points in the form 
 \begin{equation}
-	y_{A'B'} = mx_{A'B'} + c
-	\label{eq:line equation}
+y_{A'B'} = mx_{A'B'} + c,
+\label{eq:line equation}
 \end{equation}
 from the coordinates of $A'$ and $B'$, the corresponding $X_{A'B',y}$ can be calculated by substituting $X_x$ into Eq~\ref{eq:line equation}. With the same method the coordinates of $X_{B'C}$, $X_{A'D}$, $X_{A'B'}$ and $X_{CD}$ can be determined. After that, with logical if statements, it can be determined whether $X$ is in the reflection zone. If $X_x$ is to the right of $X_{B'C,x}$ and to the left of $X_{A'D,x}$, as well as $X_y$ is above $X_{A'B',y}$ and below $X_{CD,y}$ then $X$ is within the reflection zone. 
 
-The results for the sun vector with and without reflection is shown in Figure~\ref{fig:Sun Vector comparison}. During the modelling of the reflection, the reflection also affects the estimation and, therefore, the attitude control of the satellite. In the figures of this article, the grey zones indicate the eclipse period, as seen in Figure~\ref{fig:Sun Vector comparison}.
+The results for the sun vector with and without reflection are shown in Figure~\ref{fig:Sun Vector comparison}. There is a clear difference between the true sun vector and the possible measurement influenced by the reflection.  This false reflection vector may affect the estimation and, thus also the attitude control of the satellite.
 
 \begin{figure*}[!htb]
 	\begin{tabular}{@{}c@{}}
@@ -88,6 +75,89 @@ The results for the sun vector with and without reflection is shown in Figure~\r
 	\label{fig:Sun Vector comparison}
 	
 \end{figure*}
+
+%\begin{figure}[!htb]
+%	\centering
+%	\def\svgwidth{14cm}
+%	\import{Figures/}{ReflectionModel.pdf_tex}
+%	\caption{Cube Sat}
+%	\label{fig:CubeSat}
+%\end{figure}
+%
+%\begin{figure*}[!hbt]
+%	\centering
+%	\def\svgwidth{7cm}
+%	\import{Figures/}{ReflectionModelPoint.pdf_tex}
+%	\centering
+%	\def\svgwidth{7cm}
+%	\import{Figures/}{LineIntersection.pdf_tex}
+%	\caption{Reflection}
+%	\label{fig:LineIntersection}
+%\end{figure*}
+%
+%The assumption is that the solar panel can be modelled as a geometric plane. Therefore, light from the solar panel will reflect as from a perfectly smooth mirror. It is further assumed that if the sun sensor detects any reflection from the solar panel, the measured sun vector will default to the reflection ray instead of the direct sun vector. Therefore the intensity of the light vector is disregarded. The reflected sun vector, $r$, can be calculated as
+%\begin{equation}
+%	\mathbf{r} = \mathbf{v} - 2\mathbf{n}^T(\mathbf{v} \cdot \mathbf{n}).
+%\end{equation}
+%Where $\mathbf{v}$ is the incoming sun vector and $\mathbf{n}$ is the average vector to the plane $ABCD$ of the solar panel, as seen in Figure~\ref{fig:CubeSat}. To calculate the intersection of the reflected vector with the plane $XWYZ$ of the sun sensor, the equation of the plane, $XWYZ$, the reflected vector, $r$, and the point of origin is required. The reflection of the sun vector, $\mathbf{v}$ is illustrated in Figure~\ref{fig:LineIntersection} The equation for a plane can be denoted as
+%
+%\begin{equation}
+%	\mathbf{p} = ax + by + cz + d.
+%	\label{eq:Plane}
+%\end{equation}
+%Where $x$, $y$ and $z$ are the dimensions in the SBC frame. The reflected unit vector can also be translated to 
+%\begin{equation}
+%	\begin{aligned}
+%		&	x = \alpha t \\
+%		&	y = \beta t \\
+%		&	z = \zeta t \\
+%	\end{aligned}
+%	\label{eq:LineOfVector}
+%\end{equation}
+%Where the coefficients, $\alpha$, $\beta$ and $\zeta$ are the values of the reflected unit vector in each respective dimension. Since we can calculate the coefficients for Eq~\ref{eq:LineOfVector} from the reflected vector, we can calculate $t$, by substituting $x$, $y$ and $z$ into Eq~\ref{eq:Plane}. This is possible, because we determine the equation of the plane for the surface $XYZW$ based on our design. 
+%
+%After that, the intersecting point with the plane $XYZW$ can be calculated as
+%\begin{equation}
+%	P(x, y, z) = (o_1 + \alpha t, o_2 + \beta t, o_3 + \zeta t)
+%	\label{eq:Intersection}
+%\end{equation}
+%where $o_1, o_2, o_3$ is the point of origin. Which in this case is the position of reflection from the solar panel. Therefore, if the sun vector $\mathbf{v}$ reflected from the solar panel as $\mathbf{r}$, the point of intersection $Q'$ on Figure~\ref{fig:LineIntersection} can be calculated as
+%\begin{equation}
+%	Q'(x, y, z) = (Q_x + \alpha t, Q_y + \beta t, Q_z + \zeta t)
+%	\label{eq:SpecificIntersection}
+%\end{equation}
+%
+%To model reflection from the solar panels to the sun sensor, only two corners of the solar panel and two corners of the sun sensor are to be considered. From Figure~\ref{fig:LineIntersection} it is evident that if the solar panel reflects on $Y$ that the reflection will also cover $X$. The same is true for corner $Z$ and $W$. Since $C'$ will be at the same position as $C$, which is valid for $D'$ and $D$, the calculation can be omitted. Therefore it is only necessary to calculate the reflected positions $A'$ and $B'$. This simplifies the reflection model significantly.
+%
+%The reflected position $A'$ can be calculated as the intersection of the reflected vector $R$ with plane $XYZW$ using Eq~\ref{eq:Intersection}. We also know the position of $A$, based on the satellite design and can therefore calculate $A'$. The same applies to $B$ and $B'$. To determine whether $Y$ or $X$ is within the reflection region, we assume that the plane $XYWZ$ is a 2D plane, and we omit the third dimension. Therefore, the axis changes from $x, y, z$ to only $x, y$. We calculate whether $x$ is between the lines of $A'D$ and $B'C$ and between the lines $CD$ and $A'B'$. By determining the line equation between reflected points in the form 
+%\begin{equation}
+%	y_{A'B'} = mx_{A'B'} + c
+%	\label{eq:line equation}
+%\end{equation}
+%from the coordinates of $A'$ and $B'$, the corresponding $X_{A'B',y}$ can be calculated by substituting $X_x$ into Eq~\ref{eq:line equation}. With the same method the coordinates of $X_{B'C}$, $X_{A'D}$, $X_{A'B'}$ and $X_{CD}$ can be determined. After that, with logical if statements, it can be determined whether $X$ is in the reflection zone. If $X_x$ is to the right of $X_{B'C,x}$ and to the left of $X_{A'D,x}$, as well as $X_y$ is above $X_{A'B',y}$ and below $X_{CD,y}$ then $X$ is within the reflection zone. 
+%
+%The results for the sun vector with and without reflection is shown in Figure~\ref{fig:Sun Vector comparison}. During the modelling of the reflection, the reflection also affects the estimation and, therefore, the attitude control of the satellite. In the figures of this article, the grey zones indicate the eclipse period, as seen in Figure~\ref{fig:Sun Vector comparison}.
+%
+%\begin{figure*}[!htb]
+%	\begin{tabular}{@{}c@{}}
+%		\centering
+%%		 include first image
+%		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/Reflection/}{Sun.pgf}
+%%		\caption[Sun vector with reflection]{Sun vector with reflection.}
+%		\label{fig:Sun Vector comparison with reflection}
+%	\end{tabular}
+%	\begin{tabular}{@{}c@{}}
+%		\centering
+%		% include second image
+%		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Sun.pgf} 
+%%		\caption[Sun vector without reflection]{Sun vector without reflection.}
+%		\label{fig:Sun Vector comparison without reflection}
+%	\end{tabular}
+%	
+%	\caption{Comparison of Sun Vector with and without Reflection}
+%	\label{fig:Sun Vector comparison}
+%	
+%\end{figure*}
 
 \subsection{Influence of anomaly on estimation}
 To determine whether the reflection on the sun sensor has a influence on the ADCS, the estimation metric is shown in Figure~\ref{fig:reflectionEstimation}. The estimation metric, is the angle difference between the actual attitude and the estimated attitude. It is evident that the reflection has a large influence on the estimation. It is also clear that during the eclipse the estimation returns to a more accurate estimation. This is due to the fact that all sensors are ignored if the measured vector is $0$.

@@ -1,4 +1,4 @@
-%% Creator: Inkscape 1.1.1 (1:1.1+202109281949+c3084ef5ed), www.inkscape.org
+%% Creator: Inkscape inkscape 0.92.5, www.inkscape.org
 %% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
 %% Accompanies image file 'SunToEarthToSat.pdf' (pdf, eps, ps)
 %%
@@ -50,17 +50,17 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.50293124)%
+  \begin{picture}(1,0.45934009)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{SunToEarthToSat.pdf}}%
     \put(0.01301743,0.35278466){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\mathbf{r}_{sat}$\end{tabular}}}}%
-    \put(0.25272867,0.14873391){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\mathbf{r}_{sun}'$\end{tabular}}}}%
-    \put(0.29805446,0.28532306){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\mathbf{S}_{EIC}'$\end{tabular}}}}%
-    \put(0.20100993,0.49015741){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$D_{sun}$\end{tabular}}}}%
-    \put(0.01227267,0.44656626){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Satellite\end{tabular}}}}%
-    \put(0.04983109,0.15071331){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Earth\end{tabular}}}}%
-    \put(0.65898791,0.35634046){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Sun\end{tabular}}}}%
+    \put(0.263691,0.19039076){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\mathbf{r}_{sun}$\end{tabular}}}}%
+    \put(0.29805446,0.28532306){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\mathbf{S}_{EIC}$\end{tabular}}}}%
+    \put(0.01227268,0.44656626){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Satellite\end{tabular}}}}%
+    \put(0.04983108,0.15071331){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Earth\end{tabular}}}}%
+    \put(0.65898789,0.35634046){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Sun\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{SunToEarthToSat.pdf}}%
+    \put(0.10304826,0.37514544){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\theta_{s}$\end{tabular}}}}%
   \end{picture}%
 \endgroup%
