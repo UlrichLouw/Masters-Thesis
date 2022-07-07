@@ -59,14 +59,14 @@ The results for the sun vector with and without reflection are shown in Figure~\
 	\begin{tabular}{@{}c@{}}
 		\centering
 %		 include first image
-		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/Reflection/}{Sun.pgf}
+		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/Earth_SUN-ORC-General CubeSat Model/Reflection/}{Sun.pgf}
 %		\caption[Sun vector with reflection]{Sun vector with reflection.}
 		\label{fig:Sun Vector comparison with reflection}
 	\end{tabular}
 	\begin{tabular}{@{}c@{}}
 		\centering
 		% include second image
-		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Sun.pgf} 
+		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/Earth_SUN-ORC-General CubeSat Model/None/}{Sun.pgf} 
 %		\caption[Sun vector without reflection]{Sun vector without reflection.}
 		\label{fig:Sun Vector comparison without reflection}
 	\end{tabular}
@@ -142,14 +142,14 @@ The results for the sun vector with and without reflection are shown in Figure~\
 %	\begin{tabular}{@{}c@{}}
 %		\centering
 %%		 include first image
-%		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/Reflection/}{Sun.pgf}
+%		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/Earth_SUN-ORC-General CubeSat Model/Reflection/}{Sun.pgf}
 %%		\caption[Sun vector with reflection]{Sun vector with reflection.}
 %		\label{fig:Sun Vector comparison with reflection}
 %	\end{tabular}
 %	\begin{tabular}{@{}c@{}}
 %		\centering
 %		% include second image
-%		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Sun.pgf} 
+%		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/Earth_SUN-ORC-General CubeSat Model/None/}{Sun.pgf} 
 %%		\caption[Sun vector without reflection]{Sun vector without reflection.}
 %		\label{fig:Sun Vector comparison without reflection}
 %	\end{tabular}
@@ -164,17 +164,17 @@ To determine whether the reflection on the sun sensor has a influence on the ADC
 \begin{figure}[!htb]
 	\centering
 	
-	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/Reflection/}{Estimation Metric.pgf}
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/Earth_SUN-ORC-General CubeSat Model/Reflection/}{Estimation Metric.pgf}
 	
 	\caption{Estimation Metric with reflection on sun sensor}
 	\label{fig:reflectionEstimation}
 \end{figure}
 
 \section{Moon and Sun in Field of View of Nadir Sensor}
-An anomaly that can be experienced by an infra-red (IR) nadir sensor is the moon overlapping the horizon of the earth in die nadir sensor's field of view (FoV). This is shown in Figure~\ref{fig:ProjectionOnPlane}. This influences the edge detection and circular fit algorithm \cite{Wessels2018, Helgard2008} and consequently the calculated centre of the earth. Firstly, it is required to simulate the image seen by the nadir sensor, thereafter the algorithm for detecting the centre of the earth can be implemented.
+An anomaly that can be experienced by an infra-red (IR) nadir sensor is the moon overlapping the horizon of the Earth in die nadir sensor's field of view (FoV). This is shown in Figure~\ref{fig:ProjectionOnPlane}. This influences the edge detection and circular fit algorithm \cite{Wessels2018, Helgard2008} and consequently the calculated centre of the Earth. Firstly, it is required to simulate the image seen by the nadir sensor, thereafter the algorithm for detecting the centre of the Earth can be implemented.
 
 \subsection{Simulating Nadir Sensor Infra-red Image}
-Firstly the vectors of both the satellite to earth and the moon the earth is required. The moon position is determined with the Julian date, since the propagation of the moon position relative to the centre of the earth has already been done. These vectors are shown in Figure~\ref{fig:EarthMoonSatPosition}. From the vector, $\mathbf{R}_{SE}$, and the position of the centre of the earth, $P_{earth}$, a 3D plane normal to $\mathbf{R}_{SE}$ and at $P_{earth}$ can be calculated. Where both $P_{earth}$ and $\mathbf{R}_{SE}$ are defined as
+Firstly the vectors of both the satellite to Earth and the moon the Earth is required. The moon position is determined with the Julian date, since the propagation of the moon position relative to the centre of the Earth has already been done. These vectors are shown in Figure~\ref{fig:EarthMoonSatPosition}. From the vector, $\mathbf{R}_{SE}$, and the position of the centre of the Earth, $P_{Earth}$, a 3D plane normal to $\mathbf{R}_{SE}$ and at $P_{Earth}$ can be calculated. Where both $P_{Earth}$ and $\mathbf{R}_{SE}$ are defined as
 
 \begin{figure}[!htb]
 	\centering
@@ -185,7 +185,7 @@ Firstly the vectors of both the satellite to earth and the moon the earth is req
 \end{figure}
 
 \begin{equation}
-	P_{earth} = [x_0, y_0, z_0]
+	P_{Earth} = [x_0, y_0, z_0]
 \end{equation}
 
 and  
@@ -216,7 +216,7 @@ n_xx_0 + n_yy_0 + n_zz_0\\
 \end{bmatrix}
 \end{equation}
 
-This 3D plane slicing the earth in half as seen from the satellite is shown in Figure~\ref{fig:PlaneThroughEarth}. The moon and earth can both be projected unto the 3D plane to determine the image seen by the nadir sensor. Therefore the nadir vector must also be projected unto the 3D plane. A circle can be drawn for the earth. moon and the nadir sensor FoV. The radius, of the moon as projected on the 3D plane can be calculated as 
+This 3D plane slicing the Earth in half as seen from the satellite is shown in Figure~\ref{fig:PlaneThroughEarth}. The moon and Earth can both be projected unto the 3D plane to determine the image seen by the nadir sensor. Therefore the nadir vector must also be projected unto the 3D plane. A circle can be drawn for the Earth. moon and the nadir sensor FoV. The radius, of the moon as projected on the 3D plane can be calculated as 
 
 \begin{equation}
 	R_{moon} = \norm{R_{SE}} \frac{r_{moon}}{\norm{R_{SM}}}
@@ -228,7 +228,7 @@ the radius of the nadir sensor FoV, $R_{FoV}$ can calculated as
 	R_{FoV} = \norm{R_{SE}} \tan \theta
 \end{equation}
 
-With these variables defined and calculated, the edges of the moon and earth within the nadir FoV can be determined.
+With these variables defined and calculated, the edges of the moon and Earth within the nadir FoV can be determined.
 
 % Update the image that Rse should be the vector from the nadir sensor (SBC to ORC)
 % because the vector is normal to the plane, the depth coordinate can be ignored
@@ -237,11 +237,11 @@ With these variables defined and calculated, the edges of the moon and earth wit
 	\centering
 	\def\svgwidth{14cm}
 	\import{Figures/}{PlaneThroughEarth.pdf_tex}
-	\caption{Plane perpendicular to $\mathbf{R}_{SE}$ and at center of earth}
+	\caption{Plane perpendicular to $\mathbf{R}_{SE}$ and at center of Earth}
 	\label{fig:PlaneThroughEarth}
 \end{figure}
 
-Firstly the edges of the moon and earth are discretely determined based on a fixed number of points for the earth, $N$, and the number of discrete points on the moon is determined based on the ratio of $R_{moon}$ to $R_{earth}$. The projected earth and moon unto the 3D plane is shown in Figure~\ref{fig:PlaneThroughEarth}. The discrete edges of the earth that is within the FoV and will be used for the algorithm discussed in section~\ref{section: Calculating the Centre of the Earth} are determined with the following logical statements.
+Firstly the edges of the moon and Earth are discretely determined based on a fixed number of points for the Earth, $N$, and the number of discrete points on the moon is determined based on the ratio of $R_{moon}$ to $R_{Earth}$. The projected Earth and moon unto the 3D plane is shown in Figure~\ref{fig:PlaneThroughEarth}. The discrete edges of the Earth that is within the FoV and will be used for the algorithm discussed in section~\ref{section: Calculating the Centre of the Earth} are determined with the following logical statements.
 \begin{enumerate}
 	\item Distance between point and centre of nadir Sensor FoV must be smaller than $R_{FoV}$.
 	\item Distance between point and centre of moon must be larger than $R_{moon}$
@@ -249,26 +249,26 @@ Firstly the edges of the moon and earth are discretely determined based on a fix
 
 The discrete edges of the moon used for the algorithm is must satisfy the following conditions
 \begin{enumerate}
-	\item Distance between any discrete point and centre of earth must be smaller than $R_{earth}$ for the moon to overlap the horizon
+	\item Distance between any discrete point and centre of Earth must be smaller than $R_{Earth}$ for the moon to overlap the horizon
 	\item Distance between point and centre of nadir Sensor FoV must be smaller than $R_{FoV}$.
-	\item Distance between point and centre of earth must be larger than $R_{earth}$
+	\item Distance between point and centre of Earth must be larger than $R_{Earth}$
 \end{enumerate}
 
-This the creates the array of points that will be used in the algorithm used to calculate the centre of the earth.
+This the creates the array of points that will be used in the algorithm used to calculate the centre of the Earth.
 
 \begin{figure}[!hbt]
 	\centering
 	\def\svgwidth{14cm}
 	\import{Figures/}{ProjectionOnPlane.pdf_tex}
-	\caption{Projection of moon and earth on plane}
+	\caption{Projection of moon and Earth on plane}
 	\label{fig:ProjectionOnPlane}
 \end{figure}
 
 \subsection{Calculating the Centre of the Earth}
 \label{section: Calculating the Centre of the Earth}
-The edges of the earth are detected based on a gradient between the lowest temperature and the highest temperature within the IR nadir sensor's FoV. This will not be implemented in our case, since we can determine discrete points of both the earth and the moon from the simulation environment. Furthermore the visible phases of the moon will not be accounted for. The reasoning for this is due to the coldest side of the moon being $140K$ and the warmest part, $400K$. The temperature of space is $2.7K$ and the coldest part on the earth is $180K$. Consequently, the IR horizon sensor must be calibrated to always use the minimum value for edge detection as 180K or it must use the smallest value in the image, which will most likely be $2.7K$. Therefore, it can be assumed that the moon will not have any detectable phases for the IR horizon sensor and it will always be seen as a full moon, due to it's lowest temperature being warmer than that of space. 
+The edges of the Earth are detected based on a gradient between the lowest temperature and the highest temperature within the IR nadir sensor's FoV. This will not be implemented in our case, since we can determine discrete points of both the Earth and the moon from the simulation environment. Furthermore the visible phases of the moon will not be accounted for. The reasoning for this is due to the coldest side of the moon being $140K$ and the warmest part, $400K$. The temperature of space is $2.7K$ and the coldest part on the Earth is $180K$. Consequently, the IR horizon sensor must be calibrated to always use the minimum value for edge detection as 180K or it must use the smallest value in the image, which will most likely be $2.7K$. Therefore, it can be assumed that the moon will not have any detectable phases for the IR horizon sensor and it will always be seen as a full moon, due to it's lowest temperature being warmer than that of space. 
 
-With this assumption the circular fit algorithm as shown in Figure~\ref{fig:CircularFit} can now be used to determine the centre of the earth on the plane \cite{Wessels2018}. For this calculation the 3D plane is transformed to a 2D plane and all the coordinates is also transformed.  
+With this assumption the circular fit algorithm as shown in Figure~\ref{fig:CircularFit} can now be used to determine the centre of the Earth on the plane \cite{Wessels2018}. For this calculation the 3D plane is transformed to a 2D plane and all the coordinates is also transformed.  
 
 \begin{figure}[!hbt]
 	\centering
@@ -314,22 +314,22 @@ Therefore using all the discrete edges within the image $a$, $b$ and $c$ can be 
 	\end{bmatrix}
 \end{equation}
 
-where $(x_0,y_0)$ to $(x_n, y_n)$ are the coordinates of the discrete edges. It is thus evident that when the moon overlaps the horizon of the earth from the nadir sensor's perspective the centre of the earth will be incorrectly calculated and this anomaly must be dealt with. The other anomaly in this section where the sun is in the FoV of the nadir sensor will not provide a measurement, since the sun will saturate the Infra-red nadir sensor~\cite{Wessels2018}.
+where $(x_0,y_0)$ to $(x_n, y_n)$ are the coordinates of the discrete edges. It is thus evident that when the moon overlaps the horizon of the Earth from the nadir sensor's perspective the centre of the Earth will be incorrectly calculated and this anomaly must be dealt with. The other anomaly in this section where the sun is in the FoV of the nadir sensor will not provide a measurement, since the sun will saturate the Infra-red nadir sensor~\cite{Wessels2018}.
 
 \subsection{Influence of anomaly on estimation}
-To determine the effect of the moon in the circular fit algorithm the measured earth vector with and without the moon on horizon anomaly is shown in Figure~\ref{fig:Earth Vector comparison}. It is clear from Figure~\ref{fig:Earth Vector comparison} that the anomaly has no visible effect on the earth vector. It is also evident in Figure~\ref{fig:Moon On Horizon Estimation Metric} that the estimation metric is also not influenced negatively by this anomaly. Therefore, this anomaly is not included in the FDIR development, since there is no evident difference due to the anomaly.
+To determine the effect of the moon in the circular fit algorithm the measured Earth vector with and without the moon on horizon anomaly is shown in Figure~\ref{fig:Earth Vector comparison}. It is clear from Figure~\ref{fig:Earth Vector comparison} that the anomaly has no visible effect on the Earth vector. It is also evident in Figure~\ref{fig:Moon On Horizon Estimation Metric} that the estimation metric is also not influenced negatively by this anomaly. Therefore, this anomaly is not included in the FDIR development, since there is no evident difference due to the anomaly.
 \begin{figure*}[!htb]
 	\begin{tabular}{@{}c@{}}
 	\centering
 
-	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/MoonOnHorizon/}{Earth.pgf}
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/Earth_SUN-ORC-General CubeSat Model/MoonOnHorizon/}{Earth.pgf}
 	
 	\label{fig:Earth Vector comparison with moon on the horizon}
 	\end{tabular}
 	\begin{tabular}{@{}c@{}}
 		\centering
 		% include second image
-		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Earth.pgf} 
+		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/Earth_SUN-ORC-General CubeSat Model/None/}{Earth.pgf} 
 		%		\caption[Sun vector without reflection]{Sun vector without reflection.}
 		\label{fig:Sun Vector comparison without moon on the horizon}
 	\end{tabular}
@@ -342,7 +342,7 @@ To determine the effect of the moon in the circular fit algorithm the measured e
 \begin{figure}[!htb]
 	\centering
 	
-	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/MoonOnHorizon/}{Estimation Metric.pgf}
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/Earth_SUN-ORC-General CubeSat Model/MoonOnHorizon/}{Estimation Metric.pgf}
 	
 	\caption{Earth Values}
 	\label{fig:Moon On Horizon Estimation Metric}
@@ -380,11 +380,11 @@ where $\theta$ is the angle between the normal vector to the solar panel and the
 \begin{equation}
 \tau = m \times B
 \end{equation}
-where $B$ is the magnetic field of the earth. Since the only external magnetic field that create a resulting torque is that of the earth. The resulting torque for five orbits are shown in Figure~\ref{fig:solarPanel Disturbance Torques}.
+where $B$ is the magnetic field of the Earth. Since the only external magnetic field that create a resulting torque is that of the Earth. The resulting torque for five orbits are shown in Figure~\ref{fig:solarPanel Disturbance Torques}.
 \begin{figure}[!htb]
 	\centering
 	
-	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/solarPanelDipole/}{SolarPanelDipole Torques.pgf}
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/Earth_SUN-ORC-General CubeSat Model/solarPanelDipole/}{SolarPanelDipole Torques.pgf}
 	
 	\caption{Solar Panel Disturbance Torques}
 	\label{fig:solarPanel Disturbance Torques}
@@ -396,20 +396,20 @@ B(r) = \frac{\mu_0}{4\pi} \frac{3 \hat{r} (\hat{r} \cdot m) - m}{\norm{r}^3}
 \end{equation}
 
 \subsection{Influence of anomaly on estimation}
-The vector $r$ between the position of the magnetometer and the solar panel influences the magnetic field significantly. The experienced magnetic field  by the magnetometer will be different for each solar panel. The resulting measured vector by the magnetometer is the summation of the earth's magnetic field and the magnetic field produced by the coils in the solar panels. The resulting magnetometer measurement with and without the induce moment is shown in Figure~\ref{fig:Magnetometer Vector comparison}. From Figure~\ref{fig:solarPanelDipoleOnEstimation} is is evident that this anomaly has a significant effect on the estimation, but not as large as the reflection on the sun sensor. 
+The vector $r$ between the position of the magnetometer and the solar panel influences the magnetic field significantly. The experienced magnetic field  by the magnetometer will be different for each solar panel. The resulting measured vector by the magnetometer is the summation of the Earth's magnetic field and the magnetic field produced by the coils in the solar panels. The resulting magnetometer measurement with and without the induce moment is shown in Figure~\ref{fig:Magnetometer Vector comparison}. From Figure~\ref{fig:solarPanelDipoleOnEstimation} is is evident that this anomaly has a significant effect on the estimation, but not as large as the reflection on the sun sensor. 
 
 \begin{figure*}[!htb]
 	\begin{tabular}{@{}c@{}}
 		\centering
 		
-		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/solarPanelDipole/}{Magnetometer.pgf}
+		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/Earth_SUN-ORC-General CubeSat Model/solarPanelDipole/}{Magnetometer.pgf}
 		
 		\label{fig:Magnetic field Vector comparison with solar Panel magnetic field}
 	\end{tabular}
 	\begin{tabular}{@{}c@{}}
 		\centering
 		% include second image
-		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Magnetometer.pgf} 
+		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/Earth_SUN-ORC-General CubeSat Model/None/}{Magnetometer.pgf} 
 		%		\caption[Sun vector without reflection]{Sun vector without reflection.}
 		\label{fig:Magnetic field Vector comparison without solar Panel magnetic field}
 	\end{tabular}
@@ -421,7 +421,7 @@ The vector $r$ between the position of the magnetometer and the solar panel infl
 \begin{figure}[!htb]
 	\centering
 	
-	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/solarPanelDipole/}{Estimation Metric.pgf}
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/Earth_SUN-ORC-General CubeSat Model/solarPanelDipole/}{Estimation Metric.pgf}
 	
 	\caption{Estimation Metric with induced dipole moment}
 	\label{fig:solarPanelDipoleOnEstimation}
@@ -433,7 +433,7 @@ When an actuator fails it influences all the sensor measurements. The anomaly wi
 \begin{figure}[!htb]
 \centering
 
-\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/catastrophicReactionWheel/}{Estimation Metric.pgf}
+\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/Earth_SUN-ORC-General CubeSat Model/catastrophicReactionWheel/}{Estimation Metric.pgf}
 
 \caption{Estimation Metric with failure of Reaction Wheels}
 \label{fig:catastrophicReactionWheels}
