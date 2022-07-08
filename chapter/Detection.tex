@@ -18,7 +18,7 @@ However, to split the data for the anomalies, we need to decide which input para
 The operator split that produces the lowest Gini index provides the purest split and will be used as the root node. For our use case, the CART algorithm will be used to optimise the decision tree, which also considers the most prominent information gain to construct the decision tree. Figure~\ref{fig:DecisionTree} is a graphical representation of the decision tree developed to classify anomalies. The depth of a decision tree determines how many splits occur from the root node to the leaf node the furthest from the first split. If the depth is unspecified, the decision tree will split until all the data samples are perfectly split into anomalous and normal data samples. However, the larger the depth, the more biased the decision tree is to the training data. This depth can be altered to optimise the efficiency and accuracy of the decision tree.
 \begin{figure}[!hbt]
 	\centering
-	\import{Figures/}{DecisionTree.pgf}
+	\scalebox{0.9}{\import{Figures/}{DecisionTree.pgf}}
 	\caption{Decision Tree}
 	\label{fig:DecisionTree}
 \end{figure}
