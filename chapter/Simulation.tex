@@ -128,7 +128,7 @@ $\boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}}$ can also be transformed as a functi
 The quaternion is used for attitude determination and therefore also for the attitude control. A error between the commanded quaternion, $\mathbf{q}_c$ and the current quaternion, $\mathbf{q}$, is required for proportional control. This is discussed in section~\ref{section: Quaternion Feedback Controller}.
 
 \subsection{Satellite Kinematics and Dynamics}
-The conservation of momentum dominates the dynamics of a satellite. This consists of the torques applied to the satellite, and are mainly control torques, $\mathbf{N_c}$, or disturbance torques, $\mathbf{N_d}$, as well as the moment of inertia of the satellite, $\mathbf{I}$, multiplied by the inertial-referenced angular acceleration of the satellite, $\boldsymbol{\dot{\omega}}_B^I$. The control torques used in this design are only reaction wheel torques, $\mathbf{N}_w$, and magnetorquer torques, $\mathbf{N}_m$. The disturbance torques are discussed in detail in section~\ref{section: disturbance models}, therefore it can only be mentioned that the disturbance torques are the gravity gradient torque, $\mathbf{N}_{gg}$, the wheel imbalance torque, $\mathbf{N}_{rw}$, the gyroscopic coupling torque, $\mathbf{N}_{gyro}$, and the aerodynamic disturbance torque, $\mathbf{N}_{aero}$. The Euler dynamic equation can therefore be given as
+The conservation of momentum dominates the dynamics of a satellite. This consists of the torques applied to the satellite, and are mainly control torques, $\mathbf{N_c}$, or disturbance torques, $\mathbf{N_d}$, as well as the moment of inertia of the satellite, $\mathbf{I}$, multiplied by the inertial-referenced angular acceleration of the satellite, $\boldsymbol{\dot{\omega}}_{\mathcal{B}}^{\mathcal{I}}$. The control torques used in this design are only reaction wheel torques, $\mathbf{N}_w$, and magnetorquer torques, $\mathbf{N}_m$. The disturbance torques are discussed in detail in section~\ref{section: disturbance models}, therefore it can only be mentioned that the disturbance torques are the gravity gradient torque, $\mathbf{N}_{gg}$, the wheel imbalance torque, $\mathbf{N}_{rw}$, the gyroscopic coupling torque, $\mathbf{N}_{gyro}$, and the aerodynamic disturbance torque, $\mathbf{N}_{aero}$. The Euler dynamic equation can therefore be given as
 
 \begin{equation}
 \begin{aligned}
@@ -328,7 +328,7 @@ During orbit a satellite is exposed to various disturbance torques. It is these 
 
 The first disturbance torque is that of the gyroscopic coupling which can be calculated with
 \begin{equation}
-\mathbf{N}_{gyro} = \boldsymbol{\dot{\omega}}_B^I \times (\mathbf{I}\boldsymbol{\dot{\omega}}_B^I + \mathbf{h}_w),
+\mathbf{N}_{gyro} = \boldsymbol{\dot{\omega}}_\mathcal{B}^\mathcal{I} \times (\mathbf{I}\boldsymbol{\dot{\omega}}_\mathcal{B}^\mathcal{I} + \mathbf{h}_w),
 \end{equation}
 where $h_w$ is the angular momentum of the reaction wheels. The other disturbance torques are discussed in more detail below.
 
@@ -348,7 +348,7 @@ Due to the design of the satellite and the positions of the solar panels, the eq
 	\def\pgfwidth{10cm}
 	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Gravity Gradient Torques.pgf}
 	
-	\caption{Gravity Gradient Torques in SBC}
+	\caption{Gravity Gradient Torque in SBC}
 	\label{fig:GravityGradientTorques}
 \end{figure}
 
@@ -361,13 +361,13 @@ The aerodynamic disturbance torques are cause by air density in the atmosphere c
 					 & + \big[ \sigma_nS + (2 - \sigma_n - \sigma_t) \text{cos}(\alpha_i)\big] (\mathbf{r}_pi \times \mathbf{\bar{n}}_i) \big) \vphantom{\norm{\mathbf{v}_{\mathcal{B}}}^2}\Big),
 \end{aligned}
 \end{equation}
-where $n$ is the number of segments of the satellite. The factors that influence the aerodynamic disturbance torque is the atmospheric velocity in SBC, $\mathbf{v}_{\mathcal{B}}$, the atmospheric density, $\rho$, each segment's surface area, $A_i$ and the offset vector between the segment's centre of mass (CoM) and the centre of pressure (CoP), $\mathbf{r}_p$. $H\{x\}$ is the Heaviside function which is equal to $0$ when $x$ is smaller than $0$ and equal $1$ otherwise. $\alpha_i$ is the incidence angle of $\mathbf{v}_{\mathcal{B}}$ on segment $i$, while $\sigma_t$ is the tangential accommodation coefficient and $sigma_n$ is the normal accommodation coefficient. $S$ is the ratio of molecular exit velocity to $\mathbf{v}_{\mathcal{B}}$ and $\mathbf{\bar{n}}_i$ is the unit inward normal vector of segment $i$ \cite{JansevanVuuren2015}.
+where $n$ is the number of segments of the satellite. The factors that influence the aerodynamic disturbance torque is the atmospheric velocity in SBC, $\mathbf{v}_{\mathcal{B}}$, the atmospheric density, $\rho$, each segment's surface area, $A_i$, and the offset vector between the segment's centre of mass (CoM) and the centre of pressure (CoP), $\mathbf{r}_p$. $H\{x\}$ is the Heaviside function which is equal to $0$ when $x$ is smaller than $0$ and otherwise equal to $1$. $\alpha_i$ is the incidence angle of $\mathbf{v}_{\mathcal{B}}$ on segment $i$, while $\sigma_t$ is the tangential accommodation coefficient and $\sigma_n$ is the normal accommodation coefficient. $S$ is the ratio of molecular exit velocity to $\mathbf{v}_{\mathcal{B}}$ and $\mathbf{\bar{n}}_i$ is the unit inward normal vector of segment $i$ \cite{JansevanVuuren2015}.
 
 The atmospheric density is a function of the distance from the Earth surface. The density model provided by \cite{vallado2001fundamentals} is given as 
 \begin{equation}
 \rho = \rho_o e^{-\frac{h(t)-h_o}{H}},
 \end{equation}
-where $\rho_o$ is the reference density at the reference altitude, $h_o$, and $h(t)$ is the satellite's altitude as a function of time and $H$ is the scale height. According to \cite{steyn2011CubeSat} the atmospheric density is $\frac{1}{2}\rho$ during during eclipse. Furthermore $\mathbf{v}_{\mathcal{B}}$ is calculated as
+where $\rho_o$ is the reference density at the reference altitude, $h_o$, and $h(t)$ is the satellite's altitude as a function of time and $H$ is the scale height. According to \cite{steyn2011CubeSat} the atmospheric density is $\frac{1}{2}\rho$ during eclipse. Furthermore $\mathbf{v}_{\mathcal{B}}$ is calculated as
 \begin{equation}
 \begin{aligned}
 \mathbf{v}_{\mathcal{B}} &= \boldsymbol{A}_{\mathcal{O}}^{\mathcal{B}} \boldsymbol{A}_{\mathcal{E}}^{\mathcal{O}} \mathbf{v}_{\mathcal{E}} \\
@@ -386,9 +386,10 @@ $\sigma_n$ and $\sigma_t$ are both assumed to be equal to 0.8, while $S$ is $\nu
 \end{figure}
 
 \subsection{Wheel Imbalance}
-The reaction wheel imbalance is considered to be the most significant disturbance on the reaction wheel and consequently, only this disturbance torque is modelled for this simulation~\cite{bialke1998high}. Although reaction wheels are manufactured with low tolerances the reaction wheel will have a slight imbalance, since the mass of the reaction wheel will not be uniform and evenly displaced. 
+The reaction wheel imbalance is considered to be the most significant disturbance on the reaction wheel and consequently, only this disturbance torque is modelled for this simulation~\cite{bialke1998high}. Although reaction wheels are manufactured with low tolerances the reaction wheel will have a slight imbalance, since the mass of the reaction wheel will not be perfectly uniform and evenly displaced. 
 
-The static imbalance of the reaction wheel is the caused by CoM offset from the rotational axis. Therefore, to model the static imbalance of the reaction wheels it is assumed that the unevenly distributed mass of the reaction wheel can be simplified to a point mass, $m$, a distance, $r$ from the rotational axis as shown in Figure~\ref{fig:StaticImbalance}. The static imbalance, $U_s$ is equal to $mr$ and this value is given by the reaction wheel manufacturers.
+The static imbalance of the reaction wheel is caused by the reaction wheel CoM offset from the rotational axis. Therefore, to model the static imbalance of the reaction wheels it is assumed that the unevenly distributed mass of the reaction wheel can be simplified to a point mass, $m$, a distance, $r$ from the rotational axis as shown in Figure~\ref{fig:StaticImbalance}. The static imbalance, $U_s$ is equal to $mr$ and this value is provided by the reaction wheel manufacturers.
+
 \begin{figure}[!htb]
 	\centering
 	\def\svgwidth{10cm}
@@ -396,15 +397,21 @@ The static imbalance of the reaction wheel is the caused by CoM offset from the 
 	\caption{Static Imbalance}
 	\label{fig:StaticImbalance}
 \end{figure}
-To determine the resulting torque from the wheel imbalance the torque generated by each wheel is individually calculated. Consequently, for the reaction wheel in direction $x_\mathcal{B}$, $RW_{x_\mathcal{B}}$, the force, $F_{sx_\mathcal{B}}$, generated by $U_s$ is dependent on the the angular rate, $\omega$, of the reaction wheel as well as the current position of $m$. Therefore, $F_{sx_\mathcal{B}}$ can be expressed as
+
+To determine the resulting torque from the wheel imbalance the torque generated by each wheel is individually calculated. Consequently, for the reaction wheel in direction $\bar{x}_\mathcal{B}$, $RW_{\bar{x}_\mathcal{B}}$, the force, $F_{s\bar{x}_\mathcal{B}}$, generated by $U_s$ is dependent on the the angular rate, $\omega$, of the reaction wheel as well as the current position of $m$. Therefore, $F_{s\bar{x}_\mathcal{B}}$ can be expressed as
+
 \begin{equation}
-\mathbf{F}_{sx_\mathcal{B}} = U_s\omega^2 \begin{bmatrix} 0 \\ \text{sin}(\omega t + \phi_s) \\ \text{cos}(\omega t + \phi_s)\end{bmatrix},
+\mathbf{F}_{s\bar{x}_\mathcal{B}} = U_s\omega^2 \begin{bmatrix} 0 \\ \text{sin}(\omega t + \phi_s) \\ \text{cos}(\omega t + \phi_s)\end{bmatrix},
 \end{equation}
-where the current angle of $m$ is defined as $\omega t + \phi_s$, with $phi_s$ as an arbitrary phase and for the sake of simplification is set to $0$. With $F_{sx_\mathcal{B}}$ exerted on $RW_{x_\mathcal{B}}$ known, the torque on the satellite can be calculated with the known position vector, $w_{x_\mathcal{B}}$, of $F_{sx_\mathcal{B}}$ to the satellite CoM. Therefore, $N_{sx_\mathcal{B}}$ can be calculated as
+
+where the current angle of $m$ is defined as $\omega t + \phi_s$, with $\phi_s$ as an arbitrary phase and for the sake of simplification is set to $0$. With $F_{s\bar{x}_\mathcal{B}}$ exerted on $RW_{\bar{x}_\mathcal{B}}$ known, the torque on the satellite can be calculated with the known position vector, $\mathbf{w}_{\bar{x}_\mathcal{B}}$, of $F_{s\bar{x}_\mathcal{B}}$ to the satellite CoM. Therefore, $N_{s\bar{x}_\mathcal{B}}$ can be calculated as
+
 \begin{equation}
-\mathbf{N}_{sx_\mathcal{B}} = w_{x_\mathcal{B}} \times F_{sx_\mathcal{B}}.
+\mathbf{N}_{s\bar{x}_\mathcal{B}} = \mathbf{w}_{\bar{x}_\mathcal{B}} \times F_{s\bar{x}_\mathcal{B}}.
 \end{equation}
-This is calculated for each reaction wheel to determine the resulting static imbalance disturbance torque on the satellite. Another aspect of the reaction wheel imbalance is also modelled, namely the dynamic imbalance. The dynamic imbalance is caused by the the principal inertia of the reaction wheel being misaligned with the rotational axis. This can be simplified to two equal point masses, $m$, with an axial displacement, $d$, and distance, $r$, from the rotational axis. These two masses are $\num{180}^o$ apart with respect to the rotational axis and consequently create two equal forces in opposite directions. The dynamic imbalance is graphically represented in Figure~\ref{fig:DynamicImbalance}.
+
+This is calculated for each reaction wheel to determine the resulting static imbalance disturbance torque on the satellite. Another aspect of the reaction wheel imbalance is also modelled, namely the dynamic imbalance. The dynamic imbalance is caused by the principal inertia of the reaction wheel being misaligned with the rotational axis. This can be simplified to two equal point masses, $m$, with an axial displacement, $d$, and distance, $r$, from the rotational axis. These two masses are $\num{180}^o$ apart with respect to the rotational axis and consequently create two forces equal in magnitude and in opposite directions. The dynamic imbalance is graphically represented in Figure~\ref{fig:DynamicImbalance}.
+
 \begin{figure}[!htb]
 	\centering
 	\def\svgwidth{10cm}
@@ -412,11 +419,12 @@ This is calculated for each reaction wheel to determine the resulting static imb
 	\caption{Dynamic Imbalance}
 	\label{fig:DynamicImbalance}
 \end{figure}
-The dynamic wheel imbalance torque, $\mathbf{N}_{dx_\mathcal{B}}$, for $RW_{x_\mathcal{B}}$ with the $U_d$ known can be calculated as 
+
+The dynamic wheel imbalance torque, $\mathbf{N}_{d\bar{x}_\mathcal{B}}$, for $RW_{\bar{x}_\mathcal{B}}$ can be calculated as 
 \begin{equation}
-\mathbf{N}_{dx_\mathcal{B}} = U_d\omega^2 \begin{bmatrix} 0 \\ \text{sin}(\omega t + \phi_d) \\ \text{cos}(\omega t + \phi_d)\end{bmatrix}.
+\mathbf{N}_{d\bar{x}_\mathcal{B}} = U_d\omega^2 \begin{bmatrix} 0 \\ \text{sin}(\omega t + \phi_d) \\ \text{cos}(\omega t + \phi_d)\end{bmatrix}.
 \end{equation}
-where $U_d = mrd$ is the dynamic imbalance. Both $U_d$ and $U_s$ are provided by the manufacturer and based on the reaction wheel, RW-0.06 from Sinclair Interplanetary, $U_d = 2.08e^{-9}$ and $U_s = 2.08e^{-7}$. The net wheel imbalance torque from both the static and dynamic wheel imbalance is provided in Figure~\ref{fig:Wheel disturbance Torques}.
+where $U_d = mrd$ as the dynamic imbalance. Both $U_d$ and $U_s$ are provided by the manufacturer and based on the reaction wheel, RW-0.06 from Sinclair Interplanetary, $U_d = 2.08e^{-9}$ and $U_s = 2.08e^{-7}$. The net wheel imbalance torque from both the static and dynamic wheel imbalance is provided in Figure~\ref{fig:Wheel disturbance Torques}.
 
 \begin{figure}[!htb]
 	\centering
@@ -443,7 +451,7 @@ where $\mathbf{f}(x_t)$ is a non-linear function of $x_t$. The state vector, $x$
 	x = [q, \boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}]^T
 \end{equation}
 
-The estimated state vector $x$ will be denoted as $\hat{x}$ and the estimated vector before and after the measurement update will be indicated with a superscript $'-'$ and $'+'$ respectively. To calculate the model update the dynamics and kinematics of the system model is used to calculate both $\boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}$ and $q$. The integration method used in the simulation is the 4th order Runge-Kutta method to solve the differential equations. The integration method is shown in Algorithm~\ref{alg: Runge-Kutta} where $(\hat{\omega}_B^I)_k^-$ is calculated for the first step of the model update.
+The estimated state vector $x$ will be denoted as $\hat{x}$ and the estimated vector before and after the measurement update will be indicated with a superscript $'-'$ and $'+'$ respectively. To calculate the model update the dynamics and kinematics of the system model is used to calculate both $\boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}$ and $q$. The integration method used in the simulation is the 4th order Runge-Kutta method to solve the differential equations. The integration method is shown in Algorithm~\ref{alg: Runge-Kutta} where $(\hat{\omega}_{\mathcal{B}}^{\mathcal{I}})_k^-$ is calculated for the first step of the model update.
 
 \begin{algorithm}[!htb]
 	\caption[Runge-Kutta]{Runge-Kutta 4th order Algorithm at time $k$}
@@ -467,8 +475,8 @@ The estimated state vector $x$ will be denoted as $\hat{x}$ and the estimated ve
 		\State \texttt{$k_4 = h(\mathbf{J^{-1}}\mathbf{N} + k_3)$}
 		\State \texttt{$\omega_{n+1}=\omega_n + \frac{k_1}{6} + \frac{k_2}{3} + \frac{k_3}{3} + \frac{k_4}{6}$}
 		\EndFor
-		\State $(\hat{\omega}_B^I)_k^- = \omega_{n+1}$
-		\State \textbf{return} $(\hat{\omega}_B^I)_k^-$
+		\State $(\hat{\omega}_{\mathcal{B}}^{\mathcal{I}})_k^- = \omega_{n+1}$
+		\State \textbf{return} $(\hat{\omega}_{\mathcal{B}}^{\mathcal{I}})_k^-$
 	\end{algorithmic}
 \end{algorithm}
 where $N_{gg}$, gravity gradient disturbance torque, $N_{aero}$, aerodynamic disturbance torque, $N_{rw}$, reaction wheel disturbance torque, $N_{gyro}$, gyroscopic torque, $N_m$, magnetic control torque and $N_w$, reaction wheel control torque, are modelled according to \cite{JansevanVuuren2015}. 
@@ -482,7 +490,7 @@ The calculation for the $\hat{q}_k^-$ is done with Eq~\ref{eq:q-propagation} \ci
 	\begin{aligned}
 		\hat{q}_k^- &= \left[\text{cos}(k_q)\mathbf{I}_{4x4} + \frac{1}{\lVert (\hat{\omega}_B^O)_k^- \rVert} \text{sin}(k_q) \mathbf{\Omega}_k^- \right] \hat{q}_{k-1}^+ \\ \\
 		\text{where } k_q &= \frac{Ts}{2} \lVert (\hat{\omega}_B^O)_k^- \rVert \\ \\
-		(\hat{\omega}_B^O)_k^- &= (\hat{\omega}_B^I)_k^- - \hat{\boldsymbol{A}} \begin{bmatrix} 0 & -(\omega_k) & 0\end{bmatrix}^T \\
+		(\hat{\omega}_B^O)_k^- &= (\hat{\omega}_{\mathcal{B}}^{\mathcal{I}})_k^- - \hat{\boldsymbol{A}} \begin{bmatrix} 0 & -(\omega_k) & 0\end{bmatrix}^T \\
 		&= \begin{bmatrix} \hat{\omega}_{ox} & \hat{\omega}_{oy}  & \hat{\omega}_{oz} \end{bmatrix}^T \\ \\
 		\lVert (\hat{\omega}_B^O)_k^- \rVert &= \sqrt{\hat{\omega}_{ox}^2 + \hat{\omega}_{oy}^2 + \hat{\omega}_{oz}^2} \\ \\
 		\text{and } \mathbf{\Omega}_k^- &= \begin{bmatrix} 
@@ -498,7 +506,7 @@ The calculation for the $\hat{q}_k^-$ is done with Eq~\ref{eq:q-propagation} \ci
 The estimated state vector, $\hat{x}_k^-$ can now be expressed as 
 
 \begin{equation}
-	\hat{x}_k^- = \begin{bmatrix} (\hat{\omega}_B^I)_k^- & \hat{q}_k^-\end{bmatrix}
+	\hat{x}_k^- = \begin{bmatrix} (\hat{\omega}_{\mathcal{B}}^{\mathcal{I}})_k^- & \hat{q}_k^-\end{bmatrix}
 \end{equation}
 
 $Q_k$ is the covariance matrix representing the discrete system noise and is assumed to be zero-mean and Guassian. $\Phi_k$ is the discrete system perturbation model. $H_k$ is the discrete measurement perturbation Jacobian Matrix. $\mathbf{R}_k$ is the measurement noise covariance matrix. The state covariance matrix $P_k$ can be propagated with Eq~\ref{eq:P_k}.
@@ -551,11 +559,11 @@ To ensure that the satellite is able to satisfy the mission requirements, contro
 \label{section: Quaternion Feedback Controller}
 To ensure that the satellite is in the desired orientation the reaction wheels are used. To ensure stable control in all three axes \cite{wie1989quarternion} the quaternion feedback reaction wheel controller is implemented. The controller is designed from the estimated orientation and angular velocity, while ignoring disturbance torques. Eq~\ref{Eq-EulerDynamic} without the disturbance torques becomes
 \begin{equation}
-\mathbf{J}\dot{\boldsymbol{\omega}_B^I} = -\mathbf{N}_w - \mathbf{N}_{gyro}
+\mathbf{J}\dot{\boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}} = -\mathbf{N}_w - \mathbf{N}_{gyro}
 \end{equation}
 To calculate the required torque, $\mathbf{N}_{w,req}$, the definition according to \cite{steyn2008attitude} for all cases at time step, $k$, is given as
 \begin{equation}
-	\mathbf{N}_w(k) = K_{PI}\mathbf{Jq}_{err}(k) + K_{DI}\mathbf{I}\hat{\boldsymbol{\omega}}_B^O - \hat{\boldsymbol{\omega}}_B^I(k) \times [\mathbf{J}\hat{\boldsymbol{\omega}}_B^I(k) + \mathbf{h}_{w}(k)]
+	\mathbf{N}_w(k) = K_{PI}\mathbf{Jq}_{err}(k) + K_{DI}\mathbf{I}\hat{\boldsymbol{\omega}}_B^O - \hat{\boldsymbol{\omega}}_{\mathcal{B}}^{\mathcal{I}}(k) \times [\mathbf{J}\hat{\boldsymbol{\omega}}_{\mathcal{B}}^{\mathcal{I}}(k) + \mathbf{h}_{w}(k)]
 \end{equation}
 where $\mathbf{h}_{w}(k)$ is the measured angular momentum of the wheels, the control gains are defined as
 \begin{equation}
@@ -602,7 +610,7 @@ where
 \begin{equation}
 	\mathbf{u}_c = \frac{\mathbf{u}_{sp}^{\mathcal{B}} \times \mathbf{s}_o}{\norm{\mathbf{u}_{sp}^{\mathcal{B}} \times \mathbf{s}_o}}.
 \end{equation}
-$\mathbf{s}_o$ is the measured unit sun vector in ORC, and the main solar panel's position is denoted as a unit vector, $\mathbf{u}_{sp}^{\mathcal{B}}$. The angle between $\mathbf{u}_{sp}^{\mathcal{B}}$ and $\mathbf{s}_o$, $\delta$, can be calculated with the vector dot-product. This can then be used as the reference for the control. The reference $\boldsymbol{\omega}_b^I$ is always $[0, 0, 0]$. 
+$\mathbf{s}_o$ is the measured unit sun vector in ORC, and the main solar panel's position is denoted as a unit vector, $\mathbf{u}_{sp}^{\mathcal{B}}$. The angle between $\mathbf{u}_{sp}^{\mathcal{B}}$ and $\mathbf{s}_o$, $\delta$, can be calculated with the vector dot-product. This can then be used as the reference for the control. The reference $\boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}$ is always $[0, 0, 0]$. 
 
 \begin{figure}[!htb]
 	\centering
