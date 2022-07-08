@@ -118,7 +118,7 @@ $\boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}}$ can also be transformed as a functi
 
 \begin{equation}
 \label{eq:DCM_quaternion}
-	\boldsymbol{A}
+	\boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}}
 		= \begin{bmatrix}
 		q_1^2 - q_2^2 - q_3^2 + q_4^2 & 2(q_1q_2 + q_3q_4) & 2(q_1q_3 - q_2q_4) \\
 		2(q_1q_2 - q_3q_4) & -q_1^2 + q_2^2 - q_3^2 + q_4^2 & 2(q_2q_3 + q_1q_4) \\
@@ -136,6 +136,7 @@ The conservation of momentum dominates the dynamics of a satellite. This consist
 	\text{where} \quad \mathbf{N_d} &\approx \mathbf{N}_{aero} - \mathbf{N}_{gyro} + \mathbf{N}_{gg} + \mathbf{N}_{rw}, \\
 	\text{and} \quad \mathbf{N_c} &= \mathbf{N}_{m} - \mathbf{N}_{w}.
 \end{aligned}
+\label{Eq-EulerDynamic}
 \end{equation}
 
 This is the overarching equation that will be used to determine the control torque as well as the model update of the extended Kalman Filter (EKF). The integration method used in the simulation is the $4^{th}$ order Runge-Kutta method to solve the differential equations. This is demonstrated with Algorithm~\ref{alg: runge-kutta}.
@@ -291,7 +292,7 @@ The magnitude of the geomagnetic field is visually demonstrated in Figure~\ref{f
 \section{Sensor models}
 The positioning of the sensors on the satellite is necessary to meet mission requirements. The exact position of the sensors also impact the modelling of the anomalies on the sensors. Therefore, each sensors position on the satellite is provided as well as the measured vector of each sensor. It is further assumed that each sensor has a zero-mean Guassian noise and consequently, the low frequency noise such as drift is negligible. The sensor measurement in the SBC frame, $\mathbf{v}_{\mathcal{B}}$,  can be calculated as
 \begin{equation}
-\mathbf{v}_{\mathcal{B}} = \boldsymbol{A}_{\mathcal{O}}^{\mathcal{E}} \mathbf{v}_{\mathcal{I}} + \mathbf{m}_v,
+\mathbf{v}_{\mathcal{B}} = \boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}} \mathbf{v}_\mathcal{O} + \mathbf{m}_v,
 \end{equation}
 where $\mathbf{m}_v$ is the measurement noise of the current sensor and $\mathbf{v}_{\mathcal{I}}$ is the reference ORC vector. The measured unit vectors of the sun as an example of the sensor measurements is shown in Figure~\ref{fig:SunSensorPlot} where the grey background sections of the graphs are the eclipse periods, while the sections with the white background is the sunlit phase of the orbit.
 
@@ -335,11 +336,11 @@ where $h_w$ is the angular momentum of the reaction wheels. The other disturbanc
 \subsection{Gravity Gradient}
 The gravity gradient is caused by both the centrifugal force on the satellite due to the orbit around the Earth as well as the gravitational force. The part of the satellite nearest to the Earth will experience the largest gravitational force and the smallest centrifugal force of the satellite. While the part of the satellite furthest from the Earth will experience the smallest gravitational force and the largest centrifugal force. According to \cite{wertz2012spacecraft} the gravity gradient disturbance torque, $\mathbf{N}_{gg}$ can be calculated as 
 \begin{equation}
-\boldsymbol{N}_{gg} = 3 \, \omega_o^2 (\mathbf{z}_{\mathcal{B}} \times \mathbf{Iz}_{\mathcal{B}}).
+\boldsymbol{N}_{gg} = 3 \, \omega_\mathcal{O}^2 (\mathbf{z}_{\mathcal{B}} \times \mathbf{Iz}_{\mathcal{B}}).
 \end{equation}
 The orbit nadir vector is calculated as,
 \begin{equation}
-\mathbf{z}_{\mathcal{B}} = \boldsymbol{A} \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}^T.
+\mathbf{z}_{\mathcal{B}} = \boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}} \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}^T.
 \end{equation}
 Due to the design of the satellite and the positions of the solar panels, the equation for $\mathbf{N}_{gg}$ can not be simplified. The gravity gradient torque is the only torque that can be accurately modelled on-board the satellite, and therefore is also included in the model update of the EKF. $\mathbf{N}_{gg}$ in SBC is shown in Figure~\ref{fig:GravityGradientTorques}.
 
@@ -370,7 +371,7 @@ The atmospheric density is a function of the distance from the Earth surface. Th
 where $\rho_o$ is the reference density at the reference altitude, $h_o$, and $h(t)$ is the satellite's altitude as a function of time and $H$ is the scale height. According to \cite{steyn2011CubeSat} the atmospheric density is $\frac{1}{2}\rho$ during eclipse. Furthermore $\mathbf{v}_{\mathcal{B}}$ is calculated as
 \begin{equation}
 \begin{aligned}
-\mathbf{v}_{\mathcal{B}} &= \boldsymbol{A}_{\mathcal{O}}^{\mathcal{B}} \boldsymbol{A}_{\mathcal{E}}^{\mathcal{O}} \mathbf{v}_{\mathcal{E}} \\
+\mathbf{v}_{\mathcal{B}} &= \boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}} \boldsymbol{A}_{\mathcal{E}}^{\mathcal{O}} \mathbf{v}_{\mathcal{E}} \\
 \text{where}  \qquad \mathbf{v}_{\mathcal{E}} &= \begin{bmatrix} 0 \\ 0 \\ \omega_E \end{bmatrix} \times \mathbf{r}_{sat} - \mathbf{v}_{sat}.
 \end{aligned}
 \end{equation}
@@ -436,22 +437,30 @@ where $U_d = mrd$ as the dynamic imbalance. Both $U_d$ and $U_s$ are provided by
 \end{figure}
 
 \section{Attitude Determination}
-This section discusses the estimation algorithm for attitude estimation of the satellite. This is done with the EKF, which utilizes the sensor measurements as well as modelled vectors according to underlying physics to estimate the current attitude. The EKF is highly sensitive to sensor anomalies and actuator failures and this section provides the background knowledge to the fundamentals of the EKF.
+This section discusses the estimation algorithm for attitude determination of the satellite. This is done with the EKF, which utilizes the sensor measurements as well as modelled vectors according to physical models to estimate the current attitude. The EKF is highly sensitive to sensor anomalies and actuator failures and this section discusses the implementation of the EKF.
 
 \subsection{Extended Kalman Filter}
-The implementation of the estimated kalman filter \emph{EKF} is for estimation of the current satellite attitude with sensor fusion of the magnetometer, star tracker, sun sensor and nadir sensor to accurately estimate the attitude and rotation rate of the satellite. The EKF will be used due to the non-linear nature of the system. The EKF consists of two fundamental parts, the model update and the measurement update. The general form for a system model can be expressed as
+The implementation of the EKF is for estimation of the current satellite attitude with sensor fusion of the magnetometer, star tracker, sun sensor and nadir sensor to accurately estimate the attitude and rotation rate of the satellite. The EKF will be used due to the non-linear nature of the system. The EKF consists of two fundamental parts, the model update and the measurement update. The estimated state vector, $\mathbf{x}$, will be denoted as $\hat{\mathbf{x}}$ and the estimated vector before and after the measurement update will be indicated with a superscript $'-'$ and $'+'$ respectively. The general form for a system model can be expressed as
+\begin{equation}
+	\mathbf{\dot{x}}_t} = \mathbf{f}(\mathbf{x}_t) + s_t,
+\end{equation}
+where $\mathbf{f}(\mathbf{x}_t)$ is a non-linear function of $\mathbf{x}_t$. To linearise $\mathbf{x}_t$ an approximation of $\mathbf{f}(\mathbf{x}_t)$ according to the Taylor series expansion is implemented.
 
 \begin{equation}
-	\dot{x_t} = \mathbf{f}(x_t) + s_t
+\begin{aligned}
+\mathbf{f}(x_t) &= \mathbf{f}(\hat{\mathbf{x}}_t) + \left[\frac{\partial \mathbf{f}}{\partial \hat{\mathbf{x}}_t} \right] \left(\mathbf{x}_t - \hat{\mathbf{x}}_t \right) + \frac{1}{2!} \left[\frac{\partial^2 \mathbf{f}}{\partial \hat{\mathbf{x}}_t^2} \right] \left(\mathbf{x}_t - \hat{\mathbf{x}}_t \right)^2 \\
+				&\approx \mathbf{f} (\hat{\mathbf{x}}_t) + \mathbf{F} \Delta \mathbf{x}_t , \\
+\text{where} \qquad \mathbf{F}_t &= \left[\frac{\partial \mathbf{f}}{\partial \hat{\mathbf{x}}_t} \right] \\
+\text{and} \qquad \Delta \mathbf{x}_t &= \mathbf{x}_t - \hat{\mathbf{x}}_t. \\
+\end{aligned}
 \end{equation}
 
-where $\mathbf{f}(x_t)$ is a non-linear function of $x_t$. The state vector, $x$, for the full 7-state EKF consists of the quaternion vector, $q$ and the inertial-referenced angular velocity, $\boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}$.
 
+To linearise the state vector, $\mathbf{x}$, for the full 7-state EKF consists of the quaternion vector, $\mathbf{q}$ and the inertial-referenced angular velocity, $\boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}$ given as
 \begin{equation}
-	x = [q, \boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}]^T
+	\mathbf{x} = [\mathbf{q}, \boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}]^T.
 \end{equation}
-
-The estimated state vector $x$ will be denoted as $\hat{x}$ and the estimated vector before and after the measurement update will be indicated with a superscript $'-'$ and $'+'$ respectively. To calculate the model update the dynamics and kinematics of the system model is used to calculate both $\boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}$ and $q$. The integration method used in the simulation is the 4th order Runge-Kutta method to solve the differential equations. The integration method is shown in Algorithm~\ref{alg: Runge-Kutta} where $(\hat{\omega}_{\mathcal{B}}^{\mathcal{I}})_k^-$ is calculated for the first step of the model update.
+To calculate the model update the dynamics and kinematics of the system model is used to calculate both $\boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}$ and $\mathbf{q}$. The integration method used in the simulation is the 4th order Runge-Kutta method to solve the differential equations. The integration method is shown in Algorithm~\ref{alg: Runge-Kutta} where $(\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{I}})_k^-$ is calculated for the first step of the model update.
 
 \begin{algorithm}[!htb]
 	\caption[Runge-Kutta]{Runge-Kutta 4th order Algorithm at time $k$}
@@ -464,83 +473,82 @@ The estimated state vector $x$ will be denoted as $\hat{x}$ and the estimated ve
 		\end{bmatrix}$
 		\State Timestep ($T_s$) $= 1s$
 		\State Number of iterations ($I$) $= 10$
-		\State Step size $h = \frac{T_s}{h}$
-		\State Disturbance torques $N_d = N_{gg} - N_{gyro} $ % + N_{aero} + N_{rw}$
-		\State Control torques $N_c = N_m - N_w$
-		\State $\mathbf{N} = N_c + N_d$
-		\For{\texttt{$n \in I$}}
+		\State Step size $h = \frac{T_s}{I}$
+		\State Disturbance torques $\mathbf{N}_d = N_{gg} - N_{gyro} $ % + N_{aero} + N_{rw}$
+		\State Control torques $\mathbf{N}_c = N_m - N_w$
+		\State $\mathbf{N} = \mathbf{N}_c + \mathbf{N}_d$
+		\For{$n \coloneqq 1$ \textbf{to} $I$}
 		\State \texttt{$k_1 = h(\mathbf{J^{-1}}\mathbf{N})$}
 		\State \texttt{$k_2 = h(\mathbf{J^{-1}}\mathbf{N} + \frac{k1}{2})$}
 		\State \texttt{$k_3 = h(\mathbf{J^{-1}}\mathbf{N} + \frac{k_2}{2})$}
 		\State \texttt{$k_4 = h(\mathbf{J^{-1}}\mathbf{N} + k_3)$}
-		\State \texttt{$\omega_{n+1}=\omega_n + \frac{k_1}{6} + \frac{k_2}{3} + \frac{k_3}{3} + \frac{k_4}{6}$}
+		\State \texttt{$\boldsymbol{\omega}_{n+1}=\boldsymbol{\omega}_n + \frac{k_1}{6} + \frac{k_2}{3} + \frac{k_3}{3} + \frac{k_4}{6}$}
 		\EndFor
-		\State $(\hat{\omega}_{\mathcal{B}}^{\mathcal{I}})_k^- = \omega_{n+1}$
-		\State \textbf{return} $(\hat{\omega}_{\mathcal{B}}^{\mathcal{I}})_k^-$
+		\State $(\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{I}})_k^- = \boldsymbol{\omega}_{n+1}$
+		\State \textbf{return} $(\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{I}})_k^-$
 	\end{algorithmic}
 \end{algorithm}
-where $N_{gg}$, gravity gradient disturbance torque, $N_{aero}$, aerodynamic disturbance torque, $N_{rw}$, reaction wheel disturbance torque, $N_{gyro}$, gyroscopic torque, $N_m$, magnetic control torque and $N_w$, reaction wheel control torque, are modelled according to \cite{JansevanVuuren2015}. 
-
 %\begin{equation}
 %	f(x,y) = \mathbf{J^{-1}}\big((N_m)_{k-1} - (N_w)_{k-1} - (N_{gg})_{k-1} - (N_{gyro})_{k-1} \big)
 %\end{equation}
-The calculation for the $\hat{q}_k^-$ is done with Eq~\ref{eq:q-propagation} \cite{JansevanVuuren2015}
+With reference to \cite{JansevanVuuren2015}, $\hat{\mathbf{q}}_k^-$ can be calculated as
 
 \begin{equation}
 	\begin{aligned}
-		\hat{q}_k^- &= \left[\text{cos}(k_q)\mathbf{I}_{4x4} + \frac{1}{\lVert (\hat{\omega}_B^O)_k^- \rVert} \text{sin}(k_q) \mathbf{\Omega}_k^- \right] \hat{q}_{k-1}^+ \\ \\
-		\text{where } k_q &= \frac{Ts}{2} \lVert (\hat{\omega}_B^O)_k^- \rVert \\ \\
-		(\hat{\omega}_B^O)_k^- &= (\hat{\omega}_{\mathcal{B}}^{\mathcal{I}})_k^- - \hat{\boldsymbol{A}} \begin{bmatrix} 0 & -(\omega_k) & 0\end{bmatrix}^T \\
-		&= \begin{bmatrix} \hat{\omega}_{ox} & \hat{\omega}_{oy}  & \hat{\omega}_{oz} \end{bmatrix}^T \\ \\
-		\lVert (\hat{\omega}_B^O)_k^- \rVert &= \sqrt{\hat{\omega}_{ox}^2 + \hat{\omega}_{oy}^2 + \hat{\omega}_{oz}^2} \\ \\
+		\hat{\mathbf{q}}_k^- &= \left[\text{cos}(k_q)\mathbf{I}_{4 \times 4} + \frac{1}{\lVert (\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{O}})_k^- \rVert} \text{sin}(k_q) \mathbf{\Omega}_k^- \right] \hat{\mathbf{q}}_{k-1}^+ \\ \\
+		\text{where } k_q &= \frac{Ts}{2} \lVert (\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{O}})_k^- \rVert \\ \\
+		(\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{O}})_k^- &= (\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{I}})_k^- - \boldsymbol{\hat{A}}^{\mathcal{B}}_{\mathcal{O}_k} \begin{bmatrix} 0 & -(\omega_\mathcal{O})_k & 0\end{bmatrix}^T \\
+		&= \begin{bmatrix} \boldsymbol{\hat{\omega}}_{\bar{x}_{\mathcal{O}}} & \boldsymbol{\hat{\omega}}_{\bar{y}_{\mathcal{O}}}  & \boldsymbol{\hat{\omega}}_{\bar{z}_{\mathcal{O}}} \end{bmatrix}^T \\ \\
+		\lVert (\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{O}})_k^- \rVert &= \sqrt{\boldsymbol{\hat{\omega}}_{\bar{x}_{\mathcal{O}}}^2 + \boldsymbol{\hat{\omega}}_{\bar{y}_{\mathcal{O}}}^2 + \boldsymbol{\hat{\omega}}_{\bar{z}_{\mathcal{O}}}^2} \\ \\
 		\text{and } \mathbf{\Omega}_k^- &= \begin{bmatrix} 
-			0 & \hat{\omega}_{oz} & -\hat{\omega}_{oy} & \hat{\omega}_{ox} \\
-			-\hat{\omega}_{oz} & 0 & \hat{\omega}_{ox} & \hat{\omega}_{oy}			\\
-			\hat{\omega}_{oy} & -\hat{\omega}_{ox} & 0 & \hat{\omega}_{oz}			\\
-			-\hat{\omega}_{ox} & -\hat{\omega}_{oy} & -\hat{\omega}_{oz} & 0			\\
+			0 & \boldsymbol{\hat{\omega}}_{\bar{z}_{\mathcal{O}}} & -\boldsymbol{\hat{\omega}}_{\bar{y}_{\mathcal{O}}} & \boldsymbol{\hat{\omega}}_{\bar{x}_{\mathcal{O}}} \\
+			-\boldsymbol{\hat{\omega}}_{\bar{z}_{\mathcal{O}}} & 0 & \boldsymbol{\hat{\omega}}_{\bar{x}_{\mathcal{O}}} & \boldsymbol{\hat{\omega}}_{\bar{y}_{\mathcal{O}}}			\\
+			\boldsymbol{\hat{\omega}}_{\bar{y}_{\mathcal{O}}} & -\boldsymbol{\hat{\omega}}_{\bar{x}_{\mathcal{O}}} & 0 & \boldsymbol{\hat{\omega}}_{\bar{z}_{\mathcal{O}}}			\\
+			-\boldsymbol{\hat{\omega}}_{\bar{x}_{\mathcal{O}}} & -\boldsymbol{\hat{\omega}}_{\bar{y}_{\mathcal{O}}} & -\boldsymbol{\hat{\omega}}_{\bar{z}_{\mathcal{O}}} & 0			\\
 		\end{bmatrix}
 	\end{aligned}
 	\label{eq:q-propagation}
 \end{equation}
 
-The estimated state vector, $\hat{x}_k^-$ can now be expressed as 
+The estimated state vector, $\hat{\mathbf{x}}_k^-$ can now be expressed as 
 
 \begin{equation}
-	\hat{x}_k^- = \begin{bmatrix} (\hat{\omega}_{\mathcal{B}}^{\mathcal{I}})_k^- & \hat{q}_k^-\end{bmatrix}
+	\hat{\mathbf{x}}_k^- = \begin{bmatrix} (\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{I}})_k^- & \hat{\mathbf{q}}_k^-\end{bmatrix}
 \end{equation}
+\textbf{TODO: $\mathbf{Q}_k$ is the covariance matrix representing the discrete system noise and is assumed to be zero-mean and Guassian. $\Phi_k$ is the discrete system perturbation model. $\mathbf{H}_k$ is the discrete measurement perturbation Jacobian Matrix. $\mathbf{R}_k$ is the measurement noise covariance matrix.}
 
-$Q_k$ is the covariance matrix representing the discrete system noise and is assumed to be zero-mean and Guassian. $\Phi_k$ is the discrete system perturbation model. $H_k$ is the discrete measurement perturbation Jacobian Matrix. $\mathbf{R}_k$ is the measurement noise covariance matrix. The state covariance matrix $P_k$ can be propagated with Eq~\ref{eq:P_k}.
-
+The state covariance matrix $\mathbf{P}_k$ can be propagated as
 \begin{equation}
-	\mathbf{P}_k^- = \Phi_k \mathbf{P}_{k-1}^+ \Phi_k ^T
+	\mathbf{P}_k^- = \Phi_k \mathbf{P}_{k-1}^+ \Phi_k ^T.
 	\label{eq:P_k}
 \end{equation}
-The $\mathbf{e}_k$ calculated with Eq~\ref{eq:errorVector}
-
+The error, $\mathbf{e}_k$, between the measured and modelled vector is calculated as
 \begin{equation}
-	\mathbf{e}_k = v_{meas,k} - \hat{\boldsymbol{A}}_k^- v_{model,k}
+	\mathbf{e}_k = \mathbf{v}_\mathcal{B} - \boldsymbol{\hat{A}}^{\mathcal{B}}_{\mathcal{O}_k} \mathbf{v}_\mathcal{O}.
 	\label{eq:errorVector}
 \end{equation}
-
-where $v_{meas,k}$ is the measured vector in $\mathbf{\mathcal{B}}$ and $v_{model,k}$ is the modelled $\mathbf{\mathcal{O}}$ vector. The gain matrix $\mathbf{K}_k$ is used to determine the the influence of $\mathbf{e}_k$ on updated state vector, $\hat{x}_k^+$. $\mathbf{K}_k$ can be calculated as 
-
+where $\mathbf{v}_\mathcal{B}$ is the measured vector in SBC and $\mathbf{v}_\mathcal{O}$ is the modelled ORC vector. The gain matrix $\mathbf{K}_k$ is used to determine the influence of $\mathbf{e}_k$ on the updated state vector, $\hat{\mathbf{x}}_k^+$. $\mathbf{K}_k$ can be calculated as 
 \begin{equation}
-	\mathbf{K}_k = \mathbf{P}_k^- (\mathbf{H}_k^-)^T \left[\mathbf{H}_k^- \mathbf{P}_k^- (\mathbf{H}_k^-)^T + \mathbf{R}_k \right]^{-1}
+	\mathbf{K}_k = \mathbf{P}_k^- (\mathbf{H}_k^-)^T \left[\mathbf{H}_k^- \mathbf{P}_k^- (\mathbf{H}_k^-)^T + \mathbf{R}_k \right]^{-1}.
 \end{equation}
-after which the updated state vector can be calculated with Eq~\ref{eq:UpdatedStateVector}
+after which the updated state vector can be calculated as
 \begin{equation}
-	\hat{x}_k^+ = \hat{x}_k^- + \mathbf{K}_k \mathbf{e}_k
+	\hat{\mathbf{x}}_k^+ = \hat{\mathbf{x}}_k^- + \mathbf{K}_k \mathbf{e}_k.
 	\label{eq:UpdatedStateVector}
 \end{equation}
-
 The state covariance matrix can then be updated as
-
 \begin{equation}
-	\mathbf{P}_k^+ = \left[\mathbf{I}_{7 \times 7} - \mathbf{K}_k \mathbf{H}_k^+ \right]\mathbf{P}_k \left[\mathbf{I}_{7 \times 7} - \mathbf{K}_k \mathbf{H}_k^+ \right] + \mathbf{K}_k \mathbf{R}_k \mathbf{K}_k^T
+	\mathbf{P}_k^+ = \left[\mathbf{I}_{7 \times 7} - \mathbf{K}_k \mathbf{H}_k^+ \right]\mathbf{P}_k \left[\mathbf{I}_{7 \times 7} - \mathbf{K}_k \mathbf{H}_k^+ \right] + \mathbf{K}_k \mathbf{R}_k \mathbf{K}_k^T.
 	\label{eq:Updated_P_k}
 \end{equation}
-
-During the measurement update of $\hat{x}_k^-$ with the error of $v_{meas,k}$ and $v_{model,k}$, the $\hat{x}_k^+$ is largely affected by anomalous behaviour in the sensor measurements. The sensitivity of the Kalman filter to this behaviour as well as related work will be discussed in section~\ref{subsection:SensitivityOfKalmanFilter}.
+Where $\Phi_k$ is the discrete system perturbation model is calculated as
+\begin{equation}
+\begin{aligned}
+\Phi_k &= \left[e^{T_s\mathbf{F}_t}\right]_{\mathbf{x}=\mathbf{\hat{x}},\quad t = kT_s} \\
+\text{and simplified as} \qquad \Phi_k &\approx \left[\mathbf{I} + T_s\mathbf{F}_t + \frac{1}{2!}T_s^2\mathbf{F}_t^2\right]_{\mathbf{x}=\mathbf{\hat{x}},\quad t = kT_s}, \\
+\end{aligned}
+\end{equation}
+according to \cite{Steyn2004Notes}. To validate the results of the EKF, the estimation error is given in Figure~\ref{fig:Estimation Metric}. Where the estimation error is the difference between the current $\mathbf{q}$ and $\mathbf{\hat{q}}$ in degrees.
 
 \begin{figure}[!htb]
 	\centering
@@ -551,32 +559,29 @@ During the measurement update of $\hat{x}_k^-$ with the error of $v_{meas,k}$ an
 	\label{fig:Estimation Metric}
 \end{figure}
 
+During the measurement update $\mathbf{e}_k$ is largely affected by anomalous behaviour in the sensor measurements. The sensitivity of the Kalman filter to the various anomalies is discussed in Chapter~\ref{chap:Anomalies}.
 
 \section{Attitude Control}
-To ensure that the satellite is able to satisfy the mission requirements, control of the satellite attitude is required. Therefore, the satellite's payload must be in the direction of the Earth during eclipse and the solar panels should be pointing in the direction of the sun during the sunlit phase. For this control a quaternion feedback controller of the reaction wheels is implemented and a momentum dumping with the magnetorquers is implemented to ensure that the wheel disturbance remains within reasonable boundaries.
+To ensure that the satellite is able to satisfy the mission requirements, control of the satellite attitude is required. Therefore, the satellite's payload must be in the direction of the Earth during eclipse and the solar panels should be pointing in the direction of the sun during the sunlit phase. For this a quaternion feedback controller of the reaction wheels is implemented and a momentum dumping with the magnetorquers is implemented to ensure that the wheel disturbance remains within reasonable boundaries.
 
 \subsection{Quaternion Feedback Controller}
 \label{section: Quaternion Feedback Controller}
-To ensure that the satellite is in the desired orientation the reaction wheels are used. To ensure stable control in all three axes \cite{wie1989quarternion} the quaternion feedback reaction wheel controller is implemented. The controller is designed from the estimated orientation and angular velocity, while ignoring disturbance torques. Eq~\ref{Eq-EulerDynamic} without the disturbance torques becomes
+To ensure that the satellite is in the desired orientation with stable control in all three axes the quaternion feedback reaction wheel controller is implemented~\cite{wie1989quarternion}. The controller is provided with $\mathbf{\hat{x}}$ as input and outputs $\mathbf{N}_w$. To calculate the required torque, $\mathbf{N}_{w}$, the definition according to \cite{steyn2008attitude} for all cases at time step, $k$, is given as
 \begin{equation}
-\mathbf{J}\dot{\boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}} = -\mathbf{N}_w - \mathbf{N}_{gyro}
+	\mathbf{N}_{w} = K_{PI}\mathbf{Jq}_{err} + K_{DI}\mathbf{I}\hat{\boldsymbol{\omega}}_{\mathcal{B}}^{\mathcal{O}} - \hat{\boldsymbol{\omega}}_{\mathcal{B}}^{\mathcal{I}} \times \left[\mathbf{J}\hat{\boldsymbol{\omega}}_{\mathcal{B}}^{\mathcal{I}} + \mathbf{h}_{w}\right],
 \end{equation}
-To calculate the required torque, $\mathbf{N}_{w,req}$, the definition according to \cite{steyn2008attitude} for all cases at time step, $k$, is given as
-\begin{equation}
-	\mathbf{N}_w(k) = K_{PI}\mathbf{Jq}_{err}(k) + K_{DI}\mathbf{I}\hat{\boldsymbol{\omega}}_B^O - \hat{\boldsymbol{\omega}}_{\mathcal{B}}^{\mathcal{I}}(k) \times [\mathbf{J}\hat{\boldsymbol{\omega}}_{\mathcal{B}}^{\mathcal{I}}(k) + \mathbf{h}_{w}(k)]
-\end{equation}
-where $\mathbf{h}_{w}(k)$ is the measured angular momentum of the wheels, the control gains are defined as
+where $\mathbf{h}_{w}$ is the measured angular momentum of the wheels and the control gains are defined as
 \begin{equation}
 	\begin{aligned}
 		K_{PI} &= 2 \omega_n^2\\
-		K_{DI} &= 2 \zeta \omega_n \\
+		K_{DI} &= 2 \zeta \omega_n. \\
 	\end{aligned}
 	\label{eq:controlGain}
 \end{equation}
-the quaternion error is calculated with the quaternion difference operator, $\Theta$, as
+The quaternion error, $\mathbf{q}_{err}$, is calculated with the quaternion difference operator, $\Theta$, as
 \begin{equation}
 	\begin{aligned}
-		\mathbf{q}_{err}(k) &= \mathbf{q_c}(k) \Theta \hat{\mathbf{q}}(k) \\
+		\mathbf{q}_{err} &= \mathbf{q_c} \Theta \hat{\mathbf{q}} \\
 		\begin{bmatrix} 
 			q_{1e} \\
 			q_{2e} \\
@@ -593,11 +598,11 @@ the quaternion error is calculated with the quaternion difference operator, $\Th
 			\hat{q}_2 \\
 			\hat{q}_3 \\
 			\hat{q}_4
-		\end{bmatrix}
+		\end{bmatrix},
 	\end{aligned}
 	\label{eq:quaternionError}
 \end{equation}
-where $\hat{\mathbf{q}}$ is the current estimated quaternion and $q_{c}$ is the command quaternion which is $\begin{Bmatrix}
+where $\hat{\mathbf{q}}$ is the current estimated quaternion and $\mathbf{q}_{c}$ is the command quaternion which is $\begin{Bmatrix}
 	0 & 0 & 0& 1
 \end{Bmatrix}^T$ during eclipse and during the sun following phase, the attitude command according to \cite{chen2000ground} can be calculated as 
 \begin{equation}
@@ -622,17 +627,15 @@ $\mathbf{s}_o$ is the measured unit sun vector in ORC, and the main solar panel'
 \end{figure}
 
 \subsection{Momentum Dumping}
-Momentum dumping is crucial to ensure that the wheel disturbance does not cause the system to become unstable. Momentum dumping is implemented during eclipse after the satellite is in a stable nadir-pointing attitude. The momentum dumping is implemented with magnetic torquers based on a Cross-Product controller. 
-
-The magnetic dipole moment $\mathbf{M}$ is calculated as 
+Momentum dumping is crucial to ensure that the wheel disturbance does not cause the system to become unstable. Momentum dumping is implemented during eclipse after the satellite is in a stable nadir-pointing attitude. The momentum dumping is implemented with magnetic torquers based on a Cross-Product controller. The magnetic dipole moment $\mathbf{M}$ is calculated as 
 \begin{equation}
-\mathbf{M} = \frac{\mathbf{e} \times \mathbf{B}}{\norm{\mathbf{B}_b}^2}
+\mathbf{M} = \frac{\mathbf{e} \times \mathbf{B}}{\norm{\mathbf{B}_b}^2},
 \end{equation}
 where $\mathbf{B}_b$ is the geomagnetic field and the error vector, $\mathbf{e}$ can be calculated as
 \begin{equation}
-\mathbf{e} = -K_w(\mathbf{h_w} - \mathbf{h_w,ref})
+\mathbf{e} = -K_w(\mathbf{h_w} - \mathbf{h_{w,ref}})
 \end{equation}
-where $K_w$ is a positive gain. This momentum dumping is implemented $200s$ after sun-following phase is implemented, to ensure stable control and reduce the momentum in the reaction wheels. The magnetorquers torques are shown in Figure~\ref{fig:Magnetic Control Torques} and it is evident that when the satellite control changes from eclipse to sunlit and from sunlit to eclipse the magnetorquers torques increase to compensate for the increase in reaction wheel torques and to minimise the dynamic reaction wheel disturbance.
+where $K_w$ is a positive gain. This momentum dumping is implemented $200s$ after sun-following phase is implemented, to ensure stable control and reduce the momentum in the reaction wheels. The magnetorquers torques are shown in Figure~\ref{fig:Magnetic Control Torques} and it is evident that when the satellite control changes from eclipse to sunlit and from sunlit to eclipse the magnetorquers compensate for the increase in reaction wheel torques and minimise the reaction wheel disturbance.
 
 \begin{figure}[!htb]
 	\centering
