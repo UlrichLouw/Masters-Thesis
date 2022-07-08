@@ -326,7 +326,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.623008in,y=0.316667in,,top]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont Time: (s)}%
+\pgftext[x=2.623008in,y=0.316667in,,top]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont Time: (\(\displaystyle s\))}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfpathrectangle{\pgfqpoint{0.671606in}{0.592901in}}{\pgfqpoint{3.902803in}{2.800406in}}%
@@ -1565,15 +1565,15 @@
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetstrokeopacity{0.800000}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{4.138280in}{2.562753in}}%
+\pgfpathmoveto{\pgfqpoint{4.044547in}{2.562753in}}%
 \pgfpathlineto{\pgfqpoint{4.457743in}{2.562753in}}%
 \pgfpathquadraticcurveto{\pgfqpoint{4.491076in}{2.562753in}}{\pgfqpoint{4.491076in}{2.596086in}}%
 \pgfpathlineto{\pgfqpoint{4.491076in}{3.276640in}}%
 \pgfpathquadraticcurveto{\pgfqpoint{4.491076in}{3.309974in}}{\pgfqpoint{4.457743in}{3.309974in}}%
-\pgfpathlineto{\pgfqpoint{4.138280in}{3.309974in}}%
-\pgfpathquadraticcurveto{\pgfqpoint{4.104947in}{3.309974in}}{\pgfqpoint{4.104947in}{3.276640in}}%
-\pgfpathlineto{\pgfqpoint{4.104947in}{2.596086in}}%
-\pgfpathquadraticcurveto{\pgfqpoint{4.104947in}{2.562753in}}{\pgfqpoint{4.138280in}{2.562753in}}%
+\pgfpathlineto{\pgfqpoint{4.044547in}{3.309974in}}%
+\pgfpathquadraticcurveto{\pgfqpoint{4.011213in}{3.309974in}}{\pgfqpoint{4.011213in}{3.276640in}}%
+\pgfpathlineto{\pgfqpoint{4.011213in}{2.596086in}}%
+\pgfpathquadraticcurveto{\pgfqpoint{4.011213in}{2.562753in}}{\pgfqpoint{4.044547in}{2.562753in}}%
 \pgfpathclose%
 \pgfusepath{stroke,fill}%
 \end{pgfscope}%
@@ -1585,15 +1585,15 @@
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetstrokeopacity{0.700000}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{4.171613in}{3.184974in}}%
-\pgfpathlineto{\pgfqpoint{4.204947in}{3.184974in}}%
+\pgfpathmoveto{\pgfqpoint{4.077880in}{3.184974in}}%
+\pgfpathlineto{\pgfqpoint{4.111213in}{3.184974in}}%
 \pgfusepath{stroke}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=4.338280in,y=3.126640in,left,base]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont x}%
+\pgftext[x=4.244547in,y=3.126640in,left,base]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont \(\displaystyle \bar{x}_\mathcal{B}\)}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetrectcap%
@@ -1603,15 +1603,15 @@
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetstrokeopacity{0.700000}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{4.171613in}{2.952567in}}%
-\pgfpathlineto{\pgfqpoint{4.204947in}{2.952567in}}%
+\pgfpathmoveto{\pgfqpoint{4.077880in}{2.952567in}}%
+\pgfpathlineto{\pgfqpoint{4.111213in}{2.952567in}}%
 \pgfusepath{stroke}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=4.338280in,y=2.894233in,left,base]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont y}%
+\pgftext[x=4.244547in,y=2.894233in,left,base]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont \(\displaystyle \bar{y}_\mathcal{B}\)}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetrectcap%
@@ -1621,15 +1621,15 @@
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetstrokeopacity{0.700000}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{4.171613in}{2.720160in}}%
-\pgfpathlineto{\pgfqpoint{4.204947in}{2.720160in}}%
+\pgfpathmoveto{\pgfqpoint{4.077880in}{2.720160in}}%
+\pgfpathlineto{\pgfqpoint{4.111213in}{2.720160in}}%
 \pgfusepath{stroke}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=4.338280in,y=2.661826in,left,base]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont z}%
+\pgftext[x=4.244547in,y=2.661826in,left,base]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont \(\displaystyle \bar{z}_\mathcal{B}\)}%
 \end{pgfscope}%
 \end{pgfpicture}%
 \makeatother%
