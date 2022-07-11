@@ -23,7 +23,7 @@ The extended Kalman filter (EKF) is implemented for attitude estimation of the s
 \section{Problem Description}
 For many satellite missions, attitude determination and control system (ADCS) is of high importance. It is required to effectively control the attitude to fulfill the required mission requirements.  The control performance is also limited by the estimation accuracy and performance.  A classical satellite attitude requirement is to be earth-following during eclipse, point the payload to a target and otherwise point and track the sun for solar charging. Good attitude estimation throughout the entire orbit is required to best fulfill the requirements.
 
-The attitude estimation is however highly influenced by the sensor readings. Different sensor measurements are fused together, normally with the use of an EKF, to produce a single attitude estimate.  If an erroneous, or false measurement is present in the collection of sensors, it will deter and influence the outcome of the fusion algorithm.  Depending on the number of sensors available and the size of the error the result can be either just reduced estimation accuracy or even divergence and instability. It is good practice to develop appropriate tests to protect the EKF against incorrect measurements. 
+The attitude estimation is however highly influenced by the sensor readings. Different sensor measurements are fused together, normally with the use of an EKF, to produce a single attitude estimate.  If an erroneous, or false measurement is present in the collection of sensors, it will deter and influence the outcome of the fusion algorithm.  Depending on the number of sensors available and the size of the error the result can be either just reduce estimation accuracy or even divergence and instability. It is good practice to develop appropriate tests to protect the EKF against incorrect measurements. 
 
 Anomaly detection in satellite sensors have been investigated in many previous research.  The current trend is to use generic sensor anomalies, such as bias drift, high noise, sudden failure or any drastic change in the behavior of the sensor. This is only a subset of possible errors and does not assist in diagnosing the anomaly, detecting intermittent errors, or coupled events between sensors. An example of a practical anomaly which can occur and which is difficult to detect using standard techniques are solar reflections from solar panels on a sun sensor. Majority of satellites, even with relatively low attitude requirements, have some form of sun sensor.  The sun sensor also provides an accurate measurement during the periods of the orbit where targeting and solar tracking is most likely and where the attitude requirement is the highest.  Thus it would be beneficial to have good interventions to ensure robust sun vector measurements for the EKF.
 
@@ -97,22 +97,22 @@ A comparison of model accuracy depending on training data from generic sensor an
 \section{Thesis outline}
 Chapter~\ref{chap:Introduction} provides the background and motivation for this research as well as the project definition and thesis outline.
 \\
-Chapter~\ref{chap:Literature Study} discusses the relevant research that has been done on the subject of FDIR.
+Chapter~\ref{chap:Literature Study} discusses the relevant research that has been done on FDIR.
 \\
-Chapter~\ref{chap:Simulation} demonstrated the development and implementation of the simulation environment.
+Chapter~\ref{chap:Simulation} demonstrates the development and implementation of the simulation environment, $\mathbf{G}_k$ as shown in Figure~\ref{fig:System_Diagram}.
 \\
-Chapter~\ref{chap:Implementation of Methods on Actual Satellite} 
+Chapter~\ref{chap:ADCS} discusses the satellite design and expands on the elements $\mathbf{D}_k$, $\mathbf{S}_k$, $\mathbf{E}_k$ and $\mathbf{W}_k$ in Figure~\ref{fig:System_Diagram}.
 \\
 Chapter~\ref{chap:Anomalies} provides the mathematical models of the specific anomalies and the effects thereof on the satellite.
 \\
-Chapter~\ref{chap:Feature Extraction} describes the feature extraction methods used in this thesis to enhance the accuracy of the detection and classification models.
+Chapter~\ref{chap:Feature Extraction} describes the feature extraction methods used in this thesis to enhance the accuracy of the detection and classification models, also provided as a element in Figure~\ref{fig:System_Diagram}.
 \\
-Chapter~\ref{chap:Recovery} provides various recovery methods and demonstrates the theoretical possibility of the methods based on perfect prediction accuracy.
+Chapter~\ref{chap:Recovery} provides various recovery methods and demonstrates the theoretical possibility of the methods based on perfect prediction accuracy, the final component of $\mathbf{FDIR}_k$ in Figure~\ref{fig:System_Diagram}.
 \\
-Chapter~\ref{chap:Detection} describes the different algorithms and methods used to detect an anomaly in the system.
+Chapter~\ref{chap:Detection} describes the different algorithms and methods used to detect an anomaly in the system, the first component of $\mathbf{FDIR}_k$ in Figure~\ref{fig:System_Diagram}.
 \\
-Chapter~\ref{chap:Isolation} describes the different algorithms and methods used to classify an anomaly in the system.
+Chapter~\ref{chap:Isolation} describes the different algorithms and methods used to classify an anomaly in the system, the second component of $\mathbf{FDIR}_k$ in Figure~\ref{fig:System_Diagram}.
 \\
-Chapter~\ref{chap:Results} provides a summary of all the results for the combination of best methods as provided in chapter~\ref{chap:Recovery}, chapter~\ref{chap:Detection} and chapter~\ref{chap:Isolation}.
+Chapter~\ref{chap:Results} provides a summary of all the results for the combination of best methods as provided in Chapter~\ref{chap:Recovery}, Chapter~\ref{chap:Detection} and Chapter~\ref{chap:Isolation}.
 \\
 Chapter~\ref{chap:Conclusion} discusses the influence of modelling specific anomalies on the prediction accuracy and robustness of a EKF.

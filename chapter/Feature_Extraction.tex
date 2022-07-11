@@ -7,7 +7,42 @@ The classes hyperparameter will be set to 2. The only problem with this, is a ve
 %\subsection{Linear Regression}
 
 \subsection{Local Outlier Factor}
+Most algorithms for anomaly detection are based on a metric which accounts for the entire dataset~\cite{breunig2000lof}. However, many anomalies are identifiable in relation to the local neighbourhood of data points and not the overall dataset. Therefore, \cite{breunig2000lof} developed the local outlier factor \(LOF\) algorithm that provides a measure of a data point's "outlierness". This implies that a data point is not classified as an anomaly or not, but a local outlier factor is calculated to determine how much a data point is distantiated from it's $k$-nearest neighbours. This is clearly demonstrated in Figure~\ref{Figure-LOF_measure} where the data points which are clustered together have smaller LOF's than data points which are removed from the highly dense areas.
 
+\begin{figure}[!hbt]
+	\centering
+	\import{Figures/}{LOF.pgf}
+	\caption{Plane perpendicular to $\mathbf{R}_{SE}$ and at center of earth}
+	\label{fig:localOutlierFactor}
+\end{figure}
+
+To calculate the LOF, the $k$-distance must be calculated and also the local reachability density \(lrd\). The $k$-distance, is the $k^{th}$ ranked $distance(o,p_i)$. Where $distance(o,p_i)$ is the distance between data point $o$ and any data point $p_i$, with $i \in N$, where $N$ is the number of data points within the dataset with a minimum value of $MinPts$. To reduce fluctuations in the $distance(o,p_i)$ the distance between $o$ and $p_i$ is replaced with 
+\begin{equation}
+max \{distance(o,p_i), k\text{-distance}\} 
+\end{equation}
+and will henceforth be referred to as the reachability distance~\cite{breunig2000lof}. The $lrd$ of a data point, $p$, is calculated as 
+\begin{equation}
+lrd_{MinPts}(p) = 1/\left(\frac{\sum\limits_{o \in N_{MinPts}(p)}^{} reach\-dist_{MinPts}(p,o)}{|N_{MinPts}(p)|}\right)
+\label{Eq-lrd}
+\end{equation}
+and denotes "the inverse of the average reachability distance based on the $MinPts$-nearest neighbours of the $p$" --- \cite{breunig2000lof}. Eq~\ref{Eq-lrd} enables the calculation for the $LOF$ of point $p$ as shown in Eq~\ref{Eq-LOF}
+\begin{equation}
+LOF_{MinPts}(p) = \frac{\sum\limits_{o \in N_{MinPts}(p)}^{}\frac{lrd_{MinPts}(o)}{lrd_{MinPts}(p)}}{|N_{MinPts}(p)|}
+\label{Eq-LOF}
+\end{equation}
+The rule of thumb for detecting an outlier is that when the LOF is larger than 1, then the point is considered an outlier with respect to its neighbourhood. This however is not fixed and the threshold can be changed depending on the application.
+This method is aimed at producing a measure of the "outlierness" of a data point within a local neighbourhood and not for all the data points. This method will thus be implemented for the satellite anomaly detection, since it will detect anomalies within the two neighbourhoods produced by the eclipse during orbit. This method will also be able to detect measurements of earth sensors, sun sensors and magnetometers that drastically change from the previous orbital data. For example in Fig~\ref{Figure-Satellite_orbit} it is evident that the LOF will be comparatively larger for the red data points, which are anomalies, to the blue data points that are the normal orbit of the satellite.
+
+\begin{figure}[h!tb]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[title = Earth Sensor During Multiple Orbits]
+	\addplot3 table [x =Earth x, y = Earth y, z=Earth z, col sep=comma, only marks, scatter, blue, fill opacity=0.1, draw opacity = 0]{Data/3D_orbit.csv};
+	\addplot3 table [x =Earth_anomaly x, y = Earth_anomaly y, z=Earth_anomaly z, col sep=comma, only marks, scatter, red, fill opacity=0.1, draw opacity = 0]{Data/3D_orbit.csv};
+	\end{axis}
+	\label{Figure-Satellite_orbit}
+	\end{tikzpicture}
+\end{figure}
 %\subsection{K-means Clustering}
 %
 %\subsection{Prony's Method}
@@ -43,18 +78,6 @@ where $K = 0.001$. After the calculation of $\hat{\mathbf{X}}_{k+1}$ \cite{DeSil
 \end{equation}
 where $N$ is the number of timesteps to account for. The moving average is used as an additional input parameter for the classification of anomalies based on $\mathbf{X}$.
 
-\section{Multiple Feature Extraction}
-The classes hyperparameter will be set to the number of anomalies (plus 1). The features will be used in the isolation algorithms. The only problem with this, is a very evident 2 classes is eclipse and non-ecplise. Consequently each feature extraction model will be trained twice. Once for the eclipse and once for the non-eclipse period.
-\subsection{Linear Regression}
-
-\subsection{Local Outlier Factor}
-
-\subsection{K-means Clustering}
-
-\subsection{Prony's Method}
-
-\subsection{Partial Least Square}
-
-\subsection{t-Distributed Stochastic Neighbor Embedding}
+\textbf{TODO: Plot sum of moving average for normal and anomaly}
 
 \section{Summary}

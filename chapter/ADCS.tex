@@ -1,0 +1,247 @@
+\chapter{Attitude Determination and Control System}
+\label{chap:ADCS}
+This chapter discusses the design of the ADCS. Therefore, the position of the actuators and sensors are discussed as well as the EKF algorithm and control methods.
+
+\section{Sensor models}
+The positioning of the sensors on the satellite is necessary to meet mission requirements. The exact position of the sensors also impact the modelling of the anomalies on the sensors. Therefore, each sensors position on the satellite is provided as well as the measured vector of each sensor. It is further assumed that each sensor has a zero-mean Guassian noise and consequently, the low frequency noise such as drift is negligible. The sensor measurement in the SBC frame, $\mathbf{v}_{\mathcal{B}}$,  can be calculated as
+\begin{equation}
+\mathbf{v}_{\mathcal{B}} = \boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}} \mathbf{v}_\mathcal{O} + \mathbf{m}_v,
+\end{equation}
+where $\mathbf{m}_v$ is the measurement noise of the current sensor and $\mathbf{v}_{\mathcal{I}}$ is the reference ORC vector. The measured unit vectors of the sun as an example of the sensor measurements is shown in Figure~\ref{fig:SunSensorPlot} where the grey background sections of the graphs are the eclipse periods, while the sections with the white background is the sunlit phase of the orbit.
+
+\begin{figure}[!htb]
+	\centering
+	\def\pgfwidth{7cm}
+	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Sun.pgf}
+	
+	\caption{Sun vector in SBC}
+	\label{fig:SunSensorPlot}
+\end{figure}
+
+%\begin{figure}[!htb]
+%	\centering
+%	\def\pgfwidth{7cm}
+%	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Earth_large.pgf}
+%	
+%	\caption{Earth vector in SBC}
+%	\label{fig:EarthSensorPlot}
+%\end{figure}
+%
+%\begin{figure}[!htb]
+%	\centering
+%	\def\pgfwidth{7cm}
+%	\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Magnetometer_large.pgf}
+%	
+%	\caption{Magnetometer in SBC}
+%	\label{fig:MagnetometerPlot}
+%\end{figure}
+
+\section{Attitude Determination}
+This section discusses the estimation algorithm for attitude determination of the satellite. This is done with the EKF, which utilizes the sensor measurements as well as modelled vectors according to physical models to estimate the current attitude. The EKF is highly sensitive to sensor anomalies and actuator failures and this section discusses the implementation of the EKF.
+
+\subsection{Extended Kalman Filter}
+The implementation of the EKF is for estimation of the current satellite attitude with sensor fusion of the magnetometer, star tracker, sun sensor and nadir sensor to accurately estimate the attitude and rotation rate of the satellite. The EKF will be used due to the non-linear nature of the system. The EKF consists of two fundamental parts, the model update and the measurement update. The estimated state vector, $\mathbf{x}$, will be denoted as $\hat{\mathbf{x}}$ and the estimated vector before and after the measurement update will be indicated with a superscript $'-'$ and $'+'$ respectively. The general form for a system model can be expressed as
+\begin{equation}
+\mathbf{\dot{x}}_t} = \mathbf{f}(\mathbf{x}_t) + s_t,
+\end{equation}
+where $\mathbf{f}(\mathbf{x}_t)$ is a non-linear function of $\mathbf{x}_t$. To linearise $\mathbf{x}_t$ an approximation of $\mathbf{f}(\mathbf{x}_t)$ according to the Taylor series expansion is implemented.
+
+\begin{equation}
+\begin{aligned}
+\mathbf{f}(x_t) &= \mathbf{f}(\hat{\mathbf{x}}_t) + \left[\frac{\partial \mathbf{f}}{\partial \hat{\mathbf{x}}_t} \right] \left(\mathbf{x}_t - \hat{\mathbf{x}}_t \right) + \frac{1}{2!} \left[\frac{\partial^2 \mathbf{f}}{\partial \hat{\mathbf{x}}_t^2} \right] \left(\mathbf{x}_t - \hat{\mathbf{x}}_t \right)^2 \\
+&\approx \mathbf{f} (\hat{\mathbf{x}}_t) + \mathbf{F} \Delta \mathbf{x}_t , \\
+\text{where} \qquad \mathbf{F}_t &= \left[\frac{\partial \mathbf{f}}{\partial \hat{\mathbf{x}}_t} \right] \\
+\text{and} \qquad \Delta \mathbf{x}_t &= \mathbf{x}_t - \hat{\mathbf{x}}_t. \\
+\end{aligned}
+\end{equation}
+
+
+To linearise the state vector, $\mathbf{x}$, for the full 7-state EKF consists of the quaternion vector, $\mathbf{q}$ and the inertial-referenced angular velocity, $\boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}$ given as
+\begin{equation}
+\mathbf{x} = [\mathbf{q}, \boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}]^T.
+\end{equation}
+To calculate the model update the dynamics and kinematics of the system model is used to calculate both $\boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}$ and $\mathbf{q}$. The integration method used in the simulation is the 4th order Runge-Kutta method to solve the differential equations. The integration method is shown in Algorithm~\ref{alg: Runge-Kutta} where $(\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{I}})_k^-$ is calculated for the first step of the model update.
+
+\begin{algorithm}[!htb]
+\caption[Runge-Kutta]{Runge-Kutta 4th order Algorithm at time $k$}
+\label{alg: Runge-Kutta}
+\begin{algorithmic}[1]
+	\State Satellite Body Inertia $\mathbf{J} = \begin{bmatrix}
+	0.4 & 0 & 0\\
+	0 & 0.45 & 0 \\
+	0 & 0 & 0.3
+	\end{bmatrix}$
+	\State Timestep ($T_s$) $= 1s$
+	\State Number of iterations ($I$) $= 10$
+	\State Step size $h = \frac{T_s}{I}$
+	\State Disturbance torques $\mathbf{N}_d = N_{gg} - N_{gyro} $ % + N_{aero} + N_{rw}$
+	\State Control torques $\mathbf{N}_c = N_m - N_w$
+	\State $\mathbf{N} = \mathbf{N}_c + \mathbf{N}_d$
+	\For{$n \coloneqq 1$ \textbf{to} $I$}
+	\State \texttt{$k_1 = h(\mathbf{J^{-1}}\mathbf{N})$}
+	\State \texttt{$k_2 = h(\mathbf{J^{-1}}\mathbf{N} + \frac{k1}{2})$}
+	\State \texttt{$k_3 = h(\mathbf{J^{-1}}\mathbf{N} + \frac{k_2}{2})$}
+	\State \texttt{$k_4 = h(\mathbf{J^{-1}}\mathbf{N} + k_3)$}
+	\State \texttt{$\boldsymbol{\omega}_{n+1}=\boldsymbol{\omega}_n + \frac{k_1}{6} + \frac{k_2}{3} + \frac{k_3}{3} + \frac{k_4}{6}$}
+	\EndFor
+	\State $(\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{I}})_k^- = \boldsymbol{\omega}_{n+1}$
+	\State \textbf{return} $(\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{I}})_k^-$
+\end{algorithmic}
+\end{algorithm}
+%\begin{equation}
+%	f(x,y) = \mathbf{J^{-1}}\big((N_m)_{k-1} - (N_w)_{k-1} - (N_{gg})_{k-1} - (N_{gyro})_{k-1} \big)
+%\end{equation}
+With reference to \cite{JansevanVuuren2015}, $\hat{\mathbf{q}}_k^-$ can be calculated as
+
+\begin{equation}
+\begin{aligned}
+\hat{\mathbf{q}}_k^- &= \left[\text{cos}(k_q)\mathbf{I}_{4 \times 4} + \frac{1}{\lVert (\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{O}})_k^- \rVert} \text{sin}(k_q) \mathbf{\Omega}_k^- \right] \hat{\mathbf{q}}_{k-1}^+ \\ \\
+\text{where } k_q &= \frac{Ts}{2} \lVert (\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{O}})_k^- \rVert \\ \\
+(\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{O}})_k^- &= (\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{I}})_k^- - \boldsymbol{\hat{A}}^{\mathcal{B}}_{\mathcal{O}_k} \begin{bmatrix} 0 & -(\omega_\mathcal{O})_k & 0\end{bmatrix}^T \\
+&= \begin{bmatrix} \boldsymbol{\hat{\omega}}_{\bar{x}_{\mathcal{O}}} & \boldsymbol{\hat{\omega}}_{\bar{y}_{\mathcal{O}}}  & \boldsymbol{\hat{\omega}}_{\bar{z}_{\mathcal{O}}} \end{bmatrix}^T \\ \\
+\lVert (\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{O}})_k^- \rVert &= \sqrt{\boldsymbol{\hat{\omega}}_{\bar{x}_{\mathcal{O}}}^2 + \boldsymbol{\hat{\omega}}_{\bar{y}_{\mathcal{O}}}^2 + \boldsymbol{\hat{\omega}}_{\bar{z}_{\mathcal{O}}}^2} \\ \\
+\text{and } \mathbf{\Omega}_k^- &= \begin{bmatrix} 
+0 & \boldsymbol{\hat{\omega}}_{\bar{z}_{\mathcal{O}}} & -\boldsymbol{\hat{\omega}}_{\bar{y}_{\mathcal{O}}} & \boldsymbol{\hat{\omega}}_{\bar{x}_{\mathcal{O}}} \\
+-\boldsymbol{\hat{\omega}}_{\bar{z}_{\mathcal{O}}} & 0 & \boldsymbol{\hat{\omega}}_{\bar{x}_{\mathcal{O}}} & \boldsymbol{\hat{\omega}}_{\bar{y}_{\mathcal{O}}}			\\
+\boldsymbol{\hat{\omega}}_{\bar{y}_{\mathcal{O}}} & -\boldsymbol{\hat{\omega}}_{\bar{x}_{\mathcal{O}}} & 0 & \boldsymbol{\hat{\omega}}_{\bar{z}_{\mathcal{O}}}			\\
+-\boldsymbol{\hat{\omega}}_{\bar{x}_{\mathcal{O}}} & -\boldsymbol{\hat{\omega}}_{\bar{y}_{\mathcal{O}}} & -\boldsymbol{\hat{\omega}}_{\bar{z}_{\mathcal{O}}} & 0			\\
+\end{bmatrix}
+\end{aligned}
+\label{eq:q-propagation}
+\end{equation}
+
+The estimated state vector, $\hat{\mathbf{x}}_k^-$ can now be expressed as 
+
+\begin{equation}
+\hat{\mathbf{x}}_k^- = \begin{bmatrix} (\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{I}})_k^- & \hat{\mathbf{q}}_k^-\end{bmatrix}
+\end{equation}
+\textbf{TODO: $\mathbf{Q}_k$ is the covariance matrix representing the discrete system noise and is assumed to be zero-mean and Guassian. $\Phi_k$ is the discrete system perturbation model. $\mathbf{H}_k$ is the discrete measurement perturbation Jacobian Matrix. $\mathbf{R}_k$ is the measurement noise covariance matrix.}
+
+The state covariance matrix $\mathbf{P}_k$ can be propagated as
+\begin{equation}
+\mathbf{P}_k^- = \Phi_k \mathbf{P}_{k-1}^+ \Phi_k ^T.
+\label{eq:P_k}
+\end{equation}
+The error, $\mathbf{e}_k$, between the measured and modelled vector is calculated as
+\begin{equation}
+\mathbf{e}_k = \mathbf{v}_\mathcal{B} - \boldsymbol{\hat{A}}^{\mathcal{B}}_{\mathcal{O}_k} \mathbf{v}_\mathcal{O}.
+\label{eq:errorVector}
+\end{equation}
+where $\mathbf{v}_\mathcal{B}$ is the measured vector in SBC and $\mathbf{v}_\mathcal{O}$ is the modelled ORC vector. The gain matrix $\mathbf{K}_k$ is used to determine the influence of $\mathbf{e}_k$ on the updated state vector, $\hat{\mathbf{x}}_k^+$. $\mathbf{K}_k$ can be calculated as 
+\begin{equation}
+\mathbf{K}_k = \mathbf{P}_k^- (\mathbf{H}_k^-)^T \left[\mathbf{H}_k^- \mathbf{P}_k^- (\mathbf{H}_k^-)^T + \mathbf{R}_k \right]^{-1}.
+\end{equation}
+after which the updated state vector can be calculated as
+\begin{equation}
+\hat{\mathbf{x}}_k^+ = \hat{\mathbf{x}}_k^- + \mathbf{K}_k \mathbf{e}_k.
+\label{eq:UpdatedStateVector}
+\end{equation}
+The state covariance matrix can then be updated as
+\begin{equation}
+\mathbf{P}_k^+ = \left[\mathbf{I}_{7 \times 7} - \mathbf{K}_k \mathbf{H}_k^+ \right]\mathbf{P}_k \left[\mathbf{I}_{7 \times 7} - \mathbf{K}_k \mathbf{H}_k^+ \right] + \mathbf{K}_k \mathbf{R}_k \mathbf{K}_k^T.
+\label{eq:Updated_P_k}
+\end{equation}
+Where $\Phi_k$ is the discrete system perturbation model is calculated as
+\begin{equation}
+\begin{aligned}
+\Phi_k &= \left[e^{T_s\mathbf{F}_t}\right]_{\mathbf{x}=\mathbf{\hat{x}},\quad t = kT_s} \\
+\text{and simplified as} \qquad \Phi_k &\approx \left[\mathbf{I} + T_s\mathbf{F}_t + \frac{1}{2!}T_s^2\mathbf{F}_t^2\right]_{\mathbf{x}=\mathbf{\hat{x}},\quad t = kT_s}, \\
+\end{aligned}
+\end{equation}
+according to \cite{Steyn2004Notes}. To validate the results of the EKF, the estimation error is given in Figure~\ref{fig:Estimation Metric}. Where the estimation error is the difference between the current $\mathbf{q}$ and $\mathbf{\hat{q}}$ in degrees.
+
+\begin{figure}[!htb]
+\centering
+\def\pgfwidth{10cm}
+\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Estimation Metric.pgf}
+
+\caption{Estimation Metric}
+\label{fig:Estimation Metric}
+\end{figure}
+
+During the measurement update $\mathbf{e}_k$ is largely affected by anomalous behaviour in the sensor measurements. The sensitivity of the Kalman filter to the various anomalies is discussed in Chapter~\ref{chap:Anomalies}.
+
+\section{Attitude Control}
+To ensure that the satellite is able to satisfy the mission requirements, control of the satellite attitude is required. Therefore, the satellite's payload must be in the direction of the Earth during eclipse and the solar panels should be pointing in the direction of the sun during the sunlit phase. For this a quaternion feedback controller of the reaction wheels is implemented and a momentum dumping with the magnetorquers is implemented to ensure that the wheel disturbance remains within reasonable boundaries.
+
+\subsection{Quaternion Feedback Controller}
+\label{section: Quaternion Feedback Controller}
+To ensure that the satellite is in the desired orientation with stable control in all three axes the quaternion feedback reaction wheel controller is implemented~\cite{wie1989quarternion}. The controller is provided with $\mathbf{\hat{x}}$ as input and outputs $\mathbf{N}_w$. To calculate the required torque, $\mathbf{N}_{w}$, the definition according to \cite{steyn2008attitude} for all cases at time step, $k$, is given as
+\begin{equation}
+\mathbf{N}_{w} = K_{PI}\mathbf{Jq}_{err} + K_{DI}\mathbf{I}\hat{\boldsymbol{\omega}}_{\mathcal{B}}^{\mathcal{O}} - \hat{\boldsymbol{\omega}}_{\mathcal{B}}^{\mathcal{I}} \times \left[\mathbf{J}\hat{\boldsymbol{\omega}}_{\mathcal{B}}^{\mathcal{I}} + \mathbf{h}_{w}\right],
+\end{equation}
+where $\mathbf{h}_{w}$ is the measured angular momentum of the wheels and the control gains are defined as
+\begin{equation}
+\begin{aligned}
+K_{PI} &= 2 \omega_n^2\\
+K_{DI} &= 2 \zeta \omega_n. \\
+\end{aligned}
+\label{eq:controlGain}
+\end{equation}
+The quaternion error, $\mathbf{q}_{err}$, is calculated with the quaternion difference operator, $\Theta$, as
+\begin{equation}
+\begin{aligned}
+\mathbf{q}_{err} &= \mathbf{q_c} \Theta \hat{\mathbf{q}} \\
+\begin{bmatrix} 
+q_{1e} \\
+q_{2e} \\
+q_{3e} \\
+q_{4e}
+\end{bmatrix} &= \begin{bmatrix} 
+q_{4c} & q_{3c} & -q_{4c} & -q_{4c} \\
+-q_{3c} & q_{4c} & q_{1c} & -q_{2c} \\
+q_{2c} & - q_{1c} & q_{4c} & -q_{3c} \\
+q_{1c} & q_{2c} & q_{3c} & q_{4c}
+\end{bmatrix}
+\begin{bmatrix} 
+\hat{q}_1 \\
+\hat{q}_2 \\
+\hat{q}_3 \\
+\hat{q}_4
+\end{bmatrix},
+\end{aligned}
+\label{eq:quaternionError}
+\end{equation}
+where $\hat{\mathbf{q}}$ is the current estimated quaternion and $\mathbf{q}_{c}$ is the command quaternion which is $\begin{bmatrix}
+0 & 0 & 0& 1
+\end{bmatrix}^T$ during eclipse and during the sun following phase, the attitude command according to \cite{chen2000ground} can be calculated as 
+\begin{equation}
+\mathbf{q}_c = \begin{bmatrix}
+\mathbf{u}_c \text{sin}(\frac{\delta}{2}) \\
+\text{cos}(\frac{\delta}{2})
+\end{bmatrix},
+\end{equation}
+where 
+\begin{equation}
+\mathbf{u}_c = \frac{\mathbf{u}_{sp_\mathcal{B}} \times \mathbf{s}_\mathcal{O}}{\norm{\mathbf{u}_{sp_\mathcal{B}} \times \mathbf{s}_\mathcal{O}}}.
+\end{equation}
+$\mathbf{s}_\mathcal{O}$ is the measured unit sun vector in ORC, and the main solar panel's position is denoted as a unit vector, $\mathbf{u}_{sp_\mathcal{B}}$. The angle between $\mathbf{u}_{sp_\mathcal{B}}$ and $\mathbf{s}_\mathcal{O}$, $\delta$, can be calculated with the vector dot-product. This can then be used as the reference for the control. The reference $\boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}$ is always $[0, 0, 0]$. 
+
+\begin{figure}[!htb]  
+\centering
+\def\pgfwidth{10cm}
+\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Pointing Metric.pgf}
+
+\caption{Pointing Metric}
+\label{fig:Pointing Metric}
+\end{figure}
+
+\subsection{Momentum Dumping}
+Momentum dumping is crucial to ensure that the wheel disturbance does not cause the system to become unstable. Momentum dumping is implemented during eclipse after the satellite is in a stable nadir-pointing attitude. The momentum dumping is implemented with magnetic torquers based on a Cross-Product controller. The magnetic dipole moment $\mathbf{M}$ is calculated as 
+\begin{equation}
+\mathbf{M} = \frac{\mathbf{e} \times \mathbf{B}}{\norm{\mathbf{B}_b}^2},
+\end{equation}
+where $\mathbf{B}_b$ is the geomagnetic field and the error vector, $\mathbf{e}$ can be calculated as
+\begin{equation}
+\mathbf{e} = -K_w(\mathbf{h_w} - \mathbf{h_{w,ref}})
+\end{equation}
+where $K_w$ is a positive gain. This momentum dumping is implemented $200s$ after sun-following phase is implemented, to ensure stable control and reduce the momentum in the reaction wheels. The magnetorquers torques are shown in Figure~\ref{fig:Magnetic Control Torques} and it is evident that when the satellite control changes from eclipse to sunlit and from sunlit to eclipse the magnetorquers compensate for the increase in reaction wheel torques and minimise the reaction wheel disturbance.
+
+\begin{figure}[!htb]
+\centering
+\def\pgfwidth{10cm}
+\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Magnetic Control Torques.pgf}
+
+\caption{Magnetic Control Torques}
+\label{fig:Magnetic Control Torques}
+\end{figure}
