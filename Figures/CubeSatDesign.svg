@@ -2,21 +2,21 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="210mm"
    height="297mm"
    viewBox="0 0 210 297"
    version="1.1"
    id="svg192073"
-   inkscape:version="0.92.1 r15371"
-   sodipodi:docname="CubeSatDesign.svg">
+   inkscape:version="1.1.1 (1:1.1+202109281949+c3084ef5ed)"
+   sodipodi:docname="CubeSatDesign.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata1194">
     <rdf:RDF>
@@ -25,7 +25,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -39,15 +38,15 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="-152.58167"
-     inkscape:cy="722.3834"
-     inkscape:window-width="1680"
-     inkscape:window-height="1027"
-     inkscape:window-x="1912"
-     inkscape:window-y="19"
+     inkscape:zoom="4"
+     inkscape:cx="467.75"
+     inkscape:cy="600.25"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer3">
+     inkscape:current-layer="layer4">
     <inkscape:grid
        type="xygrid"
        id="grid1137" />
@@ -390,37 +389,37 @@
        id="path1141" />
     <text
        xml:space="preserve"
-       style="font-size:5.64444017px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.26458299"
+       style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.264583"
        x="183.4713"
        y="190.68134"
        id="text32848"><tspan
          sodipodi:role="line"
          id="tspan32846"
-         style="stroke-width:0.26458299"
+         style="stroke-width:0.264583"
          x="183.4713"
          y="190.68134">$\bar{\mathbf{x}}_{\mathcal{O}}$</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:5.64444017px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.26458299"
-       x="162.73952"
-       y="180.30043"
+       style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.264583"
+       x="157.13206"
+       y="181.68782"
        id="text37358"><tspan
          sodipodi:role="line"
          id="tspan37356"
-         style="stroke-width:0.26458299"
-         x="162.73952"
-         y="180.30043">$\bar{\mathbf{z}}_{\mathcal{O}}$</tspan></text>
+         style="stroke-width:0.264583"
+         x="157.13206"
+         y="181.68782">$\bar{\mathbf{z}}_{\mathcal{O}}$</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:5.64444017px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.26458299"
-       x="156.87396"
-       y="201.65819"
+       style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.264583"
+       x="152.34346"
+       y="201.51863"
        id="text41850"><tspan
          sodipodi:role="line"
          id="tspan41848"
-         style="stroke-width:0.26458299"
-         x="156.87396"
-         y="201.65819">$\bar{\mathbf{y}}_{\mathcal{O}}$</tspan></text>
+         style="stroke-width:0.264583"
+         x="152.34346"
+         y="201.51863">$\bar{\mathbf{y}}_{\mathcal{O}}$</tspan></text>
   </g>
   <g
      inkscape:label="Layer 1"
@@ -497,13 +496,13 @@
        id="path127822" />
     <text
        xml:space="preserve"
-       style="font-size:4.23333333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.264583;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
        x="135.20428"
        y="93.583115"
        id="text143950"><tspan
          sodipodi:role="line"
          id="tspan143948"
-         style="stroke-width:0.264583;-inkscape-font-specification:'sans-serif, Normal';font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:4.23333333px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
          x="135.20428"
          y="93.583115">D</tspan></text>
     <text
@@ -538,13 +537,13 @@
          y="26.396793">B</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.264583;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
        x="135.96683"
        y="28.51898"
        id="text138248"><tspan
          sodipodi:role="line"
          id="tspan138246"
-         style="stroke-width:0.264583;-inkscape-font-specification:'sans-serif, Normal';font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:4.23333333px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
          x="135.96683"
          y="28.51898">A</tspan></text>
     <path
@@ -554,9 +553,10 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#marker79245)"
-       d="m 113.77083,153.45833 h 50.27083"
-       id="path78849" />
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker79245)"
+       d="m 113.77083,153.45833 46.77477,0.0699"
+       id="path78849"
+       sodipodi:nodetypes="cc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
        d="M 84.666666,127 V 103.1875"
@@ -564,25 +564,25 @@
     <text
        xml:space="preserve"
        style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.264583"
-       x="85.96286"
+       x="87.340813"
        y="110.9806"
        id="text37358-5"><tspan
          sodipodi:role="line"
          id="tspan37356-4"
          style="stroke-width:0.264583"
-         x="85.96286"
+         x="87.340813"
          y="110.9806">$\bar{\mathbf{z}}_{\mathcal{B}}$</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.264583"
-       x="140.44432"
-       y="160.79492"
+       x="140.22298"
+       y="164.18869"
        id="text37358-5-9"><tspan
          sodipodi:role="line"
          id="tspan37356-4-3"
          style="stroke-width:0.264583"
-         x="140.44432"
-         y="160.79492">$\bar{\mathbf{x}}_{\mathcal{B}}$</tspan></text>
+         x="140.22298"
+         y="164.18869">$\bar{\mathbf{x}}_{\mathcal{B}}$</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.264583"
@@ -628,7 +628,7 @@
        ry="1.6837981" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
        x="54.629887"
        y="162.67033"
        id="text1704"><tspan
@@ -636,6 +636,6 @@
          id="tspan1702"
          x="54.629887"
          y="162.67033"
-         style="stroke-width:0.26458332">CoM</tspan></text>
+         style="stroke-width:0.264583">CoM</tspan></text>
   </g>
 </svg>
