@@ -65,7 +65,7 @@ The SBC frame is the frame fixed to the satellite and it is the relative rotatio
 
 \subsection{Attitude}
 \label{subsection_quaternions}
-To determine the attitude of an object, a model must be used to determine the rotation of an object in three dimensions. For this the visual and intuitive example of the Euler angles exist. Euler angles are the rotation of an object around three orthogonal axes, that change orientation with the rotation of the object. The three axes, denoted by $x$, $y$ and $z$ rotate with the object as depicted in Figure~\ref{fig:Pitch}.
+To determine the attitude of an object, a mathematical model must be used to determine the rotation of an object in three dimensions. For this the visual and intuitive example of the Euler angles exist. Euler angles are the rotation of an object around three orthogonal axes, that change orientation with the rotation of the object. The three axes of SBC, denoted by $\bar{\mathbf{x}}_{\mathcal{B}}$, $\bar{\mathbf{y}}_{\mathcal{B}}$ and $\bar{\mathbf{z}}_{\mathcal{B}}$ rotate with the object as depicted in Figure~\ref{fig:Pitch}.
 \begin{figure}[!htb]
 	\centering
 	\def\svgwidth{10cm}
@@ -74,26 +74,26 @@ To determine the attitude of an object, a model must be used to determine the ro
 	\label{fig:Pitch}
 \end{figure}
 
-$\boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}}$ can be used to calculate the attitude transformation from given Euler angle rotations. This is done by multiplying the transformation matrices representing each individual Euler angle rotation. The $\boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}}$ can therefore be calculated as 
+$\boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}}$ can be used to calculate the attitude transformation from given Euler angle rotations. This is done by multiplying the transformation matrices representing each individual Euler angle rotation. $\boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}}$ can therefore be calculated as 
 \begin{equation}
 	\begin{aligned}
 		\boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}} &= \boldsymbol{A}_{\psi} \boldsymbol{A}_{\phi} \boldsymbol{A}_{\theta} \\
 			&= \begin{bmatrix}
-			\text{cos} \psi & \text{sin} \psi & 0 \\
-			-\text{sin} \psi & \text{cos} \psi & 0 \\
+			\text{cos}(\psi) & \text{sin}(\psi) & 0 \\
+			-\text{sin}(\psi) & \text{cos}(\psi) & 0 \\
 			0 & 0 & 1
 			\end{bmatrix} \begin{bmatrix}
 			1 & 0 & 0 \\
-			0 & \text{cos} \phi & \text{sin} \phi \\
-			0 & -\text{sin} \phi & \text{cos} \phi
+			0 & \text{cos}(\phi) & \text{sin}(\phi) \\
+			0 & -\text{sin}(\phi) & \text{cos}(\phi)
 			\end{bmatrix} \begin{bmatrix}
-			\text{cos} \theta &  0 & -\text{sin} \theta \\
+			\text{cos}(\theta) &  0 & -\text{sin}(\theta) \\
 			0 & 1 & 0 \\
-			\text{sin} \theta & 0 & \text{cos} \theta
+			\text{sin}(\theta) & 0 & \text{cos}(\theta)
 			\end{bmatrix}. \\
 	\end{aligned}
 \end{equation}
-Euler angles however are not always a suitable method in determining the attitude of a satellite. This is because of singularities that can occur such as the gimbal-lock effect. Where two rotational axes, coincide to form a single rotational axis. Consequently, not all $3$D rotations can be described with Euler angles, because with gimbal-lock only two effective rotations can occur instead of three \cite{diebel2006representing}. Therefore the method of describing $3$D rotation with quaternions is more often used and more convenient. 
+Euler angles however are not always a suitable method in determining the attitude of a satellite. This is because of singularities that can occur such as the gimbal-lock effect, where two rotational axes coincide to form a single rotational axis. Consequently, not all $3$D rotations can be described with Euler angles, because with gimbal-lock only two effective rotations can occur instead of three \cite{diebel2006representing}. Therefore the method of describing $3$D rotation with quaternions is more often used and more convenient. 
 
 A quaternion, $\mathbf{q}$, has four components that are dependent on one another and constrained by 
 \begin{equation} 
@@ -104,7 +104,7 @@ The attitude quaternion is also related to the Euler angles in that if the Euler
 \begin{equation}
 \mathbf{q} = \begin{bmatrix} e_1 \text{sin}(\frac{\Phi}{2}) \\ e_2 \text{sin}(\frac{\Phi}{2}) \\ e_3 \text{sin}(\frac{\Phi}{2}) \\ \text{cos}(\frac{\Phi}{2}) \end{bmatrix}
 \end{equation}
-It is difficult to visualize a quaternion, however the most simplistic method of understanding it is shown in Figure~\ref{fig:quaternion}. A quaternion is consequently a unit vector protruding from the centre point of an object as well as the angle of rotation of that object around that unit vector. As seen in Figure~\ref{fig:Pitch} the angle $\theta$ is the angle of rotation around the $z$-axis, for quaternions the angle of rotation is the same principle, however the axis around which the object is rotating, is the unit vector. Therefore, $q_4$ provides the angle of rotation while, $q_{1-3}$ represents the unit vector, however with the condition of Eq~\ref{Eq-quaternion dependency}.
+It is difficult to visualize a quaternion, however the most simplistic method of understanding it is shown in Figure~\ref{fig:quaternion}. A quaternion can be simplified to a unit vector protruding from the centre point of an object as well as the angle of rotation of that object around that unit vector. As seen in Figure~\ref{fig:Pitch} the angle $\theta$ is the angle of rotation around the $\bar{\mathbf{z}}_\mathcal{B}''$-axis. For quaternions the angle of rotation is the same principle, however the axis around which the object is rotating, is the unit vector, $q_{1-3}$. Therefore, $q_4$ provides the angle of rotation while $q_{1-3}$ represents the unit vector, however with the condition of Eq~\ref{Eq-quaternion dependency}.
 
 \begin{figure}[!htb]
 	\centering
@@ -139,14 +139,14 @@ The conservation of momentum dominates the dynamics of a satellite. This consist
 \label{Eq-EulerDynamic}
 \end{equation}
 
-This is the overarching equation that will be used to determine the control torque as well as the model update of the extended Kalman Filter (EKF). The integration method used in the simulation is the $4^{th}$ order Runge-Kutta method to solve the differential equations. This is demonstrated with Algorithm~\ref{alg: runge-kutta}.
+This is the overarching equation that will be used to determine the control torque as well as the model update of the EKF. The integration method to solve the differential equations used in the simulation is the $4^{th}$ order Runge-Kutta method. This is demonstrated with Algorithm~\ref{alg: runge-kutta}.
 
 \begin{algorithm}[!htb]
 	\caption[$4^{th}$ order Runge-Kutta]{$4^{th}$ order Runge-Kutta}
 	\label{alg: runge-kutta}
 	\begin{algorithmic}[1]
-		\State Definitions: Ts - Timestamp; 
-		\State $h = Ts/I$ 
+		\State Definitions: $T_s$ - Timestamp; 
+		\State $h = T_s/I$ 
 		\For{$n \coloneqq 1$ \textbf{to} $I$}
 		\State	$k_1 = hf(x_n, y_n)$
 		\State	$k_2 = hf(x_n + \frac{h}{2}, y_n + \frac{k_1}{2})$
@@ -158,15 +158,15 @@ This is the overarching equation that will be used to determine the control torq
 	\end{algorithmic}
 \end{algorithm}
 
-Where $h$ is the step size, which is set to $T_s/10$, and the time step, $T_s$, is equal to one second. $f(x_n, y_n)$ is the Euler dynamic function and Algorithm~\ref{alg: runge-kutta} is used to calculate $\boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}$.  With this procedure the dynamics and kinematics of the satellite can be simulated after each time step.
+Where $h$ is the step size, $I$ is the number of iterations set to $10$ and the time step, $T_s$, is equal to one second. $f(x_n, y_n)$ is the Euler dynamic function and Algorithm~\ref{alg: runge-kutta} is used to calculate $\boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}$.  With this procedure the dynamics and kinematics of the satellite can be simulated after each time step.
 
 \section{Environment}
-To ensure an accurate simulation environment certain aerospace phenomena must be simulated to ensure that all anomalies can be accurately modelled as well as creating an accurate representation of the satellite orbit. Therefore, the position of the satellite with respect to the Earth (orbit propagation) is required to determine most of the elementary principles of the satellite mission. The orbit propagation is further used to determine the moon on the Earth horizon anomaly. The sun position is required for eclipse as well as simulating the sun reflecting from the solar panels unto the sun sensor. The magnetic field is required to simulate $\mathbf{N}_m$ of the magnetorquer as well as the solar panel dipole anomaly and disturbance torque. \textbf{TODO: Consider a section on CubeSat design}.
+To ensure an accurate simulation environment certain aerospace phenomena must be simulated to ensure that all anomalies can be accurately modelled as well as creating an accurate representation of the satellite orbit. Therefore, the position of the satellite with respect to the Earth (orbit propagation) is required to determine most of the elementary principles of the satellite mission. The orbit propagation is further used to determine the moon on the Earth horizon anomaly. The sun position is required for eclipse as well as simulating the sun reflecting from the solar panels unto the sun sensor. The magnetic field is required to simulate $\mathbf{N}_m$ of the magnetorquer as well as the solar panel dipole anomaly and disturbance torque. 
 
 \subsection{Orbit Propagation}
 The satellite position, $\mathbf{r}_{sat}$ and velocity $\mathbf{v}_{sat}$ at a given time step is required to determine the multiple different variables required for the simulation environment. Therefore the refined version and fourth generation of the simplified general perturbations (SGP) model, namely SGP4, is used as orbit propagator of the satellite after each time step \cite{vallado2006revisiting}. 
 
-To determine $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ at time step, $k$, the two-line element, (TLE), set of the satellite is required. The TLE set is an encoding of the specified satellite orbit, that requires parameters such as the semimajor axis, $a$, right ascension of the ascending node (RAAN), $\Omega$, argument of perigee (AP), $\omega$, inclination, $i$, eccentricity, $e$, and the time at the beginning of the orbit as a Julian date, $J_t$. With these parameters and the elapsed time since $J_t$, both $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ can be determined from the World Geodetic System 72 constants that is implemented through the SGP4 model. An example of the satellite orbit propagated by the SGP4 model is illustrated in Figure~\ref{fig:EarthOrbit}.
+To determine $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ at time step, $k$, the two-line element, (TLE), set of the satellite is required. The TLE set is an encoding of the specified satellite orbit, that requires parameters such as the semimajor axis, $a$, right ascension of the ascending node (RAAN), $\Omega$, argument of perigee (AP), $\omega$, inclination, $i$, eccentricity, $e$, and the time at the beginning of the orbit as a Julian date, $J_t$. With these parameters and the elapsed time since $J_t$, both $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ can be determined from the World Geodetic System 72 constants that is implemented through the SGP4 model. An example of a satellite orbit propagated by the SGP4 model is illustrated in Figure~\ref{fig:EarthOrbit}.
 
 \begin{figure}[!htb]
 	\centering
@@ -177,7 +177,7 @@ To determine $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ at time step, $k$, th
 \end{figure}
 
 
-The SGP4 outputs the $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ in the EIC reference frame. The SGP4 is implemented with the SGP4 python package~\cite{sgp4}. Therefore, with $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ known, $\boldsymbol{A}^{\mathcal{O}}_{\mathcal{E}}$ can now be calculated according to Eq~\ref{Eq: ORC to EIC}.
+The SGP4 is implemented with the SGP4 Python package~\cite{sgp4}. The SGP4 outputs the $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ in the EIC reference frame. Therefore, with $\mathbf{r}_{sat}$ and $\mathbf{v}_{sat}$ known, $\boldsymbol{A}^{\mathcal{O}}_{\mathcal{E}}$ can now be calculated according to Eq~\ref{Eq: ORC to EIC}.
 
 \subsection{Sun}
 For the mission to be successful it is critical to determine the position of the sun relative to the satellite. This is because the satellite must determine whether it is in the eclipse to determine the control operation. Therefore, the model from \cite{vallado2001fundamentals} is implemented to determine the position of the sun in the EIC frame.
@@ -200,8 +200,7 @@ With $T_{JC}$ known, $\mathbf{r}_{sun}$ can then be calculated with
 		M_{\oplus} &= \num{357.527723300}^o + \num{35999.050340} \, T_{JC}, \\
 		\lambda_e &= \lambda_{M_{\oplus}} + \num{1.914666471} \, \text{sin}(M_{\oplus}) + \num{0.019994643} \, \text{sin}(2M_{\oplus}), \\
 		\lambda_{M_{\oplus}} &= \num{280.460618400}^o + \num{36000.770053610} \, T_{JC}, \\
-		\epsilon &= \num{23.439291}^o - \num{0.013004200} \, T_{JC} \\
-		\text{and} \quad T_{JC} &= \frac{J_t - \num{2451545}}{\num{36525}}.
+		\text{and} \quad \epsilon &= \num{23.439291}^o - \num{0.013004200} \, T_{JC}. \\
 	\end{aligned}
 \end{equation}
 
