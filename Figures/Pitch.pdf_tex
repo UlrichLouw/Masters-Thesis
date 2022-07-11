@@ -38,7 +38,7 @@
   \newcommand*\fsize{\dimexpr\f@size pt\relax}%
   \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{1114.28638722bp}%
+    \setlength{\unitlength}{1227.42384032bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -50,38 +50,39 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.33252971)%
+  \begin{picture}(1,0.29946981)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{Pitch.pdf}}%
-    \put(-0.00297976,0.06149708){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$z$\end{tabular}}}}%
-    \put(0.20579961,0.17051464){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$x$\end{tabular}}}}%
-    \put(0.1222384,0.29216968){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$y$\end{tabular}}}}%
+    \put(-0.00081153,0.05341954){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{z}}_\mathcal{B}$\end{tabular}}}}%
+    \put(0.18872366,0.15238843){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{x}}_\mathcal{B}$\end{tabular}}}}%
+    \put(0.11286468,0.26282995){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{y}}_\mathcal{B}$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{Pitch.pdf}}%
-    \put(0.16783271,0.05480255){\rotatebox{-0.22298031}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$z'$\end{tabular}}}}}%
-    \put(0.18356333,0.24318763){\rotatebox{-0.57703482}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$x'$\end{tabular}}}}}%
+    \put(0.15425635,0.04734207){\rotatebox{-0.22298031}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{z}}_\mathcal{B}'$\end{tabular}}}}}%
+    \put(0.16853701,0.21836281){\rotatebox{-0.57703482}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{x}}_\mathcal{B}'$\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{Pitch.pdf}}%
-    \put(0.10075074,0.0962461){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\psi$\end{tabular}}}}%
-    \put(0.16953155,0.17243395){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\psi$\end{tabular}}}}%
+    \put(0.09335765,0.08496558){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\psi$\end{tabular}}}}%
+    \put(0.1557986,0.15413083){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\psi$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{Pitch.pdf}}%
-    \put(0.91137622,0.13714087){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$y'$\end{tabular}}}}%
-    \put(0.82251804,0.03766495){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$y''$\end{tabular}}}}%
+    \put(0.82926394,0.12209088){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{y}}_\mathcal{B}'$\end{tabular}}}}%
+    \put(0.74859624,0.03178413){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{y}}_\mathcal{B}''$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=5]{Pitch.pdf}}%
-    \put(0.69292161,0.0055922){\rotatebox{-0.22298031}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$z''$\end{tabular}}}}}%
-    \put(0.81903516,0.24771296){\rotatebox{-0.57703482}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$x'$\end{tabular}}}}}%
-    \put(0.9160508,0.20713842){\rotatebox{-0.57703482}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$x''$\end{tabular}}}}}%
+    \put(0.63094532,0.00266768){\rotatebox{-0.22298031}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{z}}_\mathcal{B}''$\end{tabular}}}}}%
+    \put(0.74543439,0.22247102){\rotatebox{-0.57703482}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{x}}_\mathcal{B}'$\end{tabular}}}}}%
+    \put(0.83350764,0.18563642){\rotatebox{-0.57703482}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{x}}_\mathcal{B}''$\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=6]{Pitch.pdf}}%
-    \put(0.81157669,0.12464191){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\theta$\end{tabular}}}}%
-    \put(0.81781707,0.19352837){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\theta$\end{tabular}}}}%
+    \put(0.7386634,0.11074401){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\theta$\end{tabular}}}}%
+    \put(0.74432858,0.17328088){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\theta$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=7]{Pitch.pdf}}%
-    \put(0.4476833,0.28576355){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$y$\end{tabular}}}}%
-    \put(0.5919767,0.13021087){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$y'$\end{tabular}}}}%
+    \put(0.40831179,0.25701431){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{y}}_\mathcal{B}$\end{tabular}}}}%
+    \put(0.53930499,0.11579965){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{y}}_\mathcal{B}'$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=8]{Pitch.pdf}}%
-    \put(0.49090938,0.05480254){\rotatebox{-0.22298031}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$z'$\end{tabular}}}}}%
-    \put(0.37488181,0.01676375){\rotatebox{-0.22298031}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$z''$\end{tabular}}}}}%
-    \put(0.50640642,0.24295136){\rotatebox{-0.57703482}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$x'$\end{tabular}}}}}%
+    \put(0.44755352,0.04734207){\rotatebox{-0.22298031}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{z}}_\mathcal{B}'$\end{tabular}}}}}%
+    \put(0.34222076,0.01280949){\rotatebox{-0.22298031}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{z}}_\mathcal{B}''$\end{tabular}}}}}%
+    \put(0.46162212,0.21814832){\rotatebox{-0.57703482}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{\mathbf{x}}_\mathcal{B}'$\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=9]{Pitch.pdf}}%
-    \put(0.48041186,0.17009875){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\phi$\end{tabular}}}}%
-    \put(0.44461974,0.09404529){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\phi$\end{tabular}}}}%
+    \put(0.4380236,0.15201088){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\phi$\end{tabular}}}}%
+    \put(0.40553061,0.08296763){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\phi$\end{tabular}}}}%
+    \put(0.21429947,-2.17100948){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{1.33946767\unitlength}\end{minipage}}}%
   \end{picture}%
 \endgroup%

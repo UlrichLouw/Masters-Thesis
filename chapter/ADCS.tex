@@ -42,7 +42,7 @@ This section discusses the estimation algorithm for attitude determination of th
 \subsection{Extended Kalman Filter}
 The implementation of the EKF is for estimation of the current satellite attitude with sensor fusion of the magnetometer, star tracker, sun sensor and nadir sensor to accurately estimate the attitude and rotation rate of the satellite. The EKF will be used due to the non-linear nature of the system. The EKF consists of two fundamental parts, the model update and the measurement update. The estimated state vector, $\mathbf{x}$, will be denoted as $\hat{\mathbf{x}}$ and the estimated vector before and after the measurement update will be indicated with a superscript $'-'$ and $'+'$ respectively. The general form for a system model can be expressed as
 \begin{equation}
-\mathbf{\dot{x}}_t} = \mathbf{f}(\mathbf{x}_t) + s_t,
+\mathbf{\dot{x}}_t = \mathbf{f}(\mathbf{x}_t) + s_t,
 \end{equation}
 where $\mathbf{f}(\mathbf{x}_t)$ is a non-linear function of $\mathbf{x}_t$. To linearise $\mathbf{x}_t$ an approximation of $\mathbf{f}(\mathbf{x}_t)$ according to the Taylor series expansion is implemented.
 
