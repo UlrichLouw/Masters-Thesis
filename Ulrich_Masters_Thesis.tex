@@ -100,6 +100,7 @@
 \newcommand\norm[1]{\left\lVert#1\right\rVert}
 % Pseudo-code
 \usepackage{algorithm}  % should go before \usepackage{hyperref}
+\usepackage{pgf-pie} 
 
 % Table of contents and hyperlinks
 \usepackage{hyperref}
@@ -120,6 +121,12 @@
 
 % Fix titlesec issue
 \usepackage{etoolbox}
+
+%\usepgfplotslibrary{external}
+%
+%\pgfmathdeclarefunction{gauss}{3}{%
+%	\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+%}
 
 \makeatletter
 \patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
@@ -145,6 +152,7 @@
 \input{chapter/Introduction}
 \input{chapter/Literature_study}
 \input{chapter/Simulation}
+\input{chapter/StatisticalBackground}
 \input{chapter/ADCS}
 \input{chapter/anomalies}
 \input{chapter/Feature_Extraction}

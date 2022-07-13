@@ -1,12 +1,17 @@
 \chapter{Recovery}
 \label{chap:Recovery}
 
+Three different methods of recovery are compared. These methods are all focused on ensuring that the sun reflection does not change the reliability and stability of the EKF.
+
+\begin{itemize}
+	\item The \emph{EKF-ignore} method uses the detected sensor that has failed and ignores the sensor measurement from the EKF measurement update. This method is based on the assumption that the EKF estimation is correct up until the moment when the sensor failure is detected. This, however, will highly depend on the accuracy of the anomaly detection method. A detection method with low accuracy will create instability of the EKF since many anomalous measurements will be included in the measurement update of the EKF.
+	
+	\item The \emph{EKF-reset} method uses a buffer of $v_{meas,k}$, $v_{model,k}$ and $\hat{x}_k^+$ and other parameters that are used to update the EKF. If a sensor failure is detected, the sensor is excluded from the EKF, and the EKF is updated with the sensor data in the buffer, excluding the sensor that has failed. The EKF is, therefore, \emph{reset} and updated from timestep $t_{k-N}$ to $t_k$, where $N$ is the size of the number of timesteps in the buffer. $N$, however, must be optimized based on the computational time used to reset the EKF but still ensure convergence of the EKF. If the sensor that was detected to have anomalous behavior changes back to normal again, the EKF will be reset once again, and the sensor will only be included in the measurement update of $t_k$ since it was anomalous for timesteps before $t_k$.
+	
+	\item A backtracking method can be combined with the ignore method, \emph{EKF-combination}. For example, where the backtracking method is implemented only after a specified number of sun reflections are predicted.
+	
+	\item Another method implemented and tested continually uses the two sensors' measurements, \emph{EKF-top2}, that have the smallest mean squared error between the estimated SBC vector and the actual measured SBC vector. There are, however, setbacks to this method. Firstly, it requires the modeling of the ORC vector and requires the position of the satellite in orbit. Secondly, this method will not work with small drifts in a sensor measurement since the estimator will latch unto the drift in the sensor. The method will only detect sudden changes in the sensor and isolate the sudden change even if it remains stable after the sudden change. This method will only be compared to the other methods as part of the analysis since the method is inherently different. The method is also used to aid the other methods during a period after an anomaly is detected.
+\end{itemize}
+
 \section{Analysis}
-
-\section{EKF-ignore}
-
-\section{EKF-combination}
-
-\section{EKF-reset}
-
-\section{EKF-top2}
+\textbf{TODO: Provide results and comparison of each recovery method as well as coupling the method with EKF-top2 and different percentage detection and isolation accuracy}

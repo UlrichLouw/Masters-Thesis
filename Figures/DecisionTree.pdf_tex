@@ -1,0 +1,119 @@
+%% Creator: Inkscape 1.1.1 (1:1.1+202109281949+c3084ef5ed), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'DecisionTree.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{1689.79792016bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.58521491)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{DecisionTree.pdf}}%
+    \put(0.43972388,0.56189541){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Sun_z \leq 0.906$\end{tabular}}}}%
+    \put(0.45036203,0.53961566){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}gini $= 0.041$\end{tabular}}}}%
+    \put(0.41844757,0.5173359){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}samples $= 100.0\%$\end{tabular}}}}%
+    \put(0.39929889,0.49505615){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}value $= [0.979, 0.021]$\end{tabular}}}}%
+    \put(0.43759625,0.47277639){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}class $=$ Normal\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{DecisionTree.pdf}}%
+    \put(0.29788182,0.38514269){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Sun_z \leq -0.374$\end{tabular}}}}%
+    \put(0.31277524,0.36286295){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}gini $= 0.037$\end{tabular}}}}%
+    \put(0.28724367,0.3405832){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}samples $= 99.7\%$\end{tabular}}}}%
+    \put(0.2617121,0.31830344){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}value $= [0.981, 0.019]$\end{tabular}}}}%
+    \put(0.30000945,0.29602369){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}class $=$ Normal\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{DecisionTree.pdf}}%
+    \put(0.41953974,0.43922308){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}True\end{tabular}}}}%
+    \put(0.16489921,0.25987202){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}True\end{tabular}}}}%
+    \put(0.58884741,0.25824732){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}True\end{tabular}}}}%
+    \put(0.39727902,0.26008756){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}False\end{tabular}}}}%
+    \put(0.7916154,0.25974715){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}False\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{DecisionTree.pdf}}%
+    \put(0.57305541,0.38514269){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Sun_x \leq -0.127$\end{tabular}}}}%
+    \put(0.58794883,0.36286295){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}gini $= 0.309$\end{tabular}}}}%
+    \put(0.56880015,0.3405832){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}samples $= 0.3\%$\end{tabular}}}}%
+    \put(0.53688569,0.31830344){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}value $= [0.191, 0.809]$\end{tabular}}}}%
+    \put(0.56738173,0.29602369){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}class $=$ Anomaly\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{DecisionTree.pdf}}%
+    \put(0.60600534,0.43922308){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}False\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{DecisionTree.pdf}}%
+    \put(0.0340556,0.20838998){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Mag_z \leq -0.658$\end{tabular}}}}%
+    \put(0.05036743,0.18611022){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}gini $= 0.394$\end{tabular}}}}%
+    \put(0.03121876,0.16383047){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}samples $= 2.4\%$\end{tabular}}}}%
+    \put(0.01207008,0.14155071){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}value $= [0.73, 0.27]$\end{tabular}}}}%
+    \put(0.03760165,0.11927096){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}class $=$ Normal\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{DecisionTree.pdf}}%
+    \put(0.29788182,0.20838998){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Sun_y \leq -0.336$\end{tabular}}}}%
+    \put(0.31277524,0.18611023){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}gini $= 0.025$\end{tabular}}}}%
+    \put(0.28724367,0.16383047){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}samples $= 97.4\%$\end{tabular}}}}%
+    \put(0.2617121,0.14155072){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}value $= [0.988, 0.012]$\end{tabular}}}}%
+    \put(0.30000945,0.11927096){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}class $=$ Normal\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{DecisionTree.pdf}}%
+    \put(0.0617148,0.02198269){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}(...)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{DecisionTree.pdf}}%
+    \put(0.16384108,0.02198269){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}(...)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{DecisionTree.pdf}}%
+    \put(0.34114365,0.02198269){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}(...)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{DecisionTree.pdf}}%
+    \put(0.44326993,0.02198269){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}(...)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{DecisionTree.pdf}}%
+    \put(0.57518304,0.20838998){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Mag_x \leq 0.133$\end{tabular}}}}%
+    \put(0.58794883,0.18611023){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}gini $= 0.187$\end{tabular}}}}%
+    \put(0.56880015,0.16383047){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}samples $= 0.1\%$\end{tabular}}}}%
+    \put(0.53688569,0.14155072){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}value $= [0.896, 0.104]$\end{tabular}}}}%
+    \put(0.57518304,0.11927096){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}class $=$ Normal\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{DecisionTree.pdf}}%
+    \put(0.85035663,0.19725011){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}gini $= 0.0$\end{tabular}}}}%
+    \put(0.81844217,0.17497035){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}samples $= 0.2\%$\end{tabular}}}}%
+    \put(0.81205928,0.15269059){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}value$= [0.0, 1.0]$\end{tabular}}}}%
+    \put(0.81702375,0.13041084){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}class $=$ Anomaly\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{DecisionTree.pdf}}%
+    \put(0.58085672,0.02198269){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}(...)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{DecisionTree.pdf}}%
+    \put(0.682983,0.02198269){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}(...)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{DecisionTree.pdf}}%
+  \end{picture}%
+\endgroup%

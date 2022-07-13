@@ -1,14 +1,14 @@
-\chapter{Simulation}
+\chapter{Simulation Environment}
 \label{chap:Simulation}
 
-To implement and research various FDIR systems on satellites a simulation of satellite dynamics and kinematics is developed. The focus of this thesis is on small satellites and more specifically CubeSats. For the simulation of the satellite environment of the satellite \cite{auret2012design, JansevanVuuren2015, Jordaan2016} were referenced during the development of the satellite simulation. The simulation was developed in Python to simulate the dynamics and kinematics during a satellite orbit.
+In order to implement and research various FDIR systems on satellites, a simulation of satellite dynamics and kinematics is developed. The focus of this thesis is directed towards small satellites and, more specifically, CubeSats. During the development of the satellite simulation,\cite{auret2012design, JansevanVuuren2015, Jordaan2016} were frequently referenced. The simulation was developed in Python to simulate the dynamics and kinematics during a satellite orbit.
 
 \section{Satellite Orbit Fundamentals}
 
-For the mission of the specific satellite in this document the main operational goal of the ADCS on this specific satellite mission is to control the payload to point towards the centre of the Earth during eclipse and point the solar panels towards the sun during the sunlit phase. To ensure this is accurately simulated the different coordinate frames dominating a satellite orbit, the attitude of the satellite as well as the satellite dynamics and kinematics is discussed in this section.
+ The main operational goal of the ADCS on this specific satellite mission is to control the payload so that it points towards the centre of the Earth during an eclipse and points the solar panels towards the sun during the sunlit phase. To ensure this is accurately simulated, the different coordinate frames dominating a satellite orbit, the attitude of the satellite, as well as the satellite dynamics and kinematics is discussed in this section.
 
 \subsection{Coordinate Frames}
-The coordinate frames in aerospace is a fundamental part of the ADCS. To determine the orientation and position of an object, it should be relative to a fixed frame. Consequently, the Earth inertial coordinate (EIC) frame, $\mathcal{E}\{\bar{\mathbf{x}}_{\mathcal{E}},~\bar{\mathbf{y}}_{\mathcal{E}},~\bar{\mathbf{z}}_{\mathcal{E}}\}$, is the fixed frame from which every other frame is relative to.
+The coordinate frames in aerospace is a fundamental part of the ADCS. In order to determine the orientation and position of an object, it should be relative to a fixed frame. Consequently, the Earth inertial coordinate (EIC) frame, $\mathcal{E}\{\bar{\mathbf{x}}_{\mathcal{E}},~\bar{\mathbf{y}}_{\mathcal{E}},~\bar{\mathbf{z}}_{\mathcal{E}}\}$, is the fixed frame from which every other frame is relative to.
 
 A coordinate frame, $\mathcal{A}$, consists of three orthogonal vectors which is commonly referred to as $\bar{\mathbf{x}}_\mathcal{A}$, $\bar{\mathbf{y}}_\mathcal{A}$, and $\bar{\mathbf{z}}_\mathcal{A}$. The axes of the coordinate frame is appropriately named as the X-axis, Y-axis and Z-axis. A vector ($\mathbf{r}_\mathcal{A}$) within the coordinate frame can thus be expressed as 
 \begin{equation}
@@ -23,7 +23,7 @@ The Earth-centered coordinate frames are dived into two, namely the EIC and Eart
 
 % Insert a figure of the Earth coordinate frames here
 
-The EIC is defined as the Z-axis pointing towards the north pole, the X-axis pointing towards the Vernal Equinox, $\Upsilon$, and the Y-axis completing the orthogonal set. The EFC is a copy of the EIC, with the Z-axis being identical, however the EFC rotates with the Earth. The EFC in relation to the EIC can be expressed by a single angle of rotation, which is the Greenwich Hour Angle (GHA), $\alpha_G$. With the elapsed time, $t$, since $t_0$, the angular rate of the Earth, $\omega_E$, and the GHA, $\alpha_{G_0}$, at $t = t_0$ known, $\alpha_G$ can be calculated as 
+The EIC is defined as the Z-axis pointing towards the north pole, the X-axis pointing towards the Vernal Equinox, $\Upsilon$, and the Y-axis completing the orthogonal set. The EFC is a copy of the EIC, with the Z-axis being identical. The EFC, however, rotates with the Earth. The EFC in relation to the EIC can be expressed by a single angle of rotation, which is the Greenwich Hour Angle (GHA), $\alpha_G$. With the elapsed time, $t$, since $t_0$, the angular rate of the Earth, $\omega_E$, and the GHA, $\alpha_{G_0}$, at $t = t_0$ known, $\alpha_G$ can be calculated as 
 \begin{equation}
 \alpha_G = \omega_Et + \alpha_{G_0}.
 \end{equation}
@@ -44,7 +44,7 @@ with $\boldsymbol{A}^{\mathcal{E}}_{\mathcal{F}}$ being the EFC-to-EIC transform
 To determine the satellite position, satellite-centred coordinate frames must be used. Three satellite-centred coordinate frames are used, namely the inertial-reference coordinate frame (IRC), $\mathcal{I}\{\bar{\mathbf{x}}_{\mathcal{I}},~\bar{\mathbf{y}}_{\mathcal{I}},~\bar{\mathbf{z}}_{\mathcal{I}}\}$,  which remains inertial fixed, the orbit-referenced coordinate (ORC) frame, $\mathcal{O}\{\bar{\mathbf{x}}_{\mathcal{O}},~\bar{\mathbf{y}}_{\mathcal{O}},~\bar{\mathbf{z}}_{\mathcal{O}}\}$ and the satellite body coordinate (SBC) frame, $\mathcal{B}\{\bar{\mathbf{x}}_{\mathcal{B}},~\bar{\mathbf{y}}_{\mathcal{B}},~\bar{\mathbf{z}}_{\mathcal{B}}\}$. 
 % The IRC frame is only acknowledged, since it is the frame that is fixed (as it does not rotate around the centre of the satellite), however it changes position with the orbit of the satellite. This frame is not used to determine the position of the satellite and will not be referenced for the remainder of this document.
 
-The ORC frame changes location as the satellite moves, however the Z-axis is always pointing towards the centre of the Earth, with the Y-axis being the orbit anti-normal and the X-axis completing the orthogonal set. To transform a vector from the EIC frame to the ORC frame the unit position vector, $\mathbf{r}_{sat}$ and the unit velocity vector, $\mathbf{v}_{sat}$ in EIC is required \cite{Chen_ground-target}. The EIC to ORC transformation matrix, $\boldsymbol{A}^{\mathcal{O}}_{\mathcal{E}}$, is calculate as
+The ORC frame changes location as the satellite move. The Z-axis is, however, always pointing towards the centre of the Earth, with the Y-axis being the orbit anti-normal and the X-axis completing the orthogonal set. To transform a vector from the EIC frame to the ORC frame the unit position vector, $\mathbf{r}_{sat}$ and the unit velocity vector, $\mathbf{v}_{sat}$ in EIC is required \cite{Chen_ground-target}. The EIC to ORC transformation matrix, $\boldsymbol{A}^{\mathcal{O}}_{\mathcal{E}}$, is calculate as
 \begin{equation}
 \label{Eq: ORC to EIC}
 \begin{aligned}
@@ -59,13 +59,13 @@ The ORC frame changes location as the satellite moves, however the Z-axis is alw
 \end{aligned}
 \end{equation}
 
-The SBC frame is the frame fixed to the satellite and it is the relative rotation of the satellite in relation to the ORC. Thus for the mission of this satellite it is required that the SBC and ORC frames coincide during eclipse. For the transformation of a vector from the ORC to SBC frame, the direct cosine matrix (DCM) also referred to as $\boldsymbol{A}$ or $\boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}}$ is used. For the remainder of the document the DCM will be referred to as $\boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}}$ to avoid any confusion. The calculation of this transformation matrix is discussed in $\S$\ref{subsection_quaternions} and implemented with Eq~\ref{eq:DCM_quaternion}.
+The SBC frame is the frame fixed to the satellite and it is the relative rotation of the satellite in relation to the ORC. Thus for the mission of this satellite it is required that the SBC and ORC frames coincide during an eclipse. For the transformation of a vector from the ORC to SBC frame, the direct cosine matrix (DCM), also referred to as $\boldsymbol{A}$ or $\boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}}$, is used. For the remainder of the document the DCM will be referred to as $\boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}}$ to avoid any confusion. The calculation of this transformation matrix is discussed in $\S$\ref{subsection_quaternions} and implemented with Eq~\ref{eq:DCM_quaternion}.
 
 % Insert a figure of the satellite coordinate frames here
 
 \subsection{Attitude}
 \label{subsection_quaternions}
-To determine the attitude of an object, a mathematical model must be used to determine the rotation of an object in three dimensions. For this the visual and intuitive example of the Euler angles exist. Euler angles are the rotation of an object around three orthogonal axes, that change orientation with the rotation of the object. The three axes of SBC, denoted by $\bar{\mathbf{x}}_{\mathcal{B}}$, $\bar{\mathbf{y}}_{\mathcal{B}}$ and $\bar{\mathbf{z}}_{\mathcal{B}}$ rotate with the object as depicted in Figure~\ref{fig:Pitch}.
+To determine the attitude of an object, a mathematical model must be used to determine the rotation of an object in three dimensions. For this the visual and intuitive example of the Euler angles exist. Euler angles are the rotation of an object around three orthogonal axes which change orientation with the rotation of the object. The three axes of SBC, denoted by $\bar{\mathbf{x}}_{\mathcal{B}}$, $\bar{\mathbf{y}}_{\mathcal{B}}$ and $\bar{\mathbf{z}}_{\mathcal{B}}$ rotate with the object as depicted in Figure~\ref{fig:Pitch}.
 \begin{figure}[!htb]
 	\centering
 	\def\svgwidth{10cm}
@@ -93,7 +93,7 @@ $\boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}}$ can be used to calculate the attitu
 			\end{bmatrix}. \\
 	\end{aligned}
 \end{equation}
-Euler angles however are not always a suitable method in determining the attitude of a satellite. This is because of singularities that can occur such as the gimbal-lock effect, where two rotational axes coincide to form a single rotational axis. Consequently, not all $3$D rotations can be described with Euler angles, because with gimbal-lock only two effective rotations can occur instead of three \cite{diebel2006representing}. Therefore the method of describing $3$D rotation with quaternions is more often used and more convenient. 
+Euler angles, however, does not always prove a suitable method for determining the attitude of a satellite. This is due to singularities that can occur, such as the gimbal-lock effect, where two rotational axes coincide to form a single rotational axis. Consequently, not all $3$D rotations can be described with Euler angles, because with gimbal-lock only two effective rotations can occur instead of three \cite{diebel2006representing}. The method of describing $3$D rotation with quaternions is therefore more convenient and more often used. 
 
 A quaternion, $\mathbf{q}$, has four components that are dependent on one another and constrained by 
 \begin{equation} 
@@ -104,7 +104,7 @@ The attitude quaternion is also related to the Euler angles in that if the Euler
 \begin{equation}
 \mathbf{q} = \begin{bmatrix} e_1 \text{sin}(\frac{\Phi}{2}) \\ e_2 \text{sin}(\frac{\Phi}{2}) \\ e_3 \text{sin}(\frac{\Phi}{2}) \\ \text{cos}(\frac{\Phi}{2}) \end{bmatrix}
 \end{equation}
-It is difficult to visualize a quaternion, however the most simplistic method of understanding it is shown in Figure~\ref{fig:quaternion}. A quaternion can be simplified to a unit vector protruding from the centre point of an object as well as the angle of rotation of that object around that unit vector. As seen in Figure~\ref{fig:Pitch} the angle $\theta$ is the angle of rotation around the $\bar{\mathbf{z}}_\mathcal{B}''$-axis. For quaternions the angle of rotation is the same principle, however the axis around which the object is rotating, is the unit vector, $q_{1-3}$. Therefore, $q_4$ provides the angle of rotation while $q_{1-3}$ represents the unit vector, however with the condition of Eq~\ref{Eq-quaternion dependency}.
+Although it is difficult to visualize a quaternion, the most simplistic method of conceptualising it is shown in Figure~\ref{fig:quaternion}. A quaternion can be simplified to a unit vector protruding from the centre point of an object as well as the angle of rotation of that object around the unit vector. As seen in Figure~\ref{fig:Pitch} the angle $\theta$ is the angle of rotation around the $\bar{\mathbf{z}}_\mathcal{B}''$-axis. For quaternions the angle of rotation is the same principle, however, the axis around which the object is rotating, is the unit vector, $q_{1-3}$. Therefore, $q_4$ provides the angle of rotation while $q_{1-3}$ represents the unit vector, however, with the condition of Eq~\ref{Eq-quaternion dependency}.
 
 \begin{figure}[!htb]
 	\centering
@@ -128,7 +128,7 @@ $\boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}}$ can also be transformed as a functi
 The quaternion is used for attitude determination and therefore also for the attitude control. A error between the commanded quaternion, $\mathbf{q}_c$ and the current quaternion, $\mathbf{q}$, is required for proportional control. This is discussed in section~\ref{section: Quaternion Feedback Controller}.
 
 \subsection{Satellite Kinematics and Dynamics}
-The conservation of momentum dominates the dynamics of a satellite. This consists of the torques applied to the satellite, and are mainly control torques, $\mathbf{N_c}$, or disturbance torques, $\mathbf{N_d}$, as well as the moment of inertia of the satellite, $\mathbf{I}$, multiplied by the inertial-referenced angular acceleration of the satellite, $\boldsymbol{\dot{\omega}}_{\mathcal{B}}^{\mathcal{I}}$. The control torques used in this design are only reaction wheel torques, $\mathbf{N}_w$, and magnetorquer torques, $\mathbf{N}_m$. The disturbance torques are discussed in detail in section~\ref{section: disturbance models}, therefore it can only be mentioned that the disturbance torques are the gravity gradient torque, $\mathbf{N}_{gg}$, the wheel imbalance torque, $\mathbf{N}_{rw}$, the gyroscopic coupling torque, $\mathbf{N}_{gyro}$, and the aerodynamic disturbance torque, $\mathbf{N}_{aero}$. The Euler dynamic equation can therefore be given as
+The conservation of momentum dominates the dynamics of a satellite. This consists of the torques applied to the satellite and are mainly control torques, $\mathbf{N_c}$, or disturbance torques, $\mathbf{N_d}$, as well as the moment of inertia of the satellite, $\mathbf{I}$, multiplied by the inertial-referenced angular acceleration of the satellite, $\boldsymbol{\dot{\omega}}_{\mathcal{B}}^{\mathcal{I}}$. The control torques used in this design are only reaction wheel torques, $\mathbf{N}_w$, and magnetorquer torques, $\mathbf{N}_m$. The disturbance torques are discussed in detail in section~\ref{section: disturbance models}. It can therefore only be mentioned that the disturbance torques are the gravity gradient torque, $\mathbf{N}_{gg}$, the wheel imbalance torque, $\mathbf{N}_{rw}$, the gyroscopic coupling torque, $\mathbf{N}_{gyro}$, and the aerodynamic disturbance torque, $\mathbf{N}_{aero}$. The Euler dynamic equation can therefore be given as
 
 \begin{equation}
 \begin{aligned}
@@ -161,7 +161,7 @@ This is the overarching equation that will be used to determine the control torq
 Where $h$ is the step size, $I$ is the number of iterations set to $10$ and the time step, $T_s$, is equal to one second. $f(x_n, y_n)$ is the Euler dynamic function and Algorithm~\ref{alg: runge-kutta} is used to calculate $\boldsymbol{\omega}_{\mathcal{B}}^{\mathcal{I}}$.  With this procedure the dynamics and kinematics of the satellite can be simulated after each time step.
 
 \section{Environment}
-To ensure an accurate simulation environment certain aerospace phenomena must be simulated to ensure that all anomalies can be accurately modelled as well as creating an accurate representation of the satellite orbit. Therefore, the position of the satellite with respect to the Earth (orbit propagation) is required to determine most of the elementary principles of the satellite mission. The orbit propagation is further used to determine the moon on the Earth horizon anomaly. The sun position is required for eclipse as well as simulating the sun reflecting from the solar panels unto the sun sensor. The magnetic field is required to simulate $\mathbf{N}_m$ of the magnetorquer as well as the solar panel dipole anomaly and disturbance torque. 
+To ensure an accurate simulation environment, certain aerospace phenomena must be simulated to create an accurate representation of the satellite orbit and therefore ensure that all anomalies can be accurately modelled. The position of the satellite with respect to the Earth (orbit propagation) is therefore required to determine most of the elementary principles of the satellite mission. The orbit propagation is further used to determine the moon on the Earth's horizon anomaly. The sun position is required for an eclipse as well as simulating the sun reflecting from the solar panels unto the sun sensor. The magnetic field is required to simulate $\mathbf{N}_m$ of the magnetorquer as well as the solar panel dipole anomaly and disturbance torque. 
 
 \subsection{Orbit Propagation}
 The satellite position, $\mathbf{r}_{sat}$ and velocity $\mathbf{v}_{sat}$ at a given time step is required to determine the multiple different variables required for the simulation environment. Therefore the refined version and fourth generation of the simplified general perturbations (SGP) model, namely SGP4, is used as orbit propagator of the satellite after each time step \cite{vallado2006revisiting}. 
@@ -180,9 +180,9 @@ To determine $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ at time step, $k$, th
 The SGP4 is implemented with the SGP4 Python package~\cite{sgp4}. The SGP4 outputs the $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ in the EIC reference frame. Therefore, with $\mathbf{r}_{sat}$ and $\mathbf{v}_{sat}$ known, $\boldsymbol{A}^{\mathcal{O}}_{\mathcal{E}}$ can now be calculated according to Eq~\ref{Eq: ORC to EIC}.
 
 \subsection{Sun}
-For the mission to be successful it is critical to determine the position of the sun relative to the satellite. This is because the satellite must determine whether it is in the eclipse to determine the control operation. Therefore, the model from \cite{vallado2001fundamentals} is implemented to determine the position of the sun in the EIC frame.
+For the mission to be successful it is critical to determine the position of the sun relative to the satellite. This is because the satellite must determine whether it is in an eclipse to determine the control operation. Therefore, the model from \cite{vallado2001fundamentals} is implemented to determine the position of the sun in the EIC frame.
 
-From this model the vector from the centre of the Earth to the centre of the sun, $\mathbf{r}_{sun}$, is provided in the EIC frame. This model requires various calculations as given in Eq~\ref{eq:sunPosition}. For this calculation the difference between the current Julian date, $J_t$, and the $J_{2000}$ epoch is required. Where $J_{2000} = \num{2451545}$ and the difference is thereafter converted to the amount of Julian centuries ($\num{365.25}$ days). The time difference in Julian centuries, $T_{JC}$ can therefore be calculated as 
+From this model, the vector from the centre of the Earth to the centre of the sun, $\mathbf{r}_{sun}$, is provided in the EIC frame. This model requires various calculations as given in Eq~\ref{eq:sunPosition}. For this calculation, the difference between the current Julian date, $J_t$, and the $J_{2000}$ epoch is required. Where $J_{2000} = \num{2451545}$ and the difference is thereafter converted to the amount of Julian centuries ($\num{365.25}$ days). The time difference in Julian centuries, $T_{JC}$ can therefore be calculated as 
 
 \begin{equation}
 T_{JC} = \frac{J_t - \num{2452545}}{\num{36525}}.
@@ -204,7 +204,7 @@ With $T_{JC}$ known, $\mathbf{r}_{sun}$ can then be calculated with
 	\end{aligned}
 \end{equation}
 
-The definitions of the parameters used in the calculation and the description thereof is tabulated in Table~\ref{table:SunOrbitParameters}. After determining the sun position, it is crucial to calculate whether the satellite is in the eclipse or not. This can be done with basic geometry after calculating the position of the sun relative to the satellite through
+The definitions of the parameters used in the calculation and the description thereof is tabulated in Table~\ref{table:SunOrbitParameters}. After determining the sun position, it is crucial to calculate whether the satellite is in an eclipse or not. This can be done with basic geometry after calculating the position of the sun relative to the satellite through
 \begin{equation}
 \mathbf{S}_{\mathcal{E}} = \mathbf{r}_{sun} - \mathbf{r}_{sat}.
 \end{equation}
@@ -251,7 +251,7 @@ The definitions of the parameters used in the calculation and the description th
 \label{table:SunOrbitParameters}
 \end{table}
 
-The assumption is made that whenever the satellite is not able to view the centre of the sun it is in the eclipse. This a valid assumption given the very small angle required to change the satellite from a partial eclipse to a full eclipse, due to the comparative distances of the sun to satellite and satellite to Earth. Therefore, the eclipse is defined as the period during which $\theta_{s}$ is smaller than $\theta_E$. Where $\theta_E = \text{sin}(\frac{R_E}{\norm{r_{sat}}})$ and $\theta_{s} = \mathbf{r}_{sat} \cdot \mathbf{S}_{\mathcal{E}}$ as shown in Figure~\ref{fig:SunToEarthToSat}. $R_E$ is the radius of the Earth.
+The assumption is made that whenever the satellite is not able to view the centre of the sun it is in an eclipse. This a valid assumption given the very small angle required to change the satellite from a partial eclipse to a full eclipse, due to the comparative distances of the sun to satellite and satellite to Earth. The eclipse is therefore defined as the period during which $\theta_{s}$ is smaller than $\theta_E$. Where $\theta_E = \text{sin}(\frac{R_E}{\norm{r_{sat}}})$ and $\theta_{s} = \mathbf{r}_{sat} \cdot \mathbf{S}_{\mathcal{E}}$ as shown in Figure~\ref{fig:SunToEarthToSat}. $R_E$ is the radius of the Earth.
 
 \begin{figure}[!htb]
 	\centering
@@ -264,7 +264,7 @@ The assumption is made that whenever the satellite is not able to view the centr
 
 \subsection{Geomagnetic field}
 
-The Earth generates a magnetic field through electric currents due to motion within the molten core of the Earth, which is commonly referred to as the geomagnetic field. The magnetorquers interact with the geomagnetic field for momentum dumping and the magnetometers measure the geomagnetic field for attitude estimation. Therefore, the modelling of the geomagnetic field is required for an accurate simulation environment.
+The Earth generates a magnetic field through electric currents due to motion within the molten core of the Earth, which is commonly referred to as the geomagnetic field. The magnetorquers interact with the geomagnetic field for momentum dumping and the magnetometers measure the geomagnetic field for attitude estimation. The modelling of the geomagnetic field is therefore required for an accurate simulation environment.
 
 The geomagnetic field is modelled with the time-varying International Geomagnetic Reference Field (IGRF) model released by the International Association of Geomagnetism and Aeronomy (IAGA). This model is used for increased ADCS accuracy and the $13^th$ generation of the model is implemented~\cite{alken2021international}. The scalar potential function,
 
@@ -277,9 +277,7 @@ is used to calculate the geomagnetic field, $\mathbf{B}$ with
 \label{Eq-Geomagnetic_field_strength}
 \mathbf{B} = - \nabla V.
 \end{equation}
-Therefore, the geomagnetic field is the gradient of the scalar potentential function given in Eq~\ref{Eq-Geomagnetic_field}. Where $R_E$ is the mean Earth radius of $\num{6371.2}$km, $r_s$ is the radial distance from the centre of the Earth, $\theta$ is the latitude and $\phi$ is the longitude. $g_n^m(t)$ and $h_n^m(t)$ is known as the Gauss coefficients that slowly change with time and consequently the IGRF-13 provide values for these coefficients at 5-year epoch intervals. The $P_n^m(\text{cos}\theta)$ is the Legendre functions of the degree $n$ and $m$ \cite{winch2005geomagnetism}.
-
-The magnitude of the geomagnetic field is visually demonstrated in Figure~\ref{fig:IGRF13th}. The measuring of the magnetic field with the magnetometer is further discussed in section~\ref{section: Magnetometer}.
+Therefore, the geomagnetic field is the gradient of the scalar potentential function given in Eq~\ref{Eq-Geomagnetic_field}. Where $R_E$ is the mean Earth radius of $\num{6371.2}$km, $r_s$ is the radial distance from the centre of the Earth, $\theta$ is the latitude and $\phi$ is the longitude. $g_n^m(t)$ and $h_n^m(t)$ is known as the Gauss coefficients that slowly change with time and, consequently, the IGRF-13 provide values for these coefficients at 5-year epoch intervals. The $P_n^m(\text{cos}\theta)$ is the Legendre functions of the degree $n$ and $m$ \cite{winch2005geomagnetism}. The magnitude of the geomagnetic field is visually demonstrated in Figure~\ref{fig:IGRF13th}.
 
 \begin{figure*}[!htb]
 	\centering
@@ -290,7 +288,7 @@ The magnitude of the geomagnetic field is visually demonstrated in Figure~\ref{f
 
 \section{Disturbance models}
 \label{section: disturbance models}
-During orbit a satellite is exposed to various disturbance torques. It is these torques that cause the modelled attitude to differ from the actual attitude. Therefore, these torques are modelled and are assumed to influence the attitude of the satellite continuously. Other disturbances that occur only with anomalies are discussed in Chapter~\ref{chap:Anomalies}. Some disturbances are excluded from the simulation environment and only the major sources of disturbance torques are modelled and discussed.
+During orbit, a satellite is exposed to various disturbance torques. It is these torques that cause the modelled attitude to differ from the actual attitude. These torques are therefore modelled and are assumed to influence the attitude of the satellite continuously. Other disturbances that occur only with anomalies are discussed in Chapter~\ref{chap:Anomalies}. Some disturbances are excluded from the simulation environment and only the major sources of disturbance torques are modelled and discussed.
 
 The first disturbance torque is that of the gyroscopic coupling which can be calculated with
 \begin{equation}
@@ -299,7 +297,7 @@ The first disturbance torque is that of the gyroscopic coupling which can be cal
 where $h_w$ is the angular momentum of the reaction wheels. The other disturbance torques are discussed in more detail below.
 
 \subsection{Gravity Gradient}
-The gravity gradient is caused by both the centrifugal force on the satellite due to the orbit around the Earth as well as the gravitational force. The part of the satellite nearest to the Earth will experience the largest gravitational force and the smallest centrifugal force of the satellite. While the part of the satellite furthest from the Earth will experience the smallest gravitational force and the largest centrifugal force. According to \cite{wertz2012spacecraft} the gravity gradient disturbance torque, $\mathbf{N}_{gg}$ can be calculated as 
+The gravity gradient is caused by both the centrifugal force on the satellite due to the orbit around the Earth as well as the gravitational force. The part of the satellite nearest to the Earth will experience the largest gravitational force and the smallest centrifugal force of the satellite, while the part of the satellite furthest from the Earth will experience the smallest gravitational force and the largest centrifugal force. According to \cite{wertz2012spacecraft} the gravity gradient disturbance torque, $\mathbf{N}_{gg}$ can be calculated as 
 \begin{equation}
 \boldsymbol{N}_{gg} = 3 \, \omega_\mathcal{O}^2 (\mathbf{z}_{\mathcal{B}} \times \mathbf{Iz}_{\mathcal{B}}).
 \end{equation}
@@ -307,7 +305,7 @@ The orbit nadir vector is calculated as,
 \begin{equation}
 \mathbf{z}_{\mathcal{B}} = \boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}} \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}^T.
 \end{equation}
-Due to the design of the satellite and the positions of the solar panels, the equation for $\mathbf{N}_{gg}$ can not be simplified. The gravity gradient torque is the only torque that can be accurately modelled on-board the satellite, and therefore is also included in the model update of the EKF. $\mathbf{N}_{gg}$ in SBC is shown in Figure~\ref{fig:GravityGradientTorques}.
+Due to the design of the satellite and the positions of the solar panels, the equation for $\mathbf{N}_{gg}$ can not be simplified. The gravity gradient torque is the only torque that can be accurately modelled on-board the satellite, and is therefore also included in the model update of the EKF. $\mathbf{N}_{gg}$ in SBC is shown in Figure~\ref{fig:GravityGradientTorques}.
 
 \begin{figure}[!htb]
 	\centering
@@ -319,7 +317,7 @@ Due to the design of the satellite and the positions of the solar panels, the eq
 \end{figure}
 
 \subsection{Aerodynamic Disturbance}
-The aerodynamic disturbance torques are cause by air density in the atmosphere creating a force on each individual segment of the satellite~\cite{Steyn2014}. This is significant due to the low Earth orbit (LEO) of the satellite, where the atmospheric density is higher. Therefore, the aerodynamic disturbance torque, $\mathbf{N}_{aero}$ is a summation of all the torques created by the air force on each segment area, $A_i$. $\mathbf{N}_{aero}$ can therefore be calculated as
+The aerodynamic disturbance torques are cause by air density in the atmosphere creating a force on each individual segment of the satellite~\cite{Steyn2014}. This is significant due to the low Earth orbit (LEO) of the satellite, where the atmospheric density is higher. The aerodynamic disturbance torque, $\mathbf{N}_{aero}$ is therefore a summation of all the torques created by the air force on each segment area, $A_i$. $\mathbf{N}_{aero}$ can therefore be calculated as
 
 \begin{equation}
 \begin{aligned}
@@ -333,7 +331,7 @@ The atmospheric density is a function of the distance from the Earth surface. Th
 \begin{equation}
 \rho = \rho_o e^{-\frac{h(t)-h_o}{H}},
 \end{equation}
-where $\rho_o$ is the reference density at the reference altitude, $h_o$, and $h(t)$ is the satellite's altitude as a function of time and $H$ is the scale height. According to \cite{steyn2011CubeSat} the atmospheric density is $\frac{1}{2}\rho$ during eclipse. Furthermore $\mathbf{v}_{\mathcal{B}}$ is calculated as
+where $\rho_o$ is the reference density at the reference altitude, $h_o$, and $h(t)$ is the satellite's altitude as a function of time and $H$ is the scale height. According to \cite{steyn2011CubeSat} the atmospheric density is $\frac{1}{2}\rho$ during an eclipse. Furthermore $\mathbf{v}_{\mathcal{B}}$ is calculated as
 \begin{equation}
 \begin{aligned}
 \mathbf{v}_{\mathcal{B}} &= \boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}} \boldsymbol{A}_{\mathcal{E}}^{\mathcal{O}} \mathbf{v}_{\mathcal{E}} \\
@@ -352,7 +350,7 @@ $\sigma_n$ and $\sigma_t$ are both assumed to be equal to 0.8, while $S$ is $\nu
 \end{figure}
 
 \subsection{Wheel Imbalance}
-The reaction wheel imbalance is considered to be the most significant disturbance on the reaction wheel and consequently, only this disturbance torque is modelled for this simulation~\cite{bialke1998high}. Although reaction wheels are manufactured with low tolerances the reaction wheel will have a slight imbalance, since the mass of the reaction wheel will not be perfectly uniform and evenly displaced. 
+Since the reaction wheel imbalance is considered to be the most significant disturbance on the reaction wheel, it is the only disturbance torque modelled for this simulation~\cite{bialke1998high}. Although reaction wheels are manufactured with low tolerances, the reaction wheel will have a slight imbalance, since the mass of the reaction wheel will not be perfectly uniform and evenly displaced. 
 
 The static imbalance of the reaction wheel is caused by the reaction wheel CoM offset from the rotational axis. Therefore, to model the static imbalance of the reaction wheels it is assumed that the unevenly distributed mass of the reaction wheel can be simplified to a point mass, $m$, a distance, $r$ from the rotational axis as shown in Figure~\ref{fig:StaticImbalance}. The static imbalance, $U_s$ is equal to $mr$ and this value is provided by the reaction wheel manufacturers.
 
@@ -364,7 +362,7 @@ The static imbalance of the reaction wheel is caused by the reaction wheel CoM o
 	\label{fig:StaticImbalance}
 \end{figure}
 
-To determine the resulting torque from the wheel imbalance the torque generated by each wheel is individually calculated. Consequently, for the reaction wheel in direction $\bar{x}_\mathcal{B}$, $RW_{\bar{x}_\mathcal{B}}$, the force, $F_{s\bar{x}_\mathcal{B}}$, generated by $U_s$ is dependent on the the angular rate, $\omega$, of the reaction wheel as well as the current position of $m$. Therefore, $F_{s\bar{x}_\mathcal{B}}$ can be expressed as
+To determine the resulting torque from the wheel imbalance, the torque generated by each wheel is individually calculated. Consequently, for the reaction wheel in direction $\bar{x}_\mathcal{B}$, $RW_{\bar{x}_\mathcal{B}}$, the force, $F_{s\bar{x}_\mathcal{B}}$, generated by $U_s$ is dependent on the the angular rate, $\omega$, of the reaction wheel as well as the current position of $m$. Therefore, $F_{s\bar{x}_\mathcal{B}}$ can be expressed as
 
 \begin{equation}
 \mathbf{F}_{s\bar{x}_\mathcal{B}} = U_s\omega^2 \begin{bmatrix} 0 \\ \text{sin}(\omega t + \phi_s) \\ \text{cos}(\omega t + \phi_s)\end{bmatrix},
@@ -376,7 +374,7 @@ where the current angle of $m$ is defined as $\omega t + \phi_s$, with $\phi_s$ 
 \mathbf{N}_{s\bar{x}_\mathcal{B}} = \mathbf{w}_{\bar{x}_\mathcal{B}} \times F_{s\bar{x}_\mathcal{B}}.
 \end{equation}
 
-This is calculated for each reaction wheel to determine the resulting static imbalance disturbance torque on the satellite. Another aspect of the reaction wheel imbalance is also modelled, namely the dynamic imbalance. The dynamic imbalance is caused by the principal inertia of the reaction wheel being misaligned with the rotational axis. This can be simplified to two equal point masses, $m$, with an axial displacement, $d$, and distance, $r$, from the rotational axis. These two masses are $\num{180}^o$ apart with respect to the rotational axis and consequently create two forces equal in magnitude and in opposite directions. The dynamic imbalance is graphically represented in Figure~\ref{fig:DynamicImbalance}.
+This is calculated for each reaction wheel to determine the resulting static imbalance disturbance torque on the satellite. Another aspect of the reaction wheel imbalance is also modelled, namely the dynamic imbalance. The dynamic imbalance is caused by the principal inertia of the reaction wheel being misaligned with the rotational axis. This can be simplified to two equal point masses, $m$, with an axial displacement, $d$, and distance, $r$, from the rotational axis. These two masses are $\num{180}^o$ apart with respect to the rotational axis and, consequently, create two forces equal in magnitude and in opposite directions. The dynamic imbalance is graphically represented in Figure~\ref{fig:DynamicImbalance}.
 
 \begin{figure}[!htb]
 	\centering

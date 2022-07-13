@@ -1,31 +1,104 @@
-\chapter{Detection}
+\chapter{Detection and Isolation}
 \label{chap:Detection}
-
-\section{Analysis}
-
+Detecting the anomaly is a binary classification. The method implemented must therefore be able to distinguish between normal data and anomalies. There are various methods that can be implemented for this use case, however only three supervised learning methodologies and two unsupervised learning methods are implemented. The major difference between the supervised learning and the unsupervised learning methods for anomaly detection is that for supervised learning the number of anomalous samples and normal samples should be more or less the same, while with unsupervised learning the anomalous samples should be sparse. For simplicity a dataset of $n$ samples is given as 
+\begin{equation}
+\begin{aligned}
+\mathbf{D} &= \left(\mathbf{f}_1, y_1 \right), \ldots , \left(\mathbf{f}_n, y_n \right), \\
+\text{where} \qquad \mathbf{f} & \epsilon \mathbf{R^m}. \\
+\end{aligned}
+\end{equation}
+$\mathbf{f}$ is the point vector within the vector space, $\mathbf{R}$, with $\mathbf{m}$ dimensions, while $y$ denotes the class of the feature, which in binary classification is either $0$ or $1$.
 \section{Supervised Learning}
-
-\subsection{Random Forests}
+Supervised learning is a subgroup of machine learning which is based on labelled data.
 
 \subsection{Decision Trees}
-However, to split the data for the anomalies, we need to decide which input parameter will be used to make the first split, the root node. The Gini index measures the probability of a data sample being wrongly classified at a given node. This can be calculated with Eq~\ref{eq:Gini index}.
+Decision Trees and Random Forests will be implemented to perform binary classification on regular data samples and anomalous data samples. Decision Trees \cite{Reif2008} and Random Forests \cite{Shi2006, Paul2018, Primartha2018} are supervised learning algorithms that classify data based on threshold splitting. Data samples are split based on a threshold of a specific input parameter. For instance, binary classification can be performed on data samples from a satellite orbit to determine whether the satellite was in an eclipse or not. This would be done by determining whether the magnitude of the sun vector is smaller or greater than $0$. Consequently, after two splits it can be determined which data samples are within an eclipse. The Decision Tree determines this split with the classification and regression tree (CART) algorithm.
+
+However, to split the data for the anomalies, we need to decide which input parameter will be used to make the first split, the root node. The Gini index measures the probability of a data sample being wrongly classified at a given node. This can be calculated by
 
 \begin{equation}
-	GI = 1 - \sum_{i = 1}^{n}{(P_i)^2}
-	\label{eq:Gini index}
+GI = 1 - \sum_{i = 1}^{n}{(P_i)^2}.
+\label{eq:Gini index}
 \end{equation}
 
-The operator split that produces the lowest Gini index provides the purest split and will be used as the root node. For our use case, the CART algorithm will be used to optimise the decision tree, which also considers the most prominent information gain to construct the decision tree. Figure~\ref{fig:DecisionTree} is a graphical representation of the decision tree developed to classify anomalies. The depth of a decision tree determines how many splits occur from the root node to the leaf node the furthest from the first split. If the depth is unspecified, the decision tree will split until all the data samples are perfectly split into anomalous and normal data samples. However, the larger the depth, the more biased the decision tree is to the training data. This depth can be altered to optimise the efficiency and accuracy of the decision tree.
-\begin{figure}[!hbt]
+The operator split that produces the lowest Gini index provides the purest split and will be used as the root node. For our use case, the CART algorithm will be used to optimize the Decision Tree, which also considers the most prominent information gained to construct the Decision Tree. Figure \ref{fig:DecisionTree} is a graphical representation of the Decision Tree developed to classify anomalies. In Figure \ref{fig:DecisionTree} the \emph{samples} label provides the percentage of samples within the node with respect to the total training data samples while the \emph{value} label provides the portion of each class within the node i.e. Normal samples or Anomalous samples. The depth of a Decision Tree determines how many splits occur from the root node to the leaf node the furthest from the first split. If the depth is unspecified, the Decision Tree will split until all the data samples are perfectly split into anomalous and normal data samples. However, the larger the depth, the more biased the Decision Tree is to the training data. This depth can be altered to optimize the efficiency and accuracy of the Decision Tree.
+
+\begin{figure*}[!hbt]
 	\centering
-	\scalebox{0.9}{\import{Figures/}{DecisionTree.pgf}}
-	\caption{Decision Tree}
+	\def\svgwidth{16cm}
+	\import{Figures/}{DecisionTree.pdf_tex}
+	\caption{Decision Tree as binary classification of sun reflection. Orange nodes have more than $50\%$ normal samples, while blue nodes have more than $50\%$ anomalous samples. The darker the shade of orange or blue, the larger the percentage of the respective class.}
 	\label{fig:DecisionTree}
-\end{figure}
+\end{figure*}
+
+It is evident in Figure \ref{fig:DecisionTree} that the most notable splits at the beginning of the tree are the moving average from the feature extraction (DMD) as well as the sun sensor and magnetometer measurements. This makes logical sense since the moving average provides the system with an extracted feature that correlates with the change in measurements. The sun reflection can also be detected on the sun sensor measurements, and changes in the control torques influences the magnetometer readings.
+
+\subsection{Random Forests}
+\cite{Primartha2018} \cite{Paul2018} \cite{Shi2006}
 
 \subsection{Support Vector Machines}
+Support vector machines (SVM) creates a hyperplane between the feature space to increase the margin between the data samples nearest to the hyperplane from all the classes within the data \cite{hearst1998support, meyer2015support}. The hyperplane can be defined as
+\begin{equation}
+\mathbf{w}^T(\mathbf{x}) + b = 0
+\end{equation}
+where $\mathbf{w}$ is the normal vector to the hyperplane, however it is not necessarily a unit vector. This is also constrained to ensure that all vector points $\mathbf{x}_n$ are on the correct side of the hyperplane with 
+\begin{equation}
+\mathbf{w}^T(\mathbf{x}_i) + b \geq 1, \qquad \textbf{for all }  1 \leq i \leq n.
+\end{equation}
+The hyperplane in it's most simplified form is linear and divides the data into two halves based as shown in Figure~\ref{fig:SupportVectorMachinesExample}. The distance between the hyperplane and any point vector, $\mathbf{f}_i$, can be given as
+\begin{equation}
+d(\mathbf{x}_i) = \frac{\mathbf{w}^T(\mathbf{x}_i) + b}{\norm{\mathbf{w}}^2}
+\end{equation}
+For binary classification all point vectors, $\mathbf{x}_n$ will be classified into a group  . To increase the margin of between all point vectors, $\mathbf{x}_n$, and the hyperplane the minimum distance of all the point vectors and the hyperplane is required. The objective of the algorithm is therefore to maximise the minimum distance between the hyperplane and any point vector, $\mathbf{x}_i$, for all data samples $n$. This is however extended to a soft-margin optimization algorithm given as
+\begin{equation}
+\label{Eq-maxSVM}
+\lambda \norm{\mathbf{w}}^2 + \left[\frac{1}{n} \sum_{i=1}^{n} \textbf{max} \left(0, 1 - \mathbf{w}^T\left(\mathbf{x}_i \right) + b \right) \right],
+\end{equation}
+where $\lambda$ increases and decreases the margin size ensuring that all training $\mathbf{x}_i$ are on the correct side of the hyperplane. An example of an algorithm used to solve the optimisation of Eq~\ref{Eq-maxSVM} is the sub-gradient descent given as
+\begin{equation}
+\boldsymbol{f}(\mathbf{w}, b) = \lambda \norm{\mathbf{w}}^2 + \left[\frac{1}{n} \sum_{i=1}^{n} \textbf{max} \left(0, 1 - \mathbf{w}^T\left(\mathbf{x}_i\right) + b \right) \right],
+\end{equation}
+where $\boldsymbol{f}$ is a convex function and can be solved with an adaptation of classic gradient descent methods. The difference is that the direction of gradient descent is that of the vector selected from the function's sub-gradient. With this implementation the hyperplane can divide two groups as shown given in Figure~\ref{fig:SupportVectorMachinesExample}. The vector points within the margin size and with the additional black circle in Figure~\ref{fig:SupportVectorMachinesExample} are called the support vectors since these vector points are the minimum distance from the hyperplane and influence Eq~\ref{Eq-maxSVM}.
+
+\begin{figure}[!hbt]
+	\centering
+	\import{Figures/}{SupportVectorMachinesExample.pgf}
+	\caption{Support Vector Machine Example}
+	\label{fig:SupportVectorMachinesExample}
+\end{figure}
+
+The linear hyperplane is not always feasible, since certain data samples cannot be divided with a single line. There are two solutions to this problem. The first is to increase the dimension size, $\mathbf{m}$, of $\mathbf{R^m}$. For instance increasing $m$ from $2$ to $3$ with 
+\begin{equation}
+\mathbf{x}[2] = \sqrt{\mathbf{x}[0]^2 + \mathbf{x}[1]}
+\end{equation}
+provides a higher dimension for the split of the data. This can be implemented with any equation for increasing $\mathbf{m}$. An example of this can be seen by increasing $m$ from $2$ in Figure~\ref{fig:SupportVectorMachinesExample} to $3$in Figure~\ref{fig:SupportVectorMachines3DExample} by adding another feature from the data. A $3$D hyperplane can now divide the data into two separate groups.
+
+\begin{figure}[!hbt]
+	\centering
+	\import{Figures/}{SupportVectorMachines3DExample.pgf}
+	\caption{Support Vector Machine Higher Dimension Example}
+	\label{fig:SupportVectorMachines3DExample}
+\end{figure}
+
+Another method to divide the data into different classes is by changing the kernel from linear to non-linear kernels such as a polynomial kernel. A linear kernel is given as 
+\begin{equation}
+\mathbf{K}\left(x_i,x_j \right) = x_i^Tx_j+ \mathbf{C},
+\end{equation}
+whereas a poynomial kernel is given as
+\begin{equation}
+\mathbf{K}\left(x_i,x_j \right) = \left(\gamma x_i^Tx_j + r \right)^d, \qquad \gamma > 0.
+\end{equation}
+This is provided with the example of a polynomial division of the data shown in Figure~\ref{fig:SupportVectorMachinesExample} with a polynomial fit as shown in Figure~\ref{fig:SupportVectorMachinesExamplePoly}.
+
+\begin{figure}[!hbt]
+	\centering
+	\import{Figures/}{SupportVectorMachinesExamplePoly.pgf}
+	\caption{Support Vector Machine Polynomial Example}
+	\label{fig:SupportVectorMachinesExamplePoly}
+\end{figure}
 
 \section{Unsupervised Learning}
+Supervised learning is a subgroup of machine learning which is based on unlabelled data. Local Outlier factor as discussed in Section~\ref{section:OutlierFactor} can also be implemented as an unsupervised learning method.
 
 \subsection{Isolation Forests}
 This unsupervised learning method is based on the principle of isolating data points by slicing the data with random conditions \cite{TonyLiu2008}. The data is randomly split into specified sample sizes with a randomly selected dimension and a randomly selected cut-off value. For each sample size the data must be split until each data point within the sample is isolated from all other data points. Training of a single tree is completed when all the data points are isolated and this training must be repeated for all the data samples, however many are predefined. 
