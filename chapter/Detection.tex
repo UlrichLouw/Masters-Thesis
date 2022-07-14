@@ -4,12 +4,12 @@ Detecting the anomaly is a binary classification. The method implemented must th
 \begin{equation}
 \begin{aligned}
 \mathbf{D} &= \left(\mathbf{f}_1, y_1 \right), \ldots , \left(\mathbf{f}_n, y_n \right), \\
-\text{where} \qquad \mathbf{f} & \epsilon \mathbf{R^m}. \\
+\text{where} \qquad \mathbf{f} & \in \mathbf{R^m}. \\
 \end{aligned}
 \end{equation}
 $\mathbf{f}$ is the point vector within the vector space, $\mathbf{R}$, with $\mathbf{m}$ dimensions, while $y$ denotes the class of the feature, which in binary classification is either $0$ or $1$.
 \section{Supervised Learning}
-Supervised learning is a subgroup of machine learning which is based on labelled data.
+Supervised learning is a subgroup of machine learning which is based on training algorithms from labelled data to ensure accurate predictions.
 
 \subsection{Decision Trees}
 Decision Trees and Random Forests will be implemented to perform binary classification on regular data samples and anomalous data samples. Decision Trees \cite{Reif2008} and Random Forests \cite{Shi2006, Paul2018, Primartha2018} are supervised learning algorithms that classify data based on threshold splitting. Data samples are split based on a threshold of a specific input parameter. For instance, binary classification can be performed on data samples from a satellite orbit to determine whether the satellite was in an eclipse or not. This would be done by determining whether the magnitude of the sun vector is smaller or greater than $0$. Consequently, after two splits it can be determined which data samples are within an eclipse. The Decision Tree determines this split with the classification and regression tree (CART) algorithm.
@@ -34,7 +34,30 @@ The operator split that produces the lowest Gini index provides the purest split
 It is evident in Figure \ref{fig:DecisionTree} that the most notable splits at the beginning of the tree are the moving average from the feature extraction (DMD) as well as the sun sensor and magnetometer measurements. This makes logical sense since the moving average provides the system with an extracted feature that correlates with the change in measurements. The sun reflection can also be detected on the sun sensor measurements, and changes in the control torques influences the magnetometer readings.
 
 \subsection{Random Forests}
-\cite{Primartha2018} \cite{Paul2018} \cite{Shi2006}
+Random forests, (RF), is an extension of the decision tree. It generates various decision trees from the data set and provides a classification output, $\mathbf{P}$, for a new data sample, $\mathbf{D}*$, by utilizing a majority vote from all the decision trees with an individual classification output of, $\mathbf{p}_i$. RF utilizes bootstrap aggregating, $\mathbf{ba}()$, to ensure that new random data sets, $\mathbf{D}'$ with size of $n'$ is created \cite{Primartha2018, Paul2018, Shi2006}. The individual decision trees of number $k$ is then trained with Algorithm~\ref{alg: Random-Forest-training}.
+
+\begin{algorithm}[!htb]
+	\caption[Random Forest]{Training of Random Forest from Individual Decision Trees}
+	\label{alg: Random-Forest-training}
+	\begin{algorithmic}[1]
+		\For{$i \coloneqq 1$ \textbf{to} $k$}
+		\State \texttt{$\mathbf{D}_i' = \mathbf{ba}(D)$}
+		\State \texttt{$\mathbf{DT_i} = \mathbf{CART}(\mathbf{D}_i')$}
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+The classification output, $\mathbf{P}$, is then provided with Algorithm~\ref{alg: Random-Forest-prediction}.
+\begin{algorithm}[!htb]
+	\caption[Random Forest]{Prediction of Random Forest from Individual Decision Trees}
+	\label{alg: Random-Forest-prediction}
+	\begin{algorithmic}[1]
+	\For{$i \coloneqq 1$ \textbf{to} $k$}
+	\State \texttt{$\mathbf{p}_i = \mathbf{DT_i}(\mathbf{D}*)$}
+	\EndFor
+	\State $\mathbf{P} = \textbf{mode}(\mathbf{p})}$
+	\end{algorithmic}
+\end{algorithm}
+
 
 \subsection{Support Vector Machines}
 Support vector machines (SVM) creates a hyperplane between the feature space to increase the margin between the data samples nearest to the hyperplane from all the classes within the data \cite{hearst1998support, meyer2015support}. The hyperplane can be defined as
