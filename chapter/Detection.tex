@@ -158,7 +158,7 @@ where $E(h(x))$ is the average value of the distance measured from the tree top 
 \end{equation}
 $H(i)$ in Eq~\ref{Eq-normalizing_isolation} is the harmonic number and is estimated with Euler's constant as 
 \begin{equation}
-	H(i) \approx ln(i) + 0.5772156649.
+	H(i) \approx \ln(i) + 0.5772156649.
 	\label{Eq-H_i}
 \end{equation}
 Isolation Forests, however have multiple issues, since it splits data in rectangles as seen in Figure~\subref{Figure-ExtendedvsNormal_first}. This is due to the slicing algorithm selecting a feature, $x$ and a cut-off value, $v$. Consequently, the data is either split vertically or horizontally --- if seen as a two dimensional dataset. This split method is unable to categorise complex data structures. These issues however are addressed by \cite{Hariri2021} and led to the \emph{Extended Isolation Forest} algorithm.
@@ -183,4 +183,8 @@ The extended isolation forest algorithm generalises the isolation forest algorit
 
 It is evident that applying an angle of $0\degree$ to all the slices the general algorithm of the extended isolation forest produces the standard isolation forest algorithm where planes or slices are perpendicular to the axis of the randomly selected feature, $x$.
 
+\section{Analysis}
+\textbf{TODO: Provide analysis of methods with perfect isolation and recovery ignore}.
+
 \section{Summary}
+For the detection of anomalies different binary classification methods are discussed. This includes supervised learning methods such as decision trees, random forests and support vector machines as well as unsupervised learning methods such as isolation forests and local outlier factor which is only discussed in Section~\ref{section:OutlierFactor}. Both supervised and unsupervised learning methods for detection only provide a binary split between anomalous and normal data points, however supervised learning methods can also be implemented for isolation, multi-class classification.

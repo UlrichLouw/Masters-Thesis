@@ -1,20 +1,18 @@
 \chapter{Anomalies}
 \label{chap:Anomalies}
-To ensure that the prediction and classification of anomalies are not based on generalised sensor failures a few anomalies are simulated. These anomalies are either chosen to show the significant effect of these anomalies on the ADCS or are modelled based on research that label the anomaly as a possible influence on the ADCS. There is a anomaly for each sensor, that will create inaccuracies for that specific sensor measurement. An anomaly for the reaction wheels is also implemented to show the resulting estimation failure based on a inaccurate model update, since the control torque and the torque implemented is not the same. This anomaly will also be predicted based on the sensor readings, since the effect will be evident on all the sensors.
+To ensure that the prediction and classification of anomalies are not based on generalised sensor failures a few anomalies are simulated. These anomalies are either chosen to show the significant effect of these anomalies on the ADCS or are modelled based on research that label the anomaly as a possible influence on the ADCS. There is a anomaly for each sensor, that will create inaccuracies for that specific sensor measurement. An anomaly for the reaction wheels is also implemented to show the resulting estimation failure based on a inaccurate model update, since the control torque, $\mathbf{N}_w$ and the torque implemented on the reaction wheel is not the same. All anomalies will also be predicted based on the sensor readings and outputs from feature extractions, since the effect will be evident on all the sensors.
 
 \section{Reflection of Solar Panels on Sun Sensor}
 \label{section:Reflection}
-Sun reflection from solar panels unto sun sensors is a very probable anomaly, if the sun sensor is not placed in a position where the reflection will not influence the sensor. Reflection on the sun sensor is modelled to determine whether the reflection has a significant effect on the ADCS. The reflection anomaly is modelled for the specific shape and design of the CubeSat as shown in Figure~\ref{fig:CubeSat}. The CubeSat will also be the same design for all of the modelled anomalies.
+The reflection anomaly is modelled for the specific shape and design of the satellite as shown in Figure~\ref{fig:CubeSatDesign}.  The modelling takes place within the satellite body coordinate (SBC) frame, $\mathcal{B}\{\bar{\mathbf{x}}_{\mathcal{B}},~\bar{\mathbf{y}}_{\mathcal{B}},~\bar{\mathbf{z}}_{\mathcal{B}}\}$.
 
-The reflection anomaly is modelled for the specific shape and design of the satellite as shown in Figure~\ref{fig:CubeSat}.  The modelling takes place within the SBC frame.
-
-\begin{figure}[h!t!b]
-	\centering
-	\def\svgwidth{12cm}
-	\import{Figures/}{ReflectionModel.pdf_tex}
-	\caption{The modelled satellite, with solar panels and sun sensor within the SBC frame.}
-	\label{fig:CubeSat}
-\end{figure}
+%\begin{figure}[h!t!b]
+%	\centering
+%	\def\svgwidth{12cm}
+%	\import{Figures/}{ReflectionModel.pdf_tex}
+%	\caption{The modelled satellite, with solar panels and sun sensor within the SBC frame.}
+%	\label{fig:CubeSat}
+%\end{figure}
 
 \begin{figure*}[h!t!b]
 	\centering
@@ -56,25 +54,45 @@ from the coordinates of $A'$ and $B'$, the corresponding $X_{A'B',y}$ can be cal
 The results for the sun vector with and without reflection are shown in Figure~\ref{fig:Sun Vector comparison}. There is a clear difference between the true sun vector and the possible measurement influenced by the reflection.  This false reflection vector may affect the estimation and, thus also the attitude control of the satellite.
 
 \begin{figure*}[!htb]
-	\begin{tabular}{@{}c@{}}
+	\begin{subfigure}{.5\textwidth}
 		\centering
 %		 include first image
 		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/Reflection/}{Sun.pgf}
 %		\caption[Sun vector with reflection]{Sun vector with reflection.}
 		\label{fig:Sun Vector comparison with reflection}
-	\end{tabular}
-	\begin{tabular}{@{}c@{}}
+	\end{subfigure}
+	\begin{subfigure}{.5\textwidth}
 		\centering
 		% include second image
-		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Sun.pgf}
+		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Sun.pgf} 
 %		\caption[Sun vector without reflection]{Sun vector without reflection.}
 		\label{fig:Sun Vector comparison without reflection}
-	\end{tabular}
-	
-	\caption{Comparison of Sun Vector with and without Reflection}
+	\end{subfigure}
+	\caption{Comparison of measured sun vector with and without reflections (gray areas indicate the eclipse period of the orbit)}
 	\label{fig:Sun Vector comparison}
 	
 \end{figure*}
+
+%\begin{figure*}[!htb]
+%	\begin{subfigure}{.5\textwidth}
+%		\centering
+%		% include first image
+%		\import{Figures/TexFigures/}{Reflection-Sun.pgf}
+%		\caption[Sun vector with reflection]{Sun vector with reflection.}
+%		\label{fig:Sun Vector comparison with reflection}
+%	\end{subfigure}
+%	\begin{subfigure}{.5\textwidth}
+%		\centering
+%		% include second image
+%		\import{Figures/TexFigures/}{None-Sun.pgf} 
+%		\caption[Sun vector without reflection]{Sun vector without reflection.}
+%		\label{fig:Sun Vector comparison without reflection}
+%	\end{subfigure}
+%	
+%	\caption{Comparison of measured sun vector with and without reflections (gray areas indicate the eclipse period of the orbit)}
+%	\label{fig:Sun Vector comparison}
+%	
+%\end{figure*}
 
 %\begin{figure}[!htb]
 %	\centering
@@ -159,8 +177,8 @@ The results for the sun vector with and without reflection are shown in Figure~\
 %	
 %\end{figure*}
 
-\subsection{Influence of anomaly on estimation}
-To determine whether the reflection on the sun sensor has a influence on the ADCS, the estimation metric is shown in Figure~\ref{fig:reflectionEstimation}. The estimation metric, is the angle difference between the actual attitude and the estimated attitude. It is evident that the reflection has a large influence on the estimation. It is also clear that during the eclipse the estimation returns to a more accurate estimation. This is due to the fact that all sensors are ignored if the measured vector is $0$.
+\subsection{Influence of Anomaly on Estimation}
+To determine whether the reflection on the sun sensor has a influence on the ADCS, the estimation metric is shown in Figure~\ref{fig:reflectionEstimation}. The estimation metric, is the angle difference between the actual attitude and the estimated attitude. It is evident that the reflection has a large influence on the estimation when Figure~\ref{fig:reflectionEstimation} is compared with Figure~\ref{fig:Estimation Metric}. The maximum estimation error is $6^o$ for normal operation and it is evident in Figure~\ref{fig:reflectionEstimation} that the estimation error is sometimes even $150^o$. It is also clear that during the eclipse the estimation returns to a more accurate estimation. This is due to the fact that all sensors are ignored if the measured vector is $0$ and the sun vector is $0$ during eclipse.
 \begin{figure}[!htb]
 	\centering
 	
@@ -170,11 +188,11 @@ To determine whether the reflection on the sun sensor has a influence on the ADC
 	\label{fig:reflectionEstimation}
 \end{figure}
 
-\section{Moon and Sun in Field of View of Nadir Sensor}
-An anomaly that can be experienced by an infra-red (IR) nadir sensor is the moon overlapping the horizon of the Earth in die nadir sensor's field of view (FoV). This is shown in Figure~\ref{fig:ProjectionOnPlane}. This influences the edge detection and circular fit algorithm \cite{Wessels2018, Helgard2008} and consequently the calculated centre of the Earth. Firstly, it is required to simulate the image seen by the nadir sensor, thereafter the algorithm for detecting the centre of the Earth can be implemented.
+\section{Moon in Field of View of Nadir Sensor}
+An anomaly that can be experienced by an infrared (IR) nadir sensor is the moon overlapping the horizon of the Earth in die nadir sensor's field of view (FoV). This is shown in Figure~\ref{fig:ProjectionOnPlane}. This influences the edge detection and circular fit algorithm \cite{wessels2018infrared, van2008infrared} and consequently the calculated centre of the Earth. Firstly, it is required to simulate the image seen by the nadir sensor, thereafter the algorithm for detecting the centre of the Earth can be implemented.
 
 \subsection{Simulating Nadir Sensor Infra-red Image}
-Firstly the vectors of both the satellite to Earth and the moon the Earth is required. The moon position is determined with the Julian date, since the propagation of the moon position relative to the centre of the Earth has already been done. These vectors are shown in Figure~\ref{fig:EarthMoonSatPosition}. From the vector, $\mathbf{R}_{SE}$, and the position of the centre of the Earth, $P_{Earth}$, a 3D plane normal to $\mathbf{R}_{SE}$ and at $P_{Earth}$ can be calculated. Where both $P_{Earth}$ and $\mathbf{R}_{SE}$ are defined as
+Firstly, the vectors of both the satellite to Earth, $\mathbf{R}_{SE}$ and the Earth to moon, $\mathbf{R}_EM$, is required. The moon position is determined with the Julian date, since the propagation of the moon position relative to the centre of the Earth has been calculated in advance. These vectors are shown in Figure~\ref{fig:EarthMoonSatPosition}. 
 
 \begin{figure}[!htb]
 	\centering
@@ -184,24 +202,19 @@ Firstly the vectors of both the satellite to Earth and the moon the Earth is req
 	\label{fig:EarthMoonSatPosition}
 \end{figure}
 
+From the vector, $\mathbf{R}_{SE}$, and the position of the centre of the Earth, $P_{Earth}$, a 3D plane normal to $\mathbf{R}_{SE}$ and at $P_{Earth}$ can be calculated. Where both $P_{Earth}$ and $\mathbf{R}_{SE}$ are defined as
 \begin{equation}
-	P_{Earth} = [x_0, y_0, z_0]
+	P_{Earth} = [\bar{\mathbf{x}}_{\mathcal{E}_0}, \bar{\mathbf{y}}_{\mathcal{E}_0}, \bar{\mathbf{z}}_{\mathcal{E}_0}],
 \end{equation}
-
 and  
-
 \begin{equation}
-	\mathbf{R}_{SE} = [n_x, n_y, n_z].
+	\mathbf{R}_{SE} = [\mathbf{n}_{\bar{\mathbf{x}}_{\mathcal{E}}}, \mathbf{n}_{\bar{\mathbf{y}}_{\mathcal{E}}}, \mathbf{n}_{\bar{\mathbf{z}}_{\mathcal{E}}}].
 \end{equation}
-
 Therefore with the equation for the 3D plane defined as 
-
 \begin{equation}
-Ax + By + Cy = D
+A\bar{\mathbf{x}}_{\mathcal{E}} + B\bar{\mathbf{y}}_{\mathcal{E}} + C{\bar{\mathbf{x}}_{\mathcal{E}}} = Dm
 \end{equation}
-
-the parameters $A, B, C, D$ can be calculated as
-
+where the parameters $A, B, C, D$ can be calculated as
 \begin{equation}
 \begin{bmatrix}
 	A\\
@@ -209,23 +222,20 @@ the parameters $A, B, C, D$ can be calculated as
 	C\\
 	D\\
 \end{bmatrix} = \begin{bmatrix}
-n_x\\
-n_y\\
-n_z\\
-n_xx_0 + n_yy_0 + n_zz_0\\
+\mathbf{n}_{\bar{\mathbf{x}}_{\mathcal{E}}} \\ \mathbf{n}_{\bar{\mathbf{y}}_{\mathcal{E}}} \\ \mathbf{n}_{\bar{\mathbf{z}}_{\mathcal{E}}} \\
+\mathbf{n}_{\bar{\mathbf{x}}_{\mathcal{E}}}\bar{\mathbf{x}}_{\mathcal{E}_0} + \mathbf{n}_{\bar{\mathbf{y}}_{\mathcal{E}}}\bar{\mathbf{y}}_{\mathcal{E}_0} + \mathbf{n}_{\bar{\mathbf{z}}_{\mathcal{E}}}\bar{\mathbf{z}}_{\mathcal{E}_0} \\
 \end{bmatrix}
 \end{equation}
-
-This 3D plane slicing the Earth in half as seen from the satellite is shown in Figure~\ref{fig:PlaneThroughEarth}. The moon and Earth can both be projected unto the 3D plane to determine the image seen by the nadir sensor. Therefore the nadir vector must also be projected unto the 3D plane. A circle can be drawn for the Earth. moon and the nadir sensor FoV. The radius, of the moon as projected on the 3D plane can be calculated as 
+This 3D plane slicing the Earth in half as seen from the satellite is shown in Figure~\ref{fig:PlaneThroughEarth}. The moon and Earth can both be projected unto the 3D plane to determine the image seen by the nadir sensor. Therefore the nadir vector must also be projected unto the 3D plane. A circle can be drawn for the Earth, moon and the nadir sensor's FoV. The radius, of the moon as projected on the 3D plane can be calculated as 
 
 \begin{equation}
-	R_{moon} = \norm{R_{SE}} \frac{r_{moon}}{\norm{R_{SM}}}
+	R_{moon} = \norm{\mathbf{R}_{SE}} \frac{r_{moon}}{\norm{\mathbf{R}_{SM}}}
 \end{equation}
 
 the radius of the nadir sensor FoV, $R_{FoV}$ can calculated as 
 
 \begin{equation}
-	R_{FoV} = \norm{R_{SE}} \tan \theta
+	R_{FoV} = \norm{\mathbf{R}_{SE}} \tan\left(\theta \right)
 \end{equation}
 
 With these variables defined and calculated, the edges of the moon and Earth within the nadir FoV can be determined.
@@ -241,20 +251,18 @@ With these variables defined and calculated, the edges of the moon and Earth wit
 	\label{fig:PlaneThroughEarth}
 \end{figure}
 
-Firstly the edges of the moon and Earth are discretely determined based on a fixed number of points for the Earth, $N$, and the number of discrete points on the moon is determined based on the ratio of $R_{moon}$ to $R_{Earth}$. The projected Earth and moon unto the 3D plane is shown in Figure~\ref{fig:PlaneThroughEarth}. The discrete edges of the Earth that is within the FoV and will be used for the algorithm discussed in section~\ref{section: Calculating the Centre of the Earth} are determined with the following logical statements.
+Firstly the edges of the moon and Earth are discretely determined due to the pixel width of the nadir sensor. The discrete points are therefore based on a fixed number of points for the Earth, $N$, and the number of discrete points on the moon is determined based on the ratio of $R_{moon}$ to $R_{Earth}$. The discrete points for the moon is therefore equal to $N \left(\frac{R_{moon}}{R_{Earth}} \right)$. The projected Earth and moon as discrete points unto the 3D plane is shown in Figure~\ref{fig:ProjectionOnPlane}. The discrete edges of the Earth and moon that is within the FoV will be used for the algorithm to calculate the centre of the earth as discussed in Section~\ref{section: Calculating the Centre of the Earth}. The discrete points from the earth used must satisfy the following conditions:
 \begin{enumerate}
 	\item Distance between point and centre of nadir Sensor FoV must be smaller than $R_{FoV}$.
-	\item Distance between point and centre of moon must be larger than $R_{moon}$
+	\item Distance between point and centre of moon must be larger than $R_{moon}$.
 \end{enumerate}
-
-The discrete edges of the moon used for the algorithm is must satisfy the following conditions
+The discrete edges of the moon used for the algorithm must satisfy the following conditions:
 \begin{enumerate}
-	\item Distance between any discrete point and centre of Earth must be smaller than $R_{Earth}$ for the moon to overlap the horizon
+	\item Distance between any discrete point and centre of Earth must be smaller than $R_{Earth}$ for the moon to overlap the horizon.
 	\item Distance between point and centre of nadir Sensor FoV must be smaller than $R_{FoV}$.
-	\item Distance between point and centre of Earth must be larger than $R_{Earth}$
+	\item Distance between point and centre of Earth must be larger than $R_{Earth}$.
 \end{enumerate}
-
-This the creates the array of points that will be used in the algorithm used to calculate the centre of the Earth.
+This the creates the array of points that will be used in the algorithm to calculate the centre of the Earth.
 
 \begin{figure}[!hbt]
 	\centering
@@ -264,11 +272,13 @@ This the creates the array of points that will be used in the algorithm used to 
 	\label{fig:ProjectionOnPlane}
 \end{figure}
 
+\textbf{TODO: Fix green arrow and text of Rmoon on Figure}
+
 \subsection{Calculating the Centre of the Earth}
 \label{section: Calculating the Centre of the Earth}
-The edges of the Earth are detected based on a gradient between the lowest temperature and the highest temperature within the IR nadir sensor's FoV. This will not be implemented in our case, since we can determine discrete points of both the Earth and the moon from the simulation environment. Furthermore the visible phases of the moon will not be accounted for. The reasoning for this is due to the coldest side of the moon being $140K$ and the warmest part, $400K$. The temperature of space is $2.7K$ and the coldest part on the Earth is $180K$. Consequently, the IR horizon sensor must be calibrated to always use the minimum value for edge detection as 180K or it must use the smallest value in the image, which will most likely be $2.7K$. Therefore, it can be assumed that the moon will not have any detectable phases for the IR horizon sensor and it will always be seen as a full moon, due to it's lowest temperature being warmer than that of space. 
+The edges of the Earth are detected based on a gradient between the lowest temperature and the highest temperature within the IR nadir sensor's FoV. This will not be implemented in our case, since we can determine discrete points of both the Earth and the moon from the simulation environment. Furthermore the visible phases of the moon will not be accounted for. The reasoning for this is due to the coldest side of the moon being $140$K and the warmest part, $400$K. The temperature of space is $\num{2.7}$K and the coldest part on the Earth is $180$K. Consequently, the IR horizon sensor must be calibrated to always use the minimum value for edge detection as $180$K or it must use the smallest value in the image, which will most likely be $2.7$K. Therefore, it can be assumed that the moon will not have any detectable phases for the IR horizon sensor and it will always be seen as a full moon, due to it's lowest temperature being warmer than that of space. 
 
-With this assumption the circular fit algorithm as shown in Figure~\ref{fig:CircularFit} can now be used to determine the centre of the Earth on the plane \cite{Wessels2018}. For this calculation the 3D plane is transformed to a 2D plane and all the coordinates is also transformed.  
+With this assumption the circular fit algorithm as shown in Figure~\ref{fig:CircularFit} can now be used to determine the centre of the Earth on the plane \cite{wessels2018infrared}. For this calculation the $3$D plane is transformed to a $2$D plane and all the coordinates is also transformed. The centre of the Earth on the 2D plane is therefore given as $\left(x_c, y_c\right)$. The goal of the algorithm is to calculate $\left(x_c, y_c\right)$ and use it to transform the point to the 3D plane and thereafter calculate the $\mathbf{R}_{SE}$.
 
 \begin{figure}[!hbt]
 	\centering
@@ -278,24 +288,19 @@ With this assumption the circular fit algorithm as shown in Figure~\ref{fig:Circ
 	\label{fig:CircularFit}
 \end{figure}
 
-Firstly the curvature is described as 
-
+Firstly the curvature of a circle is described as 
 \begin{equation}
-	ax + bx + c = x^2 + y^2
+	ax + by + c = x^2 + y^2,
 \end{equation}
-
 where 
-
 \begin{equation}
 	\begin{aligned}
 		a &= 2x_c \\
 		b &= 2y_c \\
-		c &= r_c^2-\sqrt{x_c^2 + y_c^2}
+		c &= r_c^2-\sqrt{x_c^2 + y_c^2}.
 	\end{aligned}
 \end{equation}
-
-Therefore using all the discrete edges within the image $a$, $b$ and $c$ can be calculated as
-
+Therefore using all the coordinates of discrete edges, $(x_n, y_n)$, within the nadir sensor FoV, $a$, $b$ and $c$ can be calculated as
 \begin{equation}
 	\begin{bmatrix}
 		x_0 & y_0 & 1\\
@@ -311,13 +316,13 @@ Therefore using all the discrete edges within the image $a$, $b$ and $c$ can be 
 		x_1^2 + y_1^2\\
 		\vdots \\
 		x_n^2 + y_n^2\\
-	\end{bmatrix}
+	\end{bmatrix}.
 \end{equation}
+It is thus evident that when the moon overlaps the horizon of the Earth from the nadir sensor's perspective the centre of the Earth will be incorrectly calculated and this anomaly must be dealt with. A similar anomaly where the sun is in the FoV of the nadir sensor will not provide a measurement, since the sun will saturate the Infra-red nadir sensor~\cite{wessels2018infrared}. The anomaly will therefore not be modelled since it will only provide a sensor vector of $0$ and will be ignored by default.
 
-where $(x_0,y_0)$ to $(x_n, y_n)$ are the coordinates of the discrete edges. It is thus evident that when the moon overlaps the horizon of the Earth from the nadir sensor's perspective the centre of the Earth will be incorrectly calculated and this anomaly must be dealt with. The other anomaly in this section where the sun is in the FoV of the nadir sensor will not provide a measurement, since the sun will saturate the Infra-red nadir sensor~\cite{Wessels2018}.
+\subsection{Influence of Anomaly on Estimation}
+To determine the effect of the discrete moon edges on the circular fit algorithm, the measured Earth vector with and without the moon on horizon anomaly is shown in Figure~\ref{fig:Earth Vector comparison}. It is clear from Figure~\ref{fig:Earth Vector comparison} that the anomaly has no visible effect on the Earth vector. It is also evident in Figure~\ref{fig:Moon On Horizon Estimation Metric} that the estimation metric is also not influenced negatively by this anomaly. This anomaly is therefore not included in the FDIR development, since there is no evident difference due to the anomaly. It will also have a negative influence on the detection algorithms, since the data from this anomaly will be similar to normal data and this will decrease the accuracy of the detection.
 
-\subsection{Influence of anomaly on estimation}
-To determine the effect of the moon in the circular fit algorithm the measured Earth vector with and without the moon on horizon anomaly is shown in Figure~\ref{fig:Earth Vector comparison}. It is clear from Figure~\ref{fig:Earth Vector comparison} that the anomaly has no visible effect on the Earth vector. It is also evident in Figure~\ref{fig:Moon On Horizon Estimation Metric} that the estimation metric is also not influenced negatively by this anomaly. Therefore, this anomaly is not included in the FDIR development, since there is no evident difference due to the anomaly.
 \begin{figure*}[!htb]
 	\begin{tabular}{@{}c@{}}
 	\centering
@@ -349,8 +354,8 @@ To determine the effect of the moon in the circular fit algorithm the measured E
 \end{figure}
 
 
-\section{Magnetic Moment Disturbance from Satellite Bus}
-Magnetic moments produced by a coil in solar panels on a CubeSat can create a disturbance torque an influence the magnetometer measurements due to the induced magnetic field in the coil of the solar panel~\cite{Ruckerl2019, Jeger2017}. According to \cite{Jeger2017} the current, $I$, in each individual cell of the solar panel can be modelled as a cumulative current for the entire solar panel, since the normal vector to each cell and the solar panel is the same. This magnetic moment is modelled for the specific size of the CubeSat model in Figure~\ref{fig:CubeSat}. The coil in the solar panel and the resulting magnetic field, $B(r)$, as well as the resulting dipole moment, $m$, is shown in Figure~\ref{fig:solarPanelDipole}. The inner area of the coil is assumed to be the same as the surface area of the solar panel. 
+\section{Magnetic Moment Disturbance}
+Magnetic moments produced by a coil in solar panels on a CubeSat can create a disturbance torque an influence the magnetometer measurements due to the induced magnetic field in the coil of the solar panel~\cite{ruckerl2019first, jeger2017determination}. According to \cite{jeger2017determination} the current, $I$, in each individual cell of the solar panel can be modelled as a cumulative current for the entire solar panel, since the normal vector to each cell and the solar panel is the same. This magnetic moment is modelled for the specific size of the CubeSat model in Figure~\ref{fig:CubeSatDesign}. The coil in the solar panel and the resulting magnetic field, $\mathbf{B}_r$, as well as the resulting dipole moment, $m$, is shown in Figure~\ref{fig:solarPanelDipole}. The inner area of the coil, $A$, is assumed to be the same as the surface area of the solar panel. 
 
 \begin{figure}[!hbt]
 	\centering
@@ -362,9 +367,10 @@ Magnetic moments produced by a coil in solar panels on a CubeSat can create a di
 
 The dipole moment is calculated as
 \begin{equation}
-m = AI
+\mathbf{m} = AI.
 \end{equation}
-where $A$ is the area within the loop and $I$ is the current within the coil. The current is generated by the solar panel and thus depends on the incoming sun vector as well as the area on the solar panel illuminated by the sun as demonstrated in Figure~\ref{fig:Shadow}. 
+The current is generated by the solar panel and thus depends on the incoming sun vector as well as the area on the solar panel illuminated by the sun. A shadow of the satellite body can cover areas of the solar panels as demonstrated in Figure~\ref{fig:Shadow}. This decreases the current in these solar panels and also the induced dipole moment from these solar panels.
+
 \begin{figure}[!hbt]
 	\centering
 	\def\svgwidth{14cm}
@@ -372,15 +378,17 @@ where $A$ is the area within the loop and $I$ is the current within the coil. Th
 	\caption{Shadow created by CubeSat body on Solar Panels}
 	\label{fig:Shadow}
 \end{figure}
-Therefore the current, $I$, can be calculated with
+
+The current, $I$, can therefore be calculated as
 \begin{equation}
-I = I_{max}\frac{A_{total}}{A_{illuminated}}cos(\theta)
+I = I_{max}\frac{A_{total}}{A_{illuminated}}\cos(\theta),
 \end{equation}
-where $\theta$ is the angle between the normal vector to the solar panel and the incoming sun vector and $I_{max}$ depends on the solar panel. The dipole moment in term produces a disturbance torque on the CubeSat. With the resulting torque expressed as
+where $\theta$ is the angle between the normal vector to the solar panel and the incoming sun vector and $I_{max}$ depends on the solar panel. The dipole moment in term produces a disturbance torque on the CubeSat. With the resulting torque, from the dipole moment, expressed as
 \begin{equation}
-\tau = m \times B
+\mathbf{N}_{dm} = \mathbf{m} \times \mathbf{B},
 \end{equation}
-where $B$ is the magnetic field of the Earth. Since the only external magnetic field that create a resulting torque is that of the Earth. The resulting torque for five orbits are shown in Figure~\ref{fig:solarPanel Disturbance Torques}.
+where $\mathbf{B}$ is the magnetic field of the Earth. The only external magnetic field that can create a considerable resulting torque, is that of the Earth. The resulting torque for two orbits are shown in Figure~\ref{fig:solarPanel Disturbance Torques}. It is evident that $\mathbf{N}_{dm}$ is $0$ during eclipse, since there is no current from the solar panels and therefore no induced dipole moment. 
+
 \begin{figure}[!htb]
 	\centering
 	
@@ -392,11 +400,12 @@ where $B$ is the magnetic field of the Earth. Since the only external magnetic f
 
 The magnetometer measurement influenced by the magnetic field produced by the coil in the solar panel. This magnetic field experienced at the magnetometer can be calculated with 
 \begin{equation}
-B(r) = \frac{\mu_0}{4\pi} \frac{3 \hat{r} (\hat{r} \cdot m) - m}{\norm{r}^3}
+\mathbf{B}_{r_m} = \frac{\mu_0}{4\pi} \frac{3 \mathbf{r}_m (\mathbf{r}_m \cdot \mathbf{m}) - \mathbf{m}}{\norm{\mathbf{r}_m}^3},
 \end{equation}
+where $\mu_0$ is the vacuum permeability constant and $\mathbf{r}_m$ is the vector from the centre of a solar panel to the centre of position of the magnetometer. The vector, $\mathbf{r}_m$, will therefore change depending on each solar panel and is calculate as $\mathbf{B}_r$ is then a summation of each solar panel's resultant magnetic field, $\mathbf{B}_{r_m}$. 
 
-\subsection{Influence of anomaly on estimation}
-The vector $r$ between the position of the magnetometer and the solar panel influences the magnetic field significantly. The experienced magnetic field  by the magnetometer will be different for each solar panel. The resulting measured vector by the magnetometer is the summation of the Earth's magnetic field and the magnetic field produced by the coils in the solar panels. The resulting magnetometer measurement with and without the induce moment is shown in Figure~\ref{fig:Magnetometer Vector comparison}. From Figure~\ref{fig:solarPanelDipoleOnEstimation} is is evident that this anomaly has a significant effect on the estimation, but not as large as the reflection on the sun sensor. 
+\subsection{Influence of Anomaly on Estimation}
+The vector $\mathbf{r}_m$ between the position of the magnetometer and the solar panel influences the magnetic field significantly. The experienced magnetic field by the magnetometer will be different for each solar panel. The resulting measured vector by the magnetometer is the summation of the Earth's magnetic field, $\mathbf{B}$, and the magnetic field produced by the coils in the solar panels, $\mathbf{B}_r$. The resulting magnetometer measurement with and without the induced dipole moment is shown in Figure~\ref{fig:Magnetometer Vector comparison}. 
 
 \begin{figure*}[!htb]
 	\begin{tabular}{@{}c@{}}
@@ -406,17 +415,21 @@ The vector $r$ between the position of the magnetometer and the solar panel infl
 		
 		\label{fig:Magnetic field Vector comparison with solar Panel magnetic field}
 	\end{tabular}
-	\begin{tabular}{@{}c@{}}
-		\centering
-		% include second image
-		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Magnetometer.pgf} 
-		%		\caption[Sun vector without reflection]{Sun vector without reflection.}
-		\label{fig:Magnetic field Vector comparison without solar Panel magnetic field}
-	\end{tabular}
-	
+%	\begin{tabular}{@{}c@{}}
+%		\centering
+%		% include second image
+%		\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Magnetometer.pgf} 
+%		%		\caption[Sun vector without reflection]{Sun vector without reflection.}
+%		\label{fig:Magnetic field Vector comparison without solar Panel magnetic field}
+%	\end{tabular}
+%	
 	\caption{Comparison of Magnetic field Vector with and without solar Panel magnetic field}
 	\label{fig:Magnetometer Vector comparison}
 \end{figure*}
+
+\textbf{TODO: Plot the magnetic field due to the solar panels and not the unit vector}.
+
+From Figure~\ref{fig:solarPanelDipoleOnEstimation} is is evident that this anomaly has a significant effect on the estimation, but not as large as the sun reflection on the sun sensor. However, it is not yet clear whether the estimation error increases due to the magnetometer anomaly or the disturbance torque, $\mathbf{N}_{dm}$. This however will be evident when the anomaly recovery results are discussed in Chapter~\ref{chap:Recovery}.
 
 \begin{figure}[!htb]
 	\centering
@@ -428,7 +441,7 @@ The vector $r$ between the position of the magnetometer and the solar panel infl
 \end{figure}
 
 \section{Reaction wheels}
-When an actuator fails it influences all the sensor measurements. The anomaly will be modelled as a sudden failure in the actuator when it does not react to inputs. This will influence the EKF, since the model update will be inaccurate. Therefore, this anomaly is included even though it is not a sensor anomaly, because it often occurs and a lot of research is done in this. The recovery of this will however will not be within the specification of this thesis, but the model update for the estimation will be modified based on a modified torque vector. The resulting estimation metric for this anomaly is shown in Figure~\ref{fig:catastrophicReactionWheels} and it is evident that this anomaly has a large negative effect on the EKF. \textbf{maybe use the angular moment sensors to update the torque}.
+Failures of actuators will effect both the estimation and the control of the satellite. When an actuator fails it therefore influences all the sensor measurements. The anomaly will be modelled as a sudden failure in the actuator when it does not react to inputs. The reaction wheel will thus continue to spin at the control input it had before the sudden failure. The momentum dumping will decrease the failed reaction wheel's momentum over time. This will influence the EKF, since the model update will be inaccurate. Therefore, this anomaly is included even though it is not a sensor anomaly, because this anomaly often occurs and a lot of research is done on reaction wheel failure. The recovery of the control torque, $\mathbf{N}_w$, is however not within the scope of this thesis, but the model update for the estimation will be adjusted based on a modified torque vector, $\mathbf{N}_w'$. The resulting estimation metric for this anomaly is shown in Figure~\ref{fig:catastrophicReactionWheels} and it is evident that this anomaly has a large negative effect on the EKF. \textbf{TODO: Maybe use the angular moment sensors to update the torque}.
 
 \begin{figure}[!htb]
 \centering
@@ -440,7 +453,7 @@ When an actuator fails it influences all the sensor measurements. The anomaly wi
 \end{figure}
 
 \section{Summary}
-Based on the influence of the modelled anomalies on the estimation metric. Therefore the reflection of the solar panels on the sun sensor, the induced magnetic dipole and the failed reaction wheel are used for the FDIR development.
+It is evident that the reflection of solar panels on sun sensor, reaction wheel failure and the magnetic moment disturbance have considerable increases in the estimation error. Therefore, these anomalies must be recovered from to ensure autonomous fault tolerant control. The moon in the FoV of the nadir sensor and on the Earth horizon has a negligible effect on the estimation accuracy and therefore is not included in the set of anomalies that requires fault tolerant control. The results from recovery of these anomalies is discussed in Chapter~\ref{chap:Recovery}.
 
 %\begin{figure}[!htb]
 %	\centering

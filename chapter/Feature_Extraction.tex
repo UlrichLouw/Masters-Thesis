@@ -1,38 +1,37 @@
 \chapter{Feature Extraction}
 \label{chap:Feature Extraction}
+Feature extraction is a method of enhancing the performance of classification algorithms. Through different algorithms data sets with a large feature space is reduced to a smaller feature space. Classification algorithms has fewer features to assess, but the information gain of each feature is significantly larger, depending on the application. For anomaly detection, feature extraction focuses on producing features that specifically divides anomalies from normal data. Feature extraction can also be implemented for the isolation of different failures, this however is not within the scope of this thesis and only feature extraction for anomalies is discussed.
 
-
-\section{Binary Feature Extraction}
-The classes hyperparameter will be set to 2. The only problem with this, is a very evident 2 classes is eclipse and non-eclipse. Consequently each feature extraction model will be trained twice. Once for the eclipse and once for the non-eclipse period. The features extracted will be used with the detection algorithms.
 %\subsection{Linear Regression}
 
-\subsection{Local Outlier Factor}
+\section{Local Outlier Factor}
 \label{section:OutlierFactor}
-Most algorithms for anomaly detection are based on a metric which accounts for the entire dataset~\cite{breunig2000lof}. However, many anomalies are identifiable in relation to the local neighbourhood of data points and not the overall dataset. Therefore, \cite{breunig2000lof} developed the local outlier factor (LOF) algorithm that provides a measure of a data point's "outlierness". This implies that a data point is not classified as an anomaly or not, but a local outlier factor is calculated to determine how much a data point is distantiated from it's $k$-nearest neighbours. This is clearly demonstrated in Figure~\ref{fig:localOutlierFactor} where the data points which are clustered together have smaller LOF's than data points which are removed from the highly dense areas.
+Most algorithms for anomaly detection are based on a metric which accounts for the entire dataset~\cite{breunig2000lof}. However, many anomalies are identifiable in relation to the local neighbourhood of data points and not the overall dataset. Therefore, \cite{breunig2000lof} developed the local outlier factor (LOF) algorithm that provides a measure of a data point's "outlierness" within a subset of data points. This implies that a data point is not classified as an anomaly or not, but a local outlier factor is calculated to determine how much a data point is distantiated from it's $k$-nearest neighbours. This is clearly demonstrated in Figure~\ref{fig:localOutlierFactor} where the data points which are clustered together have smaller outlier scores than data points which are removed from the highly dense areas. The radious of the red circle around each data point is equivalent to the outlier score, $\mathbf{LOF}$.
 
 \begin{figure}[!hbt]
 	\centering
 	\import{Figures/}{LOF.pgf}
-	\caption{Plane perpendicular to $\mathbf{R}_{SE}$ and at center of earth}
+	\caption{Local outlier factor of random data set to demonstrate the outlier score produced by the local outlier factor algorithm.}
 	\label{fig:localOutlierFactor}
 \end{figure}
 
-To calculate the LOF, the $k$-distance must be calculated and also the local reachability density \(lrd\). The $k$-distance, is the $k^{th}$ ranked $distance(o,p_i)$. Where $distance(o,p_i)$ is the distance between data point $o$ and any data point $p_i$, with $i \in N$, where $N$ is the number of data points within the dataset with a minimum value of $MinPts$. To reduce fluctuations in the $distance(o,p_i)$ the distance between $o$ and $p_i$ is replaced with 
+To calculate the $\mathbf{LOF}$, the $k$-distance, $d_k$, must be calculated and also the local reachability density $\mathbf{LRD}$. The $d_k$, is the $k^{th}$ ranked $d(p_o,p_i)$. Where $d(p_o,p_i)$ is the distance between data point $p_o$ and any data point $p_i$, with $i \in N$, where $N$ is the number of data points within the dataset with a minimum value of $N_{min}$. The minimum data points for a data point, $p_o$, is a function of the minimum value of points and denoted as $N_{min}(d_o)$. To reduce fluctuations in the $d(p_o,p_i)$ the distance between $p_o$ and $p_i$ is replaced with 
 \begin{equation}
-\text{max} \{distance(o,p_i), k\text{-distance}\} 
+\textbf{max} \left( d(p_o,p_i), d_k \right),
 \end{equation}
-and will henceforth be referred to as the reachability distance~\cite{breunig2000lof}. The $lrd$ of a data point, $p$, is calculated as 
+and will henceforth be referred to as the reachability distance, $\mathbf{d}$, ~\cite{breunig2000lof}. The $\mathbf{LRD}$ of a data point, $p_o$, is calculated as 
 \begin{equation}
-lrd_{MinPts}(p) = 1/\left(\frac{\sum\limits_{o \in N_{MinPts}(p)}^{} reach\-dist_{MinPts}(p,o)}{|N_{MinPts}(p)|}\right)
+\mathbf{LRD}_{N_{min}}(p_o) = 1/\left(\frac{\sum\limits_{p_i \in N_{min}(p_o)}^{} \mathbf{d}_{N_{min}}(p_o,p_i)}{\left|N_{min}(p_o) \right|}\right),
 \label{Eq-lrd}
 \end{equation}
-and denotes "the inverse of the average reachability distance based on the $MinPts$-nearest neighbours of the $p$" --- \cite{breunig2000lof}. Eq~\ref{Eq-lrd} enables the calculation for the $LOF$ of point $p$ as shown in Eq~\ref{Eq-LOF}
+and denotes "the inverse of the average reachability distance based on the $N_{min}$-nearest neighbours of the $p_o$"~\cite{breunig2000lof}. Eq~\ref{Eq-lrd} enables the calculation for the $\mathbf{LOF}$ of point $p_o$ given as
 \begin{equation}
-LOF_{MinPts}(p) = \frac{\sum\limits_{o \in N_{MinPts}(p)}^{}\frac{lrd_{MinPts}(o)}{lrd_{MinPts}(p)}}{|N_{MinPts}(p)|}
+\mathbf{LOF}_{N_{min}}(p_o) = \frac{\sum\limits_{p_i \in N_{min}(p_o)}^{}\frac{\mathbf{LRD}_{N_{min}}(p_i)}{\mathbf{LRD}_{N_{min}}(p_o)}}{\left| N_{min}(p_o) \right|}.
 \label{Eq-LOF}
 \end{equation}
-The rule of thumb for detecting an outlier is that when the LOF is larger than 1, then the point is considered an outlier with respect to its neighbourhood. This however is not fixed and the threshold can be changed depending on the application.
-This method is aimed at producing a measure of the "outlierness" of a data point within a local neighbourhood and not for all the data points. This method will thus be implemented for the satellite anomaly detection, since it will detect anomalies within the two neighbourhoods produced by the eclipse during orbit. This method will also be able to detect measurements of earth sensors, sun sensors and magnetometers that drastically change from the previous orbital data. 
+The rule of thumb for detecting an outlier is that when the LOF is larger than $1$, then the point is considered an outlier with respect to its neighbourhood. This however is not fixed and the threshold can be changed depending on the application. LOF can therefore also be a anomaly detection algorithm if a given threshold is implemented otherwise the $\mathbf{LOF}$ can be given as an additional feature for other anomaly detection algorithms.
+
+This method is aimed at producing a measure of the "outlierness" of a data point within a local neighbourhood and not for all the data points. This method will thus be implemented for the satellite anomaly detection, since it will detect anomalies within the two neighbourhoods produced by the eclipse during orbit. This method will also be able to detect anomalies from measurements of the nadir sensor, sun sensor and magnetometers that drastically change from the training data set. 
 %For example in Fig~\ref{Figure-Satellite_orbit} it is evident that the LOF will be comparatively larger for the red data points, which are anomalies, to the blue data points that are the normal orbit of the satellite.
 
 %\begin{figure}[h!tb]
@@ -53,7 +52,7 @@ This method is aimed at producing a measure of the "outlierness" of a data point
 %
 %\subsection{t-Distributed Stochastic Neighbor Embedding}
 
-\subsection{Dynamic Mode Decomposition}
+\section{Linear Regression Model}
 The proposed method by \cite{DeSilva2020} uses Dynamic Mode Decomposition (DMD), which was initially developed by \cite{schmid2011applications} and further expanded to include control by \cite{proctor2016dynamic}, to provide an estimation of a sensor vector based on the previous measurement of the sensor as well as the measurements of the other sensors in the system. DMD was first developed in the fluids community and constructed a matrix $\mathbf{A}$ to relate the state vector $x$ with the following time step of the state vector, $x_{k+1}$. The state vector, in our case, will be the measurement vector of the specific sensor that we want to monitor.
 \begin{equation}
 	\mathbf{x}_{k+1} = \mathbf{Ax}_k
@@ -83,3 +82,4 @@ where $N$ is the number of timesteps to account for. The moving average is used 
 \textbf{TODO: Plot sum of moving average for normal and anomaly}
 
 \section{Summary}
+The feature extraction methods discussed in this chapter focuses on extracting features that provide information gain on whether a data point is an anomaly or not. For the LOF algorithm this is done by providing a value for the "outlierness" of that data point relative to its nearest neighbourhood~\cite{breunig2000lof}. The linear regression model is an adaptation of work by \cite{DeSilva2020} to provides an estimate of the sensor measurements based on the previous sensor measurements as well as the control inputs. This can be extended to calculate a moving average of the estimated sensor measurements and the actual sensor measurements.
