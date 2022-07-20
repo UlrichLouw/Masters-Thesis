@@ -1,8 +1,5 @@
 \chapter{Simulation Environment}
 \label{chap:Simulation}
-
-\textbf{TODO: Provide CubeSat design with references to the typically design of satellites with reference to JansevanVuuren2015}
-
 In order to implement and research various FDIR systems on satellites, a simulation of satellite dynamics and kinematics is developed. The focus of this thesis is directed towards small satellites and, more specifically, CubeSats. During the development of the satellite simulation,\cite{auret2012design, JansevanVuuren2015, Jordaan2016, jeger2017determination} were frequently referenced. The simulation was developed in Python to simulate the dynamics and kinematics during a satellite orbit.
 
 \section{Satellite Orbit Fundamentals}
@@ -10,6 +7,7 @@ In order to implement and research various FDIR systems on satellites, a simulat
  The main operational goal of the ADCS on this specific satellite mission is to control the payload so that it points towards the centre of the Earth during an eclipse and points the solar panels towards the sun during the sunlit phase. To ensure this is accurately simulated, the different coordinate frames dominating a satellite orbit, the attitude of the satellite, as well as the satellite dynamics and kinematics is discussed in this section.
 
 \subsection{Coordinate Frames}
+\label{section:CoordinateFrames}
 The coordinate frames in aerospace is a fundamental part of the ADCS. In order to determine the orientation and position of an object, it should be relative to a fixed frame. Consequently, the Earth inertial coordinate (EIC) frame, $\mathcal{E}\{\bar{\mathbf{x}}_{\mathcal{E}},~\bar{\mathbf{y}}_{\mathcal{E}},~\bar{\mathbf{z}}_{\mathcal{E}}\}$, is the fixed frame from which every other frame is relative to.
 
 A coordinate frame, $\mathcal{A}$, consists of three orthogonal vectors which is commonly referred to as $\bar{\mathbf{x}}_\mathcal{A}$, $\bar{\mathbf{y}}_\mathcal{A}$, and $\bar{\mathbf{z}}_\mathcal{A}$. The axes of the coordinate frame is appropriately named as the X-axis, Y-axis and Z-axis. A vector ($\mathbf{r}_\mathcal{A}$) within the coordinate frame can thus be expressed as 
@@ -180,6 +178,19 @@ To determine $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ at time step, $k$, th
 
 
 The SGP4 is implemented with the SGP4 Python package~\cite{sgp4}. The SGP4 outputs the $\mathbf{r}_{sat_k}$ and $\mathbf{v}_{sat_k}$ in the EIC reference frame. Therefore, with $\mathbf{r}_{sat}$ and $\mathbf{v}_{sat}$ known, $\boldsymbol{A}^{\mathcal{O}}_{\mathcal{E}}$ can now be calculated according to Eq~\ref{Eq: ORC to EIC}.
+
+\begin{table}[h!t!b]
+	\centering
+	\caption{\label{Table:OrbitParameters}Orbit parameters for simulated CubeSat}
+	\begin{tabular}{c c }
+		\hline\hline
+		Parameter & Value \\ \hline
+		Revolutions per day          & $15.2355$                    \\ 
+		Inclination          & $97.4^\circ$                    \\ 
+		Right ascension of the ascending node & $275^\circ$ \\
+		\hline\hline
+	\end{tabular}
+\end{table}
 
 \subsection{Sun}
 For the mission to be successful it is critical to determine the position of the sun relative to the satellite. This is because the satellite must determine whether it is in an eclipse to determine the control operation. Therefore, the model from \cite{vallado2001fundamentals} is implemented to determine the position of the sun in the EIC frame.
@@ -392,7 +403,7 @@ The dynamic wheel imbalance torque, $\mathbf{N}_{d\bar{x}_\mathcal{B}}$, for $RW
 \begin{equation}
 \mathbf{N}_{d\bar{x}_\mathcal{B}} = U_d\omega^2 \begin{bmatrix} 0 \\ \text{sin}(\omega t + \phi_d) \\ \text{cos}(\omega t + \phi_d)\end{bmatrix}.
 \end{equation}
-where $U_d = mrd$ as the dynamic imbalance. Both $U_d$ and $U_s$ are provided by the manufacturer and based on the reaction wheel, RW-0.06 from Sinclair Interplanetary, $U_d = 2.08e^{-9}$ and $U_s = 2.08e^{-7}$. The net wheel imbalance torque from both the static and dynamic wheel imbalance is provided in Figure~\ref{fig:Wheel disturbance Torques}.
+where $U_d = mrd$ as the dynamic imbalance. Both $U_d$ and $U_s$ are provided by the manufacturer and based on the reaction wheel as discussed in Section~\ref{section:Actuators}. The net wheel imbalance torque from both the static and dynamic wheel imbalance is provided in Figure~\ref{fig:Wheel disturbance Torques}.
 
 \begin{figure}[!htb]
 	\centering
