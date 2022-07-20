@@ -1,56 +1,74 @@
 \chapter{Literature Study}
 \label{chap:Literature Study}
 
-Defining the research space wherein this thesis is requires starting in the larger FDIR field. This field includes any industry with time-varying systems that require fault-tolerant control. It is therefore necessary to discuss the research done is the wider fault-tolerant control before focusing on FDIR for only satellites. Thereafter, the research done in FDIR on satellites and specifically the ADCS will be discussed. The even narrower research space is fault-tolerant control with the focus on Kalman filters and sensor anomalies.
+Defining the research space wherein this thesis fits, requires the explanation of the larger FDIR field. This field includes any industry with time-varying systems that require fault-tolerant control. It is therefore necessary to discuss the research done in the wider field of fault-tolerant control before focusing on FDIR for only satellites. Thereafter, the research done in FDIR on satellites and specifically the ADCS will be discussed. The even narrower research space is fault-tolerant control with the focus on Kalman filters and sensor anomalies.
 
 \section{Fault Detection Isolation and Recovery in General}
-Anomaly detection is a well researched field in robotics, that can be divided into two main categories, namely data-driven and \emph{expert-system-based} approaches~\cite{Gao2015}. Where the latter is the simplest way of anomaly detection and is implement with human knowledge based logic tests or rules~\cite{Systems1993, sobhani2009fault}.  Each sensor's implementation differ, and focused tests with in-depth knowledge of the nominal operation of the unit can eliminate many fault conditions.  Unfortunately these tests are normally limited to the perspective of each sensor and does not take any other sensors or the state of the satellite in consideration. Data-driven approaches let one classify complex anomalies by training models on data across many sources specific to the anomaly at hand. Data-driven approaches consists of a wide repertoire of algorithms such as K-nearest neighbors, Long Short Term Memory, (LSTM), Kalman Filters, Decision Trees and Isolation Forests that is used depending on the nature of the data~\cite{Liu2021, Ciftciogl1991, Malhotra2016}. The decision of which method to implement relies highly on whether the data is based on a time-series model or not. It also depends on whether labelled data is available, with certain methods requiring labelled data to predict whether or not data samples are anomalous. 
+Anomaly detection is a well researched field in robotics, that can be divided into three main categories, namely data-driven, model-based and \emph{expert-system-based} approaches~\cite{Gao2015, Pilastre2020}. Where the latter is the simplest way of anomaly detection and is implement with human knowledge based logic tests or rules, also known as rule-based~\cite{Systems1993, sobhani2009fault}. Expert-system-based approaches are traditionally implemented in most FDIR systems. An expert can provide certain rules based on experience and knowledge of the field to ensure that the system is behaving as expected. A simplified and generic diagram thereof is shown in Figure~\ref{fig:expert-based}.
 
-\textbf{Sensors Anomaly Detection of Industrial Internet of Things Based on Isolated Forest Algorithm and Data Compression}
-isolation forests~\cite{Liu2021} and using LSTM on sensor data to detect anomalies on machines 
-\textbf{Multivariate Anomaly Detection in Discrete and Continuous Telemetry Signals Using a Sparse Decomposition in a Dictionary}
-\cite{Pilastre2020}
+\begin{figure}[h!t!b]
+	\centering
+	\def\svgwidth{16cm}
+	\import{Figures/}{Rule-based.pdf_tex}
+	\caption{Development of FDIR technique according to expert-system-based approach.}
+	\label{fig:expert-based}
+\end{figure}
+
+Expert-based methods however are very closely aligned to model based and sometimes the lines between the two categories are blurred. This is due to many expert-system-based methods relying on the model and sensor inputs to ensure that the system is behaving as required. This is therefore the reason why many expert-system-based compare sensor measurements with a mathematical model of that sensor measurement to develop a fault detection system.
+
+Expert-system-based systems are required to create different rules for each sensor's implementation, and focused tests with in-depth knowledge of the nominal operation of the unit can eliminate many fault conditions.  Unfortunately these tests are normally limited to the perspective of each sensor and does not take any other sensors or the state of the satellite in consideration. Data-driven approaches let one classify complex anomalies by training models on data across many sources specific to the anomaly at hand. A diagram of the data-driven approach is shown in Figure~\ref{fig:data-driven}. This approach requires a prediction model that is trained from the data. The prediction model can consists of any algorithm from a wide repertoire of algorithms such as K-nearest neighbors, Long Short Term Memory, (LSTM), Kalman Filters, Decision Trees and Isolation Forests that is used depending on the nature of the data~\cite{Liu2021, Ciftciogl1991, Malhotra2016}. The decision of which method to implement relies highly on whether the data is based on a time-series model or not. It also depends on whether labelled data is available, with certain methods requiring labelled data to predict whether or not data samples are anomalous. The details of the methods used for anomaly detection is discussed in Chapter~\ref{chap:Detection}.
+
+\begin{figure}[h!t!b]
+	\centering
+	\def\svgwidth{14cm}
+	\import{Figures/}{Data-driven-based.pdf_tex}
+	\caption{Development of FDIR technique according to data-driven approach.}
+	\label{fig:data-driven}
+\end{figure}
+
+This data base can be either simulated data or data from actual satellite missions. The problem with the actual satellite data is that it is difficult and expensive to get the specific data required for practical anomalies and to have it labelled. Therefore many research opt for simulation environments to implement and test the developed methods for FDIR.
 
 \section{Fault Tolerant Control of Satellites}
-Data driven methods are consequently split into supervised and unsupervised learning categories, where supervised learning requires labeled data and unsupervised learning detects anomalies based on a metric of the separation of a data sample from the norm. Within these categories multiple methods have been developed for fault detection and recovery of satellites with the focus on reaction wheels, gyroscopes and other probable failures \cite{Tudoroiu2007, Pilastre2020, rahimi2020fault, jin2008fault, wander2013innovative, ibrahim2018machine, ibrahim2020machine}. This however does not focus on sensor anomalies, but on other anomalies on the ADCS subsystem of the satellite, in particular the controlling aspect of the satellite and not the attitude determination of the satellite. This aspect of fault tolerance is of high importance, however to ensure a successful mission, the attitude determination of the satellite should also be able to recover from anomalies.
-\textbf{Fault isolation of reaction wheels onboard three-axis controlled in-orbit satellite using ensemble machine learning}
-\cite{rahimi2020fault}
-\textbf{Fault tolerant control for satellites with four reaction wheels}
-\cite{jin2008fault}
-\textbf{Innovative Fault Detection, Isolation and Recovery Strategies On-Board Spacecraft: State of the Art and Research Challenges}
-\cite{wander2013innovative}
-\textbf{Machine learning methods for spacecraft telemetry mining}
-\cite{ibrahim2018machine}
-\textbf{Machine learning techniques for satellite fault diagnosis}
-\cite{ibrahim2020machine}
-\textbf{Satellite fault diagnosis using a bank of interacting Kalman filters}
-\cite{Tudoroiu2007}
-\textbf{LSTM-based Encoder-Decoder for Multi-sensor Anomaly Detection}
-\cite{Malhotra2016}
-To ensure that the ADCS of satellites are autonomous every aspect of the control must be able to recover from faults. \cite{carvajal2017agent} developed an algorithm to evaluate the control of a gyroscope and detect whether drifting exists. If drifting is detected another algorithm is deployed to ensure the recovery of the gyroscope drift by updating the error state vector.
+Traditionally the expert-based approach combine with the model-based approach dominated satellite fault detection. An expert in the field typically developed a rule-based system for each failure that the expert is aware of~\cite{Systems1993}. The expert is also required to manually observe the satellite regularly. If the expert is able to observe anomalous data the system must be adapted to the failure. This should be done for every subsystem of the satellite. Some subsystems are not as critical as others and since most subsystems are dependent on the ADCS for mission success the ADCS must be able to autonomously recover from faults to control the attitude of the satellite. An example of a subsystem that is dependent on the ADCS for success is the power subsystem. since it requires accurate pointing of the solar panels towards the sun.
+
+This leads to the reasoning for fault tolerant control of satellites where the fault detection is specifically focused on the ADCS subsystem. The fault tolerant control can be separated into two categories, namely robust control for failed actuators or robust estimation for failed sensors. The failure of the sensor of actuator is not necessarily complete failure, but influences the mission success of the satellite. To ensure robust control after actuator failure or recovering thereof for reaction wheels, gyroscopes and other actuators \cite{Tudoroiu2007, rahimi2020fault, jin2008fault, wander2013innovative, ibrahim2018machine, ibrahim2020machine}. 
+
+\cite{rahimi2020fault} developed a data driven method for fault isolation that incorporates random forests, decision trees, and nearest neighbors to classify failures of reaction wheels. These failures are modelled for time-varying faults where the reaction wheels bus voltage or current is varied to induce failures. This however only focuses on isolating the failures and not recovering from these failures, whereas \cite{jin2008fault} implements a fault-tolerant control with four reaction wheels based on bias faults implemented on the reaction wheels. On the other hand a model-based technique that implements interacting multiple model filters is implemented to recover from modelled reaction wheel failures such as viscous friction variations due to temperature~\cite{Tudoroiu2007}. Both \cite{Tudoroiu2007} and \cite{rahimi2020fault} provide two different implementations for fault tolerant control based on practical modelled actuator failure on satellites. Where \cite{jin2008fault} tests the provided method on a bias fault condition and not a practical modelled failure. 
+
+This aspect of fault tolerance is of high importance, however to ensure a successful mission, the attitude determination of the satellite should also be able to recover from anomalies. Sensor failures should therefore also be detected and recovered from.
 
 \section{Fault Tolerant Control with Focus on Sensor Anomalies}
-It is for this reason that the prediction of sensor anomalies and the recovery thereof is crucial. Based on the assumptions of typical sensor failures some work has been done on the fault detection of attitude sensors. For instance, due to considerable noise in sensors, \cite{wang2019adaptive} proposed an adaptive unscented Kalman filter with multiple-model adaptive estimation for sensor fault estimation and isolation. The performance of this method is tested on a simulation model where gradual failures, abrupt failures and high noise is implemented on the sensor. \cite{Xiong2007} provide a fault detection method by using the residuals generated by an unscented Kalman filter to detect anomalies with a threshold based on a confidence level. This method is tested on a simulation environment where a sun sensor, earth sensor and gyroscope is used for attitude determination. A sudden bias failure for the sun sensor, earth sensor and gyroscope is implemented as well as an incipient fault on the sun sensor. \cite{Zhou2016} implement a fault tolerant federated Kalman filter with three sub-filters for multi-sensor fault estimation. The failures are invalid outputs where the measured vectors are equal to $\mathbf{0}$, constant bias faults as well as noise amplification.  \cite{Nasrolahi2018} provide a fault detection and recovery method by implementing a non-linear observer, to detect anomalies in attitude and rate sensors. The recovery is implemented through the tuning of controller gains after the classification of sensor failures.
+To ensure that a satellite is accurately controlled, the estimation of the satellite attitude is required. It is for this reason that the prediction of sensor anomalies and the recovery thereof is crucial, since it directly influence the attitude estimation. Actuator faults also influence the estimation and fault control of satellites with the focus on robust estimation is demonstrated in Figure~\ref{fig:FaultTolerantControlDiagram}. Most research to ensure robust estimation only focuses on sensor faults.
 
-\cite{DeSilva2020} developed a novel method for feature extraction that focuses on systems governed by underlying physics. This method is based on the assumption that a complex relationship exists between different sensor measurements and that the next measurement for a sensor can be predicted based on the current sensor measurements. This leads to the development of an innovative moving average, determined by the error estimated with dynamic mode decomposition, (DMD), and a Kalman filter. This is provided as additional input to a predictive model -- decision tree, to detect sensor anomalies. This method is suitable for satellite attitude sensors, due to the underlying physics that governs the system.
-\textbf{A scheme of satellite multi-sensor fault-tolerant attitude estimation}
-\cite{Zhou2016} implements a fault tolerant federated Kalman filter with three sub-filters for multi-sensor fault estimation. 
-\textbf{Sensor fault detection and recovery in satellite attitude control}
-\cite{Nasrolahi2018} 
-\textbf{Detection of satellite attitude sensor faults using the unscented Kalman filter (UKF)}
-\cite{Xiong2007} provides a fault detection method by using the residuals generated by an unscented Kalman filter to detect anomalies with a threshold based on a confidence level. 
-\textbf{Sensor Failure Detection in Dynamical Systems by Kalman Filtering Methodology}
-While methods for sensor failure detection in other dynamical systems has also been developed which includes kalman filter methodology~\cite{Ciftciogl1991},
-\textbf{Sensor fault detection and isolation using adaptive extended Kalman filter}
-\cite{van2012sensor}
+\begin{figure}[h!t!b]
+	\centering
+	\def\svgwidth{14cm}
+	\import{Figures/}{FaultTolerantControlDiagram.pdf_tex}
+	\caption{Development of FDIR technique according to data-driven approach.}
+	\label{fig:FaultTolerantControlDiagram}
+\end{figure}
 
-\section{Anomaly Detection on Satellites}
-Various methodologies have been tested on different component of satellites. Therefore a summary of these research articles are provided in this section.
+Based on the assumptions of typical sensor failures some work has been done on the fault detection of attitude sensors. For instance, due to considerable noise in sensors, \cite{wang2019adaptive} proposed an adaptive unscented Kalman filter with multiple-model adaptive estimation for sensor fault estimation and isolation. The performance of this method is tested on a simulation model where gradual failures, abrupt failures and high noise is implemented on the sensor. \cite{Xiong2007} provide a fault detection method by using the residuals generated by an unscented Kalman filter to detect anomalies with a threshold based on a confidence level. This method is tested on a simulation environment where a sun sensor, earth sensor and gyroscope is used for attitude determination. A sudden bias failure for the sun sensor, earth sensor and gyroscope is implemented as well as an incipient fault on the sun sensor. \cite{Zhou2016} implement a fault tolerant federated Kalman filter with three sub-filters for multi-sensor fault estimation. The failures are invalid outputs where the measured vectors are equal to $\mathbf{0}$, constant bias faults as well as noise amplification.  \cite{Nasrolahi2018} provide a fault detection and recovery method by implementing a non-linear observer, to detect anomalies in attitude and rate sensors. The recovery is implemented through the tuning of controller gains after the classification of sensor failures. Another example is development of an algorithm to evaluate the control of a gyroscope and detect whether drifting exists~\cite{carvajal2017agent}. If drifting is detected another algorithm is deployed to ensure the recovery of the gyroscope drift by updating the error state vector. \cite{van2012sensor} developed an adaptive modification to the EKF with the testing thereof on an aircraft. The faults for testing this methods is that of oscillation, bias drift and increased noise.
+
+All these sensor fault detection methods only test the methods on general sensor faults and not specific modelled faults for each sensor. This thesis focuses on specific anomalies for each sensor and not general anomalies as given in the examples~\cite{wang2019adaptive,Xiong2007,Zhou2016,Nasrolahi2018,carvajal2017agent, van2012sensor}. This is visually demonstrated in Figure~\ref{fig:GeneralSpecific}, where the norm of sensor fault detection is the red path of general anomalies, while this thesis is the green path of the diagram which test methods on practical modelled anomalies.
+
+\begin{figure}[h!t!b]
+	\centering
+	\def\svgwidth{14cm}
+	\import{Figures/}{GeneralSpecific.pdf_tex}
+	\caption{Development of FDIR technique according to data-driven approach.}
+	\label{fig:GeneralSpecific}
+\end{figure}
+
+\subsection{Innovation in Fault Detection}
+Fault detection in sensor and developing robust Kalman filters is not isolated to that of satellites. All systems governed by underlying physics have many similarities in the approach of fault detection. \cite{DeSilva2020} developed a novel method for feature extraction that focuses on systems governed by underlying physics. This method is based on the assumption that a complex relationship exists between different sensor measurements and that the next measurement for a sensor can be predicted based on the current sensor measurements. This leads to the development of an innovative moving average, determined by the error estimated with dynamic mode decomposition, (DMD), and a Kalman filter. This is provided as additional input to a predictive model -- decision tree, to detect sensor anomalies. This method is suitable for satellite attitude sensors, due to the underlying physics that governs the system.
 
 \section{Evaluation}
 %You overall kommentaar oor ander mense se werk, en plaas jou werk in konteks van ander en hoe dit anders en beter is.
-Methods based on the research of various authors~\cite{wang2019adaptive, Xiong2007, Zhou2016, Nasrolahi2018} however, are tested on sensor failures that are not modelled by the orbital nature of the satellite or specific design failures. The failures are limited to the sudden failure, bias drift or an increase in sensor noise. The work of this paper, adapted from research done by \cite{DeSilva2020}, is an example of implementing the anomaly detection on the sensor level and diagnosing which sensor is experiencing the anomaly. Therefore, rather than building robust Kalman filters for any sensor failure and still updating the Kalman filter with an anomalous sensor measurement, the sensor measurement can be excluded from the measurement update sequence. 
-This method is furthermore not tested on a generic sensor failure, but a specific practical failure mode of sun reflections on the sun sensor. This provides more relevant and specific analysis of the method and this can be extended to the testing of this method on other modelled failures.
+Methods based on the research of various authors~\cite{wang2019adaptive,Xiong2007,Zhou2016,Nasrolahi2018,carvajal2017agent, van2012sensor} however, are tested on sensor failures that are not modelled by the orbital nature of the satellite or specific design failures. The failures are limited to the sudden failure, bias drift or an increase in sensor noise. On the basis of \cite{DeSilva2020} this thesis provides a methodology of fault detection, isolation and recovery through extraction anomalous features and providing it as an additional input to various classification algorithms. This work is an example of implementing the anomaly detection on the sensor level and diagnosing which sensor is experiencing the anomaly. Therefore, rather than building robust Kalman filters for any sensor failure and still updating the Kalman filter with an anomalous sensor measurement, the sensor measurement can be excluded from the measurement update sequence. 
+
+This method is furthermore not tested on a generic sensor failures, but a specific practical failure mode for each individual sensor that is used during the measurement update of the EKF. This provides more relevant and specific analysis of the method and this can be extended to the testing of this method on other modelled failures. 
 
 \section{Summary}
+Just as \cite{jin2008fault} provides results from general actuator anomalies and applies that to reaction wheels, the sensor anomaly detection research implement general sensor anomalies on specific sensors. This is the difference in this thesis that the anomalies of sensors are specifically modelled for each sensor and general sensor anomalies are not implemented to test the different classification and recovery methods.
 

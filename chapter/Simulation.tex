@@ -1,6 +1,8 @@
 \chapter{Simulation Environment}
 \label{chap:Simulation}
 
+\textbf{TODO: Provide CubeSat design with references to the typically design of satellites with reference to JansevanVuuren2015}
+
 In order to implement and research various FDIR systems on satellites, a simulation of satellite dynamics and kinematics is developed. The focus of this thesis is directed towards small satellites and, more specifically, CubeSats. During the development of the satellite simulation,\cite{auret2012design, JansevanVuuren2015, Jordaan2016, jeger2017determination} were frequently referenced. The simulation was developed in Python to simulate the dynamics and kinematics during a satellite orbit.
 
 \section{Satellite Orbit Fundamentals}
@@ -306,6 +308,8 @@ The orbit nadir vector is calculated as,
 \mathbf{z}_{\mathcal{B}} = \boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}} \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}^T.
 \end{equation}
 Due to the design of the satellite and the positions of the solar panels, the equation for $\mathbf{N}_{gg}$ can not be simplified. The gravity gradient torque is the only torque that can be accurately modelled on-board the satellite, and is therefore also included in the model update of the EKF. $\mathbf{N}_{gg}$ in SBC is shown in Figure~\ref{fig:GravityGradientTorques}.
+
+\textbf{TODO: Change all plots x, y, and z should be in mathbf and the colors should correspond to that of the pitch figure}.
 
 \begin{figure}[!htb]
 	\centering
