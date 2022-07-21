@@ -1,47 +1,33 @@
-\chapter{Data}
-\label{chap:Data}
-% EXAMPLE
-%=========
-%
-% example using multicolumn, multirow and the sideways environment
-Data related to the Case Study in Chapter 5 are presented in Table \ref{ex2}.
-\begin{table}[h!tb]
+\chapter{Measurement Perturbation Jacobian Matrix}
+\label{chap:Measurement Perturbation Jacobian Matrix}
+This section will show the derivation of the Jacobian matrix $\mathbf{H}_{k}$ that must be constructed in the execution of the full state $\mathrm{EKF}$, as described in Section $5.4 .$
 
-\centering
+The discrete measurement perturbation matrix $\mathbf{H}_{k}$ from Equation $5.4 .12$ can be determined by partially deriving the non-linear function $\boldsymbol{h}\left(\mathbf{x}_{k}\right)$, which is given by Equation $5.4 .15$ as
+$$
+\boldsymbol{h}\left(\mathbf{x}_{k}\right)=\mathbf{A} \mathbf{v}_{\text {model }, k} .
+$$
+Since $\mathbf{A}$ is constructed from $\mathbf{q}$ only, Equation B.20 suggests that $\boldsymbol{h}\left(\mathbf{x}_{k}\right)$ is independent of $\boldsymbol{\omega}_{B}^{I}$, thus
+$$
+\mathbf{H}_{k}=\left[\begin{array}{lllllll}
+0 & 0 & 0 & \frac{\partial h_{1}}{\partial q_{1}} & \frac{\partial h_{1}}{\partial q_{2}} & \frac{\partial h_{1}}{\partial q_{3}} & \frac{\partial h_{1}}{\partial q_{4}} \\
+0 & 0 & 0 & \frac{\partial h_{2}}{\partial q_{1}} & \frac{\partial h_{2}}{\partial q_{2}} & \frac{\partial h_{2}}{\partial q_{3}} & \frac{\partial h_{2}}{\partial q_{4}} \\
+0 & 0 & 0 & \frac{\partial h_{3}}{\partial q_{1}} & \frac{\partial h_{3}}{\partial q_{2}} & \frac{\partial h_{3}}{\partial q_{3}} & \frac{\partial h_{3}}{\partial q_{4}}
+\end{array}\right]_{\mathbf{q}=\hat{\mathbf{q}}}
+$$
+$\mathbf{H}_{k}$ can thus be calculated as
+$$
+\mathbf{H}_{k}=\left[\begin{array}{lllll}
+\mathbf{0}_{[3 \times 3]} & \mathbf{h}_{1} & \mathbf{h}_{2} & \mathbf{h}_{3} & \mathbf{h}_{4}
+\end{array}\right] \text {, }
+$$
+where $\quad \mathbf{h}_{1}=2\left[\begin{array}{ccc}q_{1} & q_{2} & q_{3} \\ q_{2} & -q_{1} & q_{4} \\ q_{3} & -q_{4} & -q_{1}\end{array}\right] \mathbf{v}_{\text {model }, k}$,
+$$
+\mathbf{h}_{2}=2\left[\begin{array}{ccc}
+-q_{2} & q_{1} & -q_{4} \\
+q_{1} & q_{2} & q_{3} \\
+q_{4} & q_{3} & -q_{2}
+\end{array}\right] \mathbf{v}_{\text {model }, k}
+$$
+$\mathbf{h}_{3}=2\left[\begin{array}{ccc}-q_{3} & q_{4} & q_{1} \\ -q_{4} & -q_{3} & q_{2} \\ q_{1} & q_{2} & q_{3}\end{array}\right] \mathbf{v}_{\text {model }, k}$
 
-\begin{tabular}{cc|rrrrrr}\hline
-
-\headcol &&\multicolumn{6}{c}{this goes across 6 columns}\\
-
- \headcol && col a & col b & col c & col d & col e & col f \\ \hline \hline
-
-\multirow{6}{*}{
-%
-\begin{sideways}
-this is sideways,
-\end{sideways}
-%
-\begin{sideways}
-and goes across
-\end{sideways}
-%
-\begin{sideways}
-six rows
-\end{sideways}
-%
-}
-
-
-& row 1 \\
-& row 2 & \cellcolrow & \cellcolrow & \cellcolrow & \cellcolrow & \cellcolrow & \cellcolrow \\
-& row 3 \\ 
-& row 4 & \cellcolrow & \cellcolrow & \cellcolrow & \cellcolrow & \cellcolrow & \cellcolrow \\
-& row 5 \\
-& row 6 & \cellcolrow & \cellcolrow & \cellcolrow & \cellcolrow & \cellcolrow & \cellcolrow \\ \hline
-
-\end{tabular}
-
-\caption[Do not end short caption with full-stop]{Type full caption here.}
-\label{ex2}
-
-\end{table}
+and $\quad \mathbf{h}_{4}=2\left[\begin{array}{ccc}q_{4} & q_{3} & -q_{2} \\ -q_{3} & q_{4} & q_{1} \\ q_{2} & -q_{1} & q_{4}\end{array}\right] \mathbf{v}_{\text {model }, k}$

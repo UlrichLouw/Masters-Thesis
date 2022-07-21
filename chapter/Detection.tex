@@ -72,6 +72,14 @@ The hyperplane in it's most simplified form is linear and divides the data into 
 \begin{equation}
 d(\mathbf{x}_i) = \frac{\mathbf{w}^T(\mathbf{x}_i) + b}{\norm{\mathbf{w}}^2}
 \end{equation}
+
+\begin{figure}[!hbt]
+	\centering
+	\import{Figures/}{SupportVectorMachinesExample.pgf}
+	\caption{Support Vector Machine Example}
+	\label{fig:SupportVectorMachinesExample}
+\end{figure}
+
 For binary classification all point vectors, $\mathbf{x}_n$ will be classified into a group  . To increase the margin of between all point vectors, $\mathbf{x}_n$, and the hyperplane the minimum distance of all the point vectors and the hyperplane is required. The objective of the algorithm is therefore to maximise the minimum distance between the hyperplane and any point vector, $\mathbf{x}_i$, for all data samples $n$. This is however extended to a soft-margin optimization algorithm given as
 \begin{equation}
 \label{Eq-maxSVM}
@@ -82,13 +90,6 @@ where $\lambda$ increases and decreases the margin size ensuring that all traini
 \boldsymbol{f}(\mathbf{w}, b) = \lambda \norm{\mathbf{w}}^2 + \left[\frac{1}{n} \sum_{i=1}^{n} \textbf{max} \left(0, 1 - \mathbf{w}^T\left(\mathbf{x}_i\right) + b \right) \right],
 \end{equation}
 where $\boldsymbol{f}$ is a convex function and can be solved with an adaptation of classic gradient descent methods. The difference is that the direction of gradient descent is that of the vector selected from the function's sub-gradient. With this implementation the hyperplane can divide two groups as shown given in Figure~\ref{fig:SupportVectorMachinesExample}. The vector points within the margin size and with the additional black circle in Figure~\ref{fig:SupportVectorMachinesExample} are called the support vectors since these vector points are the minimum distance from the hyperplane and influence Eq~\ref{Eq-maxSVM}.
-
-\begin{figure}[!hbt]
-	\centering
-	\import{Figures/}{SupportVectorMachinesExample.pgf}
-	\caption{Support Vector Machine Example}
-	\label{fig:SupportVectorMachinesExample}
-\end{figure}
 
 The linear hyperplane is not always feasible, since certain data samples cannot be divided with a single line. There are two solutions to this problem. The first is to increase the dimension size, $\mathbf{m}$, of $\mathbf{R^m}$. For instance increasing $m$ from $2$ to $3$ with 
 \begin{equation}
@@ -111,7 +112,7 @@ whereas a poynomial kernel is given as
 \begin{equation}
 \mathbf{K}\left(x_i,x_j \right) = \left(\gamma x_i^Tx_j + r \right)^d, \qquad \gamma > 0.
 \end{equation}
-This is provided with the example of a polynomial division of the data shown in Figure~\ref{fig:SupportVectorMachinesExample} with a polynomial fit as shown in Figure~\ref{fig:SupportVectorMachinesExamplePoly}.
+This is provided with the example of a polynomial division of the data shown in Figure~\ref{fig:SupportVectorMachinesExample} with a polynomial fit of the $3^{\text{rd}}$ degree as shown in Figure~\ref{fig:SupportVectorMachinesExamplePoly}. The kernel will depend on the nature of the data and the relationship between the different features. This is therefore an iterative process to decide the kernel unless available opensource algorithms are used to determine which kernel structure is the best suited for the current dataset.
 
 \begin{figure}[!hbt]
 	\centering
@@ -130,13 +131,6 @@ The distance measured from the first split the \emph{tree top} to the isolated d
 
 Figure~\ref{Figure-Isolation_Forest} demonstrates the splitting of the data points until isolated. Each split or \emph{branch} only splits the data into two groups. After training multiple trees, a single data point is "sent through the forest" and the distance from the tree top for each tree is calculated and the average of all the trees are used to calculated the average distance for the data point. Using a threshold for the distance, the data point is classified as anomalous or not.
 
-
-\begin{figure}[!hbt]
-	\centering
-	\import{Figures/}{IsolationForest.pgf}
-	\caption{Isolation Forest}
-	\label{fig:IsolationForest}
-\end{figure}
 \begin{figure}[h!tb]
 	\centering
 	
@@ -146,9 +140,17 @@ Figure~\ref{Figure-Isolation_Forest} demonstrates the splitting of the data poin
 	\label{Figure-Isolation_Forest} 
 \end{figure}
 
-The anomaly score is calculated with Eq~\ref{Eq-Isolation_anomaly}
+An example of a trained isolation forest is provided in Figure~\ref{fig:IsolationForest}. The samples in white are the training samples of which all are considered normal data. Therefore the tree is constructed and the branches are created until all the data samples in the training data set are divided into individual nodes. Thereafter, the new data set is classified and is evident that data samples far removed from the normal training samples are isolated within the anomaly threshold and are therefore considered anomalous (depicted as red). \textbf{TODO: Ensure that isolation forest is done trained with no anomaly samples}.
+\begin{figure}[!hbt]
+	\centering
+	\import{Figures/}{IsolationForest.pgf}
+	\caption{Isolation Forest}
+	\label{fig:IsolationForest}
+\end{figure}
+
+The anomaly score is calculated as
 \begin{equation}
-	s(x,n) = 2^{-E(h(x))/c(n)}
+	s(x,n) = 2^{-E(h(x))/c(n)},
 	\label{Eq-Isolation_anomaly}
 \end{equation}
 where $E(h(x))$ is the average value of the distance measured from the tree top for a single data point in all the trees \cite{Hariri2021} and $n$ is the size of a data sample used to train a single tree. For the distance to be normalized, $c(n)$ --- the mean distance from the tree top in an unsuccessful search in a \emph{Binary Search Tree} (BST) --- is used and is calculated as 
@@ -161,9 +163,9 @@ $H(i)$ in Eq~\ref{Eq-normalizing_isolation} is the harmonic number and is estima
 	H(i) \approx \ln(i) + 0.5772156649.
 	\label{Eq-H_i}
 \end{equation}
-Isolation Forests, however have multiple issues, since it splits data in rectangles as seen in Figure~\subref{Figure-ExtendedvsNormal_first}. This is due to the slicing algorithm selecting a feature, $x$ and a cut-off value, $v$. Consequently, the data is either split vertically or horizontally --- if seen as a two dimensional dataset. This split method is unable to categorise complex data structures. These issues however are addressed by \cite{Hariri2021} and led to the \emph{Extended Isolation Forest} algorithm.
+Isolation Forests, however have multiple issues, since it splits data in rectangles as seen in Figure~\ref{fig:IsolationForest} and Figure~\ref{Figure-ExtendedvsNormal_first}. This is due to the slicing algorithm selecting a feature, $x$ and a cut-off value, $v$. Consequently, the data is either split vertically or horizontally --- if seen as a two dimensional dataset. This split method is unable to categorise complex data structures. These issues however are addressed by \cite{Hariri2021} and led to the \emph{Extended Isolation Forest} algorithm.
 
-The extended isolation forest algorithm generalises the isolation forest algorithm by applying a slope to each slice. Data points are therefore divided into two groups depending on the "side" of the plane or slice as seen in Figure~\subref{Figure-ExtendedvsNormal_second}.
+The extended isolation forest algorithm generalises the isolation forest algorithm by applying a slope to each slice. Data points are therefore divided into two groups depending on the "side" of the plane or slice as seen in Figure~\ref{Figure-ExtendedvsNormal_second}.
 
 \begin{figure}[h!tb]
 	\centering

@@ -3,7 +3,8 @@
 This chapter discusses the design of the ADCS. Therefore, the position of the actuators and sensors are discussed as well as the EKF algorithm and control methods for eclipse and sunlit phase. 
 
 \section{Sensor models}
-The positioning of the sensors on the satellite is necessary to meet mission requirements. The exact position of the sensors also impact the modelling of the anomalies on the sensors. Therefore, each sensors position on the satellite is provided as well as the measured vector of each sensor. It is further assumed that each sensor has a zero-mean Guassian noise and consequently, the low frequency noise such as drift is negligible. The sensor measurement in the SBC frame, $\mathbf{v}_{\mathcal{B}}$,  can be calculated as
+\label{section:SensorModel}
+The positioning of the sensors on the satellite is necessary to meet mission requirements. The exact position of the sensors also impact the modelling of the anomalies on the sensors. Therefore, each sensors position on the satellite is provided in Section~\ref{section:SensorParameters}. It is further assumed that each sensor has a zero-mean Gaussian noise and consequently, the low frequency noise such as drift is negligible. The sensor measurement in the SBC frame, $\mathbf{v}_{\mathcal{B}}$,  can be calculated as
 \begin{equation}
 \mathbf{v}_{\mathcal{B}} = \boldsymbol{A}^{\mathcal{B}}_{\mathcal{O}} \mathbf{v}_\mathcal{O} + \mathbf{m}_v,
 \end{equation}
@@ -41,7 +42,24 @@ This section discusses the estimation algorithm for attitude determination of th
 
 \subsection{Extended Kalman Filter}
 
-\textbf{TODO: Normal Guassian Distribution plot}
+%The mean
+%\begin{equation}
+%\label{mean}
+%\mu_j = \frac{1}{m} \sum_{i=1}^{m}x_j^{(i)}
+%\end{equation}
+%
+%\section{Variance}
+%\begin{equation}
+%\label{variance}
+%\sigma_j^2 = \frac{1}{m} \sum_{i=1}^{m}(x_j^{(i)} - \mu_j)^2
+%\end{equation}
+%
+%\section{Probability distribution}
+%\textbf{TODO: Normal distribution plot}
+%\begin{equation}
+%\label{guassian distribution}
+%p(x) = \prod_{j=1}^{n} \frac{1}{\sqrt{2\pi}\sigma_j}exp(-\frac{(x_j-\mu_j)^2}{2\sigma_j^2})
+%\end{equation}
 
 %\begin{figure}
 %	\centering
@@ -166,7 +184,7 @@ The estimated state vector, $\hat{\mathbf{x}}_k^-$ can now be expressed as
 \begin{equation}
 \hat{\mathbf{x}}_k^- = \begin{bmatrix} (\boldsymbol{\hat{\omega}}_{\mathcal{B}}^{\mathcal{I}})_k^- & \hat{\mathbf{q}}_k^-\end{bmatrix}
 \end{equation}
-\textbf{TODO: $\mathbf{Q}_k$ is the covariance matrix representing the discrete system noise and is assumed to be zero-mean and Guassian. $\Phi_k$ is the discrete system perturbation model. $\mathbf{H}_k$ is the discrete measurement perturbation Jacobian Matrix. $\mathbf{R}_k$ is the measurement noise covariance matrix.}
+Some of the parameters required for the calculations of the EKF will only be provided here in name and the derivations thereof is provided in the Appendices. The detail of each variable and the mathematical discussion thereof is beyond the scope of this thesis. The system noise covariance matrix, $\mathbf{Q}_k$, is assumed to be zero-mean and Gaussian and is derived in Appendix~\ref{Appendix:SystemNoise}. The discrete system perturbation model, $\Phi_k$ is derived in Appendix~\ref{Appendix:SystemPertubation}. The discrete measurement perturbation Jacobian Matrix, $\mathbf{H}_k$ is derived in Appendix~\ref{Appendix:MeasurementPerturbation}. While the measurement noise covariance matrix, $\mathbf{R}_k$, is derived in Appendix~\ref{Appendix:MeasurementNoise}.
 
 The state covariance matrix $\mathbf{P}_k$ can be propagated as
 \begin{equation}
@@ -209,8 +227,6 @@ according to \cite{Steyn2004Notes}. To validate the results of the EKF, the esti
 \caption{Estimation Metric}
 \label{fig:Estimation Metric}
 \end{figure}
-
-\textbf{TODO: Plot demonstrating sensor fusion (plot expected attitude of each individual sensor and then the estimated attitude from EKF))}
 
 During the measurement update $\mathbf{e}_k$ is largely affected by anomalous behaviour in the sensor measurements. The sensitivity of the Kalman filter to the various anomalies is discussed in Chapter~\ref{chap:Anomalies}.
 
