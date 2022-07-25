@@ -186,7 +186,13 @@ The extended isolation forest algorithm generalises the isolation forest algorit
 It is evident that applying an angle of $0\degree$ to all the slices the general algorithm of the extended isolation forest produces the standard isolation forest algorithm where planes or slices are perpendicular to the axis of the randomly selected feature, $x$.
 
 \section{Analysis}
-\textbf{TODO: Provide analysis of methods with perfect isolation and recovery ignore}.
+\begin{figure}[!htb]
+	\centering
+	\import{Figures/TexFigures/Summary/100.0/}{Estimation MetricPerfectIsolationComparePredictions.pgf}
+	
+	\caption{Estimation Metric for recovery methods}
+	\label{fig:RecoveryComparisonMagnetic}
+\end{figure}
 
 \section{Summary}
 For the detection of anomalies different binary classification methods are discussed. This includes supervised learning methods such as decision trees, random forests and support vector machines as well as unsupervised learning methods such as isolation forests and local outlier factor which is only discussed in Section~\ref{section:OutlierFactor}. Both supervised and unsupervised learning methods for detection only provide a binary split between anomalous and normal data points, however supervised learning methods can also be implemented for isolation, multi-class classification.

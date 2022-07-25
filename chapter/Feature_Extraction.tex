@@ -32,25 +32,25 @@ and denotes "the inverse of the average reachability distance based on the $N_{m
 The rule of thumb for detecting an outlier is that when the LOF is larger than $1$, then the point is considered an outlier with respect to its neighbourhood. This however is not fixed and the threshold can be changed depending on the application. LOF can therefore also be a anomaly detection algorithm if a given threshold is implemented otherwise the $\mathbf{LOF}$ can be given as an additional feature for other anomaly detection algorithms.
 
 This method is aimed at producing a measure of the "outlierness" of a data point within a local neighbourhood and not for all the data points. This method will thus be implemented for the satellite anomaly detection, since it will detect anomalies within the two neighbourhoods produced by the eclipse during orbit. This method will also be able to detect anomalies from measurements of the nadir sensor, sun sensor and magnetometers that drastically change from the training data set. 
-%For example in Fig~\ref{Figure-Satellite_orbit} it is evident that the LOF will be comparatively larger for the red data points, which are anomalies, to the blue data points that are the normal orbit of the satellite.
 
-%\begin{figure}[h!tb]
-%	\centering
-%	\begin{tikzpicture}
-%	\begin{axis}[title = Earth Sensor During Multiple Orbits]
-%	\addplot3 table [x =Earth x, y = Earth y, z=Earth z, col sep=comma, only marks, scatter, blue, fill opacity=0.1, draw opacity = 0]{Data/3D_orbit.csv};
-%	\addplot3 table [x =Earth_anomaly x, y = Earth_anomaly y, z=Earth_anomaly z, col sep=comma, only marks, scatter, red, fill opacity=0.1, draw opacity = 0]{Data/3D_orbit.csv};
-%	\end{axis}
-%	\label{Figure-Satellite_orbit}
-%	\end{tikzpicture}
-%\end{figure}
-%\subsection{K-means Clustering}
-%
-%\subsection{Prony's Method}
-%
-%\subsection{Partial Least Square}
-%
-%\subsection{t-Distributed Stochastic Neighbor Embedding}
+\begin{figure}[!htb]
+	\centering
+	
+	\import{Figures/TexFigures/FeatureExtraction-LOF/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/Reflection/}{LOF.pgf}
+	
+	\caption{Local outlier factor during first 2 orbits. The red area is when the sun reflection anomaly occurs}
+	\label{fig:reflectionLOF}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+	
+	\import{Figures/TexFigures/FeatureExtraction-LOF/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/solarPanelDipole/}{LOF.pgf}
+	
+	\caption{Local outlier factor during first 2 orbits. The red area is when the solar panel dipole anomaly occurs}
+	\label{fig:solarPanelDipoleLOF}
+\end{figure}
+
 
 \section{Linear Regression Model}
 The proposed method by \cite{DeSilva2020} uses Dynamic Mode Decomposition (DMD), which was initially developed by \cite{schmid2011applications} and further expanded to include control by \cite{proctor2016dynamic}, to provide an estimation of a sensor vector based on the previous measurement of the sensor as well as the measurements of the other sensors in the system. DMD was first developed in the fluids community and constructed a matrix $\mathbf{A}$ to relate the state vector $x$ with the following time step of the state vector, $x_{k+1}$. The state vector, in our case, will be the measurement vector of the specific sensor that we want to monitor.
@@ -79,7 +79,24 @@ where $K = 0.001$. After the calculation of $\hat{\mathbf{X}}_{k+1}$ \cite{DeSil
 \end{equation}
 where $N$ is the number of timesteps to account for. The moving average is used as an additional input parameter for the classification of anomalies based on $\mathbf{X}$.
 
-\textbf{TODO: Plot sum of moving average for normal and anomaly}
+\begin{figure}[!htb]
+	\centering
+	
+	\import{Figures/TexFigures/FeatureExtraction-DMD/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/Reflection/}{DMD.pgf}
+	
+	\caption{Summation of moving average during first 2 orbits. The red area is when the sun reflection anomaly occurs}
+	\label{fig:reflectionDMD}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+	
+	\import{Figures/TexFigures/FeatureExtraction-DMD/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/solarPanelDipole/}{DMD.pgf}
+	
+	\caption{Summation of moving average during first 2 orbits. The red area is when the solar panel dipole anomaly occurs}
+	\label{fig:solarPanelDipoleDMD}
+\end{figure}
+
 
 \section{Summary}
 The feature extraction methods discussed in this chapter focuses on extracting features that provide information gain on whether a data point is an anomaly or not. For the LOF algorithm this is done by providing a value for the "outlierness" of that data point relative to its nearest neighbourhood~\cite{breunig2000lof}. The linear regression model is an adaptation of work by \cite{DeSilva2020} to provides an estimate of the sensor measurements based on the previous sensor measurements as well as the control inputs. This can be extended to calculate a moving average of the estimated sensor measurements and the actual sensor measurements.

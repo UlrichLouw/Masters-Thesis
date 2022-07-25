@@ -2,7 +2,7 @@
 \label{chap:ADCS}
 This chapter discusses the design of the ADCS. Therefore, the position of the actuators and sensors are discussed as well as the EKF algorithm and control methods for eclipse and sunlit phase. 
 
-\section{Sensor models}
+\section{Sensor Models}
 \label{section:SensorModel}
 The positioning of the sensors on the satellite is necessary to meet mission requirements. The exact position of the sensors also impact the modelling of the anomalies on the sensors. Therefore, each sensors position on the satellite is provided in Section~\ref{section:SensorParameters}. It is further assumed that each sensor has a zero-mean Gaussian noise and consequently, the low frequency noise such as drift is negligible. The sensor measurement in the SBC frame, $\mathbf{v}_{\mathcal{B}}$,  can be calculated as
 \begin{equation}

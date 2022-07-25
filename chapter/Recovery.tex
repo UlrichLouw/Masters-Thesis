@@ -20,18 +20,18 @@ The recovery methods are implemented after the detection of an anomaly and the c
 \begin{figure}[!htb]
 	\centering
 	\def\pgfwidth{7cm}
-	\import{Figures/TexFigures/Summary/100.0/}{Estimation MetricAnalysisPerfectRecoveryReflection.pgf}
+	\import{Figures/TexFigures/Summary/100.0/}{Estimation MetricRecoveryComparisonReflection.pgf}
 	
 	\caption{Estimation Metric for recovery methods}
 	\label{fig:RecoveryComparisonReflection}
 \end{figure}
 
 \subsection{Magnetic Moment Disturbance}
-
+It is evident in Figure~\ref{fig:RecoveryComparisonMagnetic} that only ignore the magnetometer during the measurement update of the EKF does enhance the estimation performance. This is due to the order of the measurement update where the magnetometer is the first sensor in the measurement update and the sun sensor is last. The sun sensor will therefore have a more prominent impact on the EKF than the magnetometer.
 \begin{figure}[!htb]
 	\centering
 	\def\pgfwidth{7cm}
-	\import{Figures/TexFigures/Summary/100.0/}{Estimation MetricAnalysisPerfectRecoveryMagnetic.pgf}
+	\import{Figures/TexFigures/Summary/100.0/}{Estimation MetricRecoveryComparisonMagnetic.pgf}
 	
 	\caption{Estimation Metric for recovery methods}
 	\label{fig:RecoveryComparisonMagnetic}
