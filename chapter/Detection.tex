@@ -31,6 +31,23 @@ The operator split that produces the lowest Gini index provides the purest split
 	\label{fig:DecisionTree}
 \end{figure*}
 
+\begin{figure}[!htb]
+	\centering
+	\import{Figures/TexFigures/Summary/DecisionTrees100/}{Estimation MetricPredictionWithVaryingIsolationAccuracies.pgf}
+	
+	\caption{Estimation Metric of Decision Trees at varying isolation percentages.}
+	\label{fig:DecisionTreesWithVaryingIsolationEstimation}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+	\import{Figures/TexFigures/Summary/DecisionTrees100/}{Prediction AccuracyPredictionWithVaryingIsolationAccuracies.pgf}
+	
+	\caption{Prediction Accuracy of Decision Trees at varying isolation percentages.}
+	\label{fig:DecisionTreesWithVaryingIsolationPrediction}
+\end{figure}
+
+
 It is evident in Figure \ref{fig:DecisionTree} that the most notable splits at the beginning of the tree are the moving average from the feature extraction (DMD) as well as the sun sensor and magnetometer measurements. This makes logical sense since the moving average provides the system with an extracted feature that correlates with the change in measurements. The sun reflection can also be detected on the sun sensor measurements, and changes in the control torques influences the magnetometer readings.
 
 \subsection{Random Forests}
@@ -58,6 +75,21 @@ The classification output, $\mathbf{P}$, is then provided with Algorithm~\ref{al
 	\end{algorithmic}
 \end{algorithm}
 
+\begin{figure}[!htb]
+	\centering
+	\import{Figures/TexFigures/Summary/RandomForest100/}{Estimation MetricPredictionWithVaryingIsolationAccuracies.pgf}
+	
+	\caption{Estimation Metric of Random Forest at varying isolation percentages.}
+	\label{fig:RandomForestWithVaryingIsolationEstimation}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+	\import{Figures/TexFigures/Summary/RandomForest100/}{Prediction AccuracyPredictionWithVaryingIsolationAccuracies.pgf}
+	
+	\caption{Prediction Accuracy of Random Forest at varying isolation percentages.}
+	\label{fig:RandomForestWithVaryingIsolationPrediction}
+\end{figure}
 
 \subsection{Support Vector Machines}
 A study conducted by \cite{colagrossi2022fault} implemented Support vector machines (SVM) for sensor and actuator failure detection on small satellites systems. This example as well as many other fault detection research in other fields implement SVM for anomaly detection. SVM creates a hyperplane between the feature space to increase the margin between the data samples nearest to the hyperplane from all the classes within the data \cite{hearst1998support, meyer2015support}. The hyperplane can be defined as
@@ -119,6 +151,22 @@ This is provided with the example of a polynomial division of the data shown in 
 	\import{Figures/}{SupportVectorMachinesExamplePoly.pgf}
 	\caption{Support Vector Machine Polynomial Example}
 	\label{fig:SupportVectorMachinesExamplePoly}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+	\import{Figures/TexFigures/Summary/SVM/}{Estimation MetricPredictionWithVaryingIsolationAccuracies.pgf}
+	
+	\caption{Estimation Metric of Support Vector Machines at varying isolation percentages.}
+	\label{fig:SVMWithVaryingIsolationEstimation}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+	\import{Figures/TexFigures/Summary/SVM/}{Prediction AccuracyPredictionWithVaryingIsolationAccuracies.pgf}
+	
+	\caption{Prediction Accuracy of Support Vector Machines at varying isolation percentages.}
+	\label{fig:SVMWithVaryingIsolationPrediction}
 \end{figure}
 
 \section{Unsupervised Learning}
@@ -185,13 +233,46 @@ The extended isolation forest algorithm generalises the isolation forest algorit
 
 It is evident that applying an angle of $0\degree$ to all the slices the general algorithm of the extended isolation forest produces the standard isolation forest algorithm where planes or slices are perpendicular to the axis of the randomly selected feature, $x$.
 
-\section{Analysis}
+\begin{figure}[!htb]
+	\centering
+	\import{Figures/TexFigures/Summary/IsolationForest/}{Estimation MetricPredictionWithVaryingIsolationAccuracies.pgf}
+	
+	\caption{Estimation Metric of Isolation Forest at varying isolation percentages.}
+	\label{fig:IsolationForestWithVaryingIsolationEstimation}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+	\import{Figures/TexFigures/Summary/IsolationForest/}{Prediction AccuracyPredictionWithVaryingIsolationAccuracies.pgf}
+	
+	\caption{Prediction Accuracy of Isolation Forest at varying isolation percentages.}
+	\label{fig:IsolationForestWithVaryingIsolationPrediction}
+\end{figure}
+
+\section{Local Outlier Factor}
+\begin{figure}[!htb]
+	\centering
+	\import{Figures/TexFigures/Summary/LOF/}{Estimation MetricPredictionWithVaryingIsolationAccuracies.pgf}
+	
+	\caption{Estimation Metric of Local Outlier Factor at varying isolation percentages.}
+	\label{fig:LOFWithVaryingIsolationEstimation}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+	\import{Figures/TexFigures/Summary/LOF/}{Prediction AccuracyPredictionWithVaryingIsolationAccuracies.pgf}
+	
+	\caption{Prediction Accuracy of Local Outlier Factor at varying isolation percentages.}
+	\label{fig:LOFWithVaryingIsolationPrediction}
+\end{figure}
+
+\section{Comparison of Detection Methods}
 \begin{figure}[!htb]
 	\centering
 	\import{Figures/TexFigures/Summary/100.0/}{Estimation MetricPerfectIsolationComparePredictions.pgf}
 	
-	\caption{Estimation Metric for recovery methods}
-	\label{fig:RecoveryComparisonMagnetic}
+	\caption{Comparison of Estimation Metric of Detection Methods with an isolation accuracy of $100\%$.}
+	\label{fig:DetectionMethodsWithPerfectIsolation}
 \end{figure}
 
 \section{Summary}

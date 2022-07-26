@@ -1,6 +1,7 @@
 \chapter{Results}
 \label{chap:Results}
 
+\textbf{TODO: Train methods on high noise for each sensor, for detection and classify sensor for high noise. Do this to compare the FIDR methods trained on general sensor anomalies vs the trained on the practical anomalies.}
 
 \section{Perfect Extended Kalman Filter}
 For all these results the best recovery method will be demonstrated
@@ -28,6 +29,26 @@ For all these results the best recovery method will be demonstrated
 	
 	\caption{Estimation Metric for recovery methods}
 	\label{fig:RecoveryComparisonMagnetic}
+\end{figure}
+
+\textbf{TODO: Comparison of Random Forest and Decision Trees with each feature extraction method}
+
+\textbf{TODO: Comparison of Random Forest and Decision Trees with each detection method}
+
+\begin{figure}[!htb]
+	\centering
+	\import{Figures/TexFigures/Summary/SVM/}{Estimation MetricDifferentPredictionMethods.pgf}
+	
+	\caption{Estimation Metric for Support Vector Machines with different detection methods.}
+	\label{fig:SVMCompareDetectionMethods}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+	\import{Figures/TexFigures/Summary/SVM/}{Estimation MetricDifferentFeatureExtractions.pgf}
+	
+	\caption{Estimation Metric for Support Vector Machines with different feature extraction methods.}
+	\label{fig:SVMCompareFeatureExtractions}
 \end{figure}
 
 \section{Supervised Detection and Isolation}
