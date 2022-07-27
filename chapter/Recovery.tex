@@ -9,20 +9,20 @@ The recovery methods are implemented after the detection of an anomaly and the c
 	
 	\item A backtracking method can be combined with the ignore method, \emph{EKF-combination}. For example, where the backtracking method is implemented only after a specified number of anomalies are predicted.
 	
-	\item Another method implemented and tested continually uses the two sensors' measurements, \emph{EKF-top2}, that have the smallest mean squared error between the estimated SBC vector and the actual measured SBC vector. There are, however, setbacks to this method. Firstly, it requires the modeling of the ORC vector and requires the position of the satellite in orbit. Secondly, this method will not work with small drifts in a sensor measurement since the estimator will latch unto the drift in the sensor. The method will only detect sudden changes in the sensor and isolate the sudden change even if it remains stable after the sudden change. This method will only be compared to the other methods as part of the analysis since the method is inherently different. The method is also used to aid the other methods during a period after an anomaly is detected.
+%	\item Another method implemented and tested continually uses the two sensors' measurements, \emph{EKF-top2}, that have the smallest mean squared error between the estimated SBC vector and the actual measured SBC vector. There are, however, setbacks to this method. Firstly, it requires the modeling of the ORC vector and requires the position of the satellite in orbit. Secondly, this method will not work with small drifts in a sensor measurement since the estimator will latch unto the drift in the sensor. The method will only detect sudden changes in the sensor and isolate the sudden change even if it remains stable after the sudden change. This method will only be compared to the other methods as part of the analysis since the method is inherently different. The method is also used to aid the other methods during a period after an anomaly is detected.
 \end{itemize}
 
 \section{Analysis}
-\textbf{TODO: Provide results and comparison of each recovery method as well as coupling the method with EKF-top2 and different percentage detection and isolation accuracy. Do this for each individual anomaly}
+To determine the best recovery method that will be implemented a comparison is done on the estimation metric of each recovery method with a $100\%$ prediction accuracy for both the detection and isolation. This is done to determine what the theoretical best outcome is for each of the recovery methods. To determine whether the recovery method provides a robust EKF, the results are given as a average of the estimation metric for each orbit for a duration of $30$ orbits.
 
 \subsection{Sun Reflection}
-
+ In Figure~\ref{fig:RecoveryComparisonReflection} it is clear that the EKF-ignore method outperforms both the EKF-combination and EKF-reset. The estimation metric without any recovery is also given as "None" and it is clear that the EKF performs better without any recovery than with the EKF-reset method. The EKF-ignore method reduces the estimation metric a similar result of the EKF without any anomaly occurring.
 \begin{figure}[!htb]
 	\centering
 	\def\pgfwidth{7cm}
 	\import{Figures/TexFigures/Summary/100.0/}{Estimation MetricRecoveryComparisonReflection.pgf}
 	
-	\caption{Estimation Metric for recovery methods}
+	\caption{Comparison of the estimation metric for each recovery method during the sun reflection anomaly.}
 	\label{fig:RecoveryComparisonReflection}
 \end{figure}
 
@@ -33,9 +33,9 @@ It is evident in Figure~\ref{fig:RecoveryComparisonMagnetic} that only ignore th
 	\def\pgfwidth{7cm}
 	\import{Figures/TexFigures/Summary/100.0/}{Estimation MetricRecoveryComparisonMagnetic.pgf}
 	
-	\caption{Estimation Metric for recovery methods}
+	\caption{Comparison of the estimation metric for each recovery method during the magnetic moment disturbance.}
 	\label{fig:RecoveryComparisonMagnetic}
 \end{figure}
 
 \section{Summary}
-\textbf{TODO: Write summary on chapter}
+From both Figure~\ref{fig:RecoveryComparisonReflection} and Figure~\ref{fig:RecoveryComparisonMagnetic} it is clear that the EKF-ignore method out performs the other recovery methods. This is implemented by only excluding the sensor measurement with an anomaly from the EKF measurement update.

@@ -8,6 +8,9 @@ Detecting the anomaly is a binary classification. The method implemented must th
 \end{aligned}
 \end{equation}
 $\mathbf{f}$ is the point vector within the vector space, $\mathbf{R}$, with $\mathbf{m}$ dimensions, while $y$ denotes the class of the feature, which in binary classification is either $0$ or $1$.
+
+The analysis of the each method will be done by providing the estimation metric as well as the prediction accuracy by varying the isolation accuracy. This is done to determine the dependency of the detection method on the isolation accuracy. From the previous chapter is is clear that the recovery does not change the effect of the magnetic moment disturbance and therefore the performance of the detection methods are analysed with the sun reflection anomaly.
+
 \section{Supervised Learning}
 Supervised learning is a subgroup of machine learning which is based on training algorithms from labelled data to ensure accurate predictions.
 
@@ -31,11 +34,17 @@ The operator split that produces the lowest Gini index provides the purest split
 	\label{fig:DecisionTree}
 \end{figure*}
 
+It is evident in Figure \ref{fig:DecisionTree} that the most notable splits at the beginning of the tree are the sun sensor and magnetometer measurements. This makes logical sense since the sun reflection can also be detected on the sun sensor measurements, and changes in the control torques influences the magnetometer readings.
+
+\subsection{Analysis}
+To determine the performance of the Decision Tree the estimation metric as well as the prediction accuracy is given in Figure~\ref{fig:DecisionTreesWithVaryingIsolationEstimation} and Figure~\ref{fig:DecisionTreesWithVaryingIsolationPrediction} respectively with varying isolation accuracies. This is implemented to demonstrate the dependency of the prediction accuracy of the Decision Tree on the accuracy of the isolation method as well as to analyse the effect of the isolation accuracy on the potential estimation metric given by the Decision Tree.
+
+In Figure~\ref{fig:DecisionTreesWithVaryingIsolationEstimation} the change in the estimation metric cannot be solely due to the change in the isolation accuracy. This is because of the change in prediction accuracy of the Decision Tree as shown in Figure~\ref{fig:DecisionTreesWithVaryingIsolationPrediction}. It is evident that the Decision Tree prediction accuracy can change from $99\%$ to $92\%$ due to an isolation accuracy change of $100\%$ to $70\%$.
 \begin{figure}[!htb]
 	\centering
 	\import{Figures/TexFigures/Summary/DecisionTrees100/}{Estimation MetricPredictionWithVaryingIsolationAccuracies.pgf}
 	
-	\caption{Estimation Metric of Decision Trees at varying isolation percentages.}
+	\caption{Estimation Metric of Decision Tree at varying isolation percentages.}
 	\label{fig:DecisionTreesWithVaryingIsolationEstimation}
 \end{figure}
 
@@ -43,12 +52,11 @@ The operator split that produces the lowest Gini index provides the purest split
 	\centering
 	\import{Figures/TexFigures/Summary/DecisionTrees100/}{Prediction AccuracyPredictionWithVaryingIsolationAccuracies.pgf}
 	
-	\caption{Prediction Accuracy of Decision Trees at varying isolation percentages.}
+	\caption{Prediction Accuracy of Decision Tree at varying isolation percentages.}
 	\label{fig:DecisionTreesWithVaryingIsolationPrediction}
 \end{figure}
 
-
-It is evident in Figure \ref{fig:DecisionTree} that the most notable splits at the beginning of the tree are the moving average from the feature extraction (DMD) as well as the sun sensor and magnetometer measurements. This makes logical sense since the moving average provides the system with an extracted feature that correlates with the change in measurements. The sun reflection can also be detected on the sun sensor measurements, and changes in the control torques influences the magnetometer readings.
+From Figure~\ref{fig:DecisionTreesWithVaryingIsolationPrediction} it can be logically concluded that the Decision Tree as a detection method is sensitive to the isolation accuracy. It is therefore necessary to determine what a realistic isolation accuracy is and whether the Decision Tree is a feasible detection method given the best isolation accuracy.
 
 \subsection{Random Forests}
 Random forests, (RF), is an extension of the decision tree. It generates various decision trees from the data set and provides a classification output, $\mathbf{P}$, for a new data sample, $\mathbf{D}*$, by utilizing a majority vote from all the decision trees with an individual classification output of, $\mathbf{p}_i$. RF utilizes bootstrap aggregating, $\mathbf{ba}()$, to ensure that new random data sets, $\mathbf{D}'$ with size of $n'$ is created \cite{Primartha2018, Paul2018, Shi2006}. The individual decision trees of number $k$ is then trained with Algorithm~\ref{alg: Random-Forest-training}.
@@ -178,7 +186,7 @@ This unsupervised learning method is based on the principle of isolating data po
 The distance measured from the first split the \emph{tree top} to the isolated data point is used to determine whether a data point is anomalous or not \cite{Hariri2021}. The logical reasoning for support of this algorithm is that data points which are non-anomalous will be more closely related and hence have more splits to separate the data points until isolation is achieved. Therefore, the distance from the tree top for non-anomalous data points will be longer than anomalous data points which will have a shorter distance from the tree top. Therefore non-anomalous data points are closer to the \emph{root}. 
 
 Figure~\ref{Figure-Isolation_Forest} demonstrates the splitting of the data points until isolated. Each split or \emph{branch} only splits the data into two groups. After training multiple trees, a single data point is "sent through the forest" and the distance from the tree top for each tree is calculated and the average of all the trees are used to calculated the average distance for the data point. Using a threshold for the distance, the data point is classified as anomalous or not.
-
+\textbf{TODO: redraw the isolation forest in inkscape}
 \begin{figure}[h!tb]
 	\centering
 	

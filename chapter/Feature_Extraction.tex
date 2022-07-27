@@ -29,9 +29,15 @@ and denotes "the inverse of the average reachability distance based on the $N_{m
 \mathbf{LOF}_{N_{min}}(p_o) = \frac{\sum\limits_{p_i \in N_{min}(p_o)}^{}\frac{\mathbf{LRD}_{N_{min}}(p_i)}{\mathbf{LRD}_{N_{min}}(p_o)}}{\left| N_{min}(p_o) \right|}.
 \label{Eq-LOF}
 \end{equation}
-The rule of thumb for detecting an outlier is that when the LOF is larger than $1$, then the point is considered an outlier with respect to its neighbourhood. This however is not fixed and the threshold can be changed depending on the application. LOF can therefore also be a anomaly detection algorithm if a given threshold is implemented otherwise the $\mathbf{LOF}$ can be given as an additional feature for other anomaly detection algorithms.
+The rule of thumb for detecting an outlier is that when the LOF is larger than $2$, then the point is considered an outlier with respect to its neighbourhood. This however is not fixed and the threshold can be changed depending on the application. LOF can therefore also be a anomaly detection algorithm if a given threshold is implemented otherwise the $\mathbf{LOF}$ can be given as an additional feature for other anomaly detection algorithms.
 
 This method is aimed at producing a measure of the "outlierness" of a data point within a local neighbourhood and not for all the data points. This method will thus be implemented for the satellite anomaly detection, since it will detect anomalies within the two neighbourhoods produced by the eclipse during orbit. This method will also be able to detect anomalies from measurements of the nadir sensor, sun sensor and magnetometers that drastically change from the training data set. 
+
+\subsection{Analysis}
+\textbf{TODO: Subtract 1 from the plots}
+To demonstrate the LOF during anomalies the LOF is trained on a normal operation of the satellite simulation without any anomalies. Thereafter, the LOF for both the sun reflection anomaly as well as the magnetic moment disturbance is provided in Figure~\ref{fig:reflectionLOF} and Figure~\ref{fig:solarPanelDipoleLOF} respectively. The timesteps when the anomaly occurs are given a red background.
+
+In Figure~\ref{fig:reflectionLOF} is evident that the LOF increases after the sun reflection anomaly occurs. The LOF decreases at a steady pace after the increase of the LOF to a peak. It is clear that the LOF is stable at a value of $1$ if no anomaly occurred within $\pm 1000$ s.
 
 \begin{figure}[!htb]
 	\centering
@@ -42,14 +48,18 @@ This method is aimed at producing a measure of the "outlierness" of a data point
 	\label{fig:reflectionLOF}
 \end{figure}
 
+In Figure~\ref{fig:solarPanelDipoleLOF} the same pattern as Figure~\ref{fig:reflectionLOF} occurs, where the stable value of the LOF without any anomalies is $1$. Figure~\ref{fig:solarPanelDipoleLOF} demonstrates this even more clearly, since the value increases significantly after an anomaly occurs and decreases to a value of $1$ after the anomaly period is over. From both Figure~\ref{fig:reflectionLOF} and Figure~\ref{fig:solarPanelDipoleLOF} it is clear that an anomaly will be detected shortly after the anomaly occurs, if using the threshold for LOF of $2$. It however decreases during the magnetic moment disturbance anomaly, but this will not have a significant effect if the anomaly is detected and recovered from. The only purpose of the feature extraction method is to provide a feature that increases the information gain of whether a data sample is a anomaly or not and it is clear that the LOF does this.
+
 \begin{figure}[!htb]
 	\centering
 	
 	\import{Figures/TexFigures/FeatureExtraction-LOF/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/solarPanelDipole/}{LOF.pgf}
 	
-	\caption{Local outlier factor during first 2 orbits. The red area is when the solar panel dipole anomaly occurs}
+	\caption{Local outlier factor during first 2 orbits. The red area is when the magnetic moment disturbance occurs}
 	\label{fig:solarPanelDipoleLOF}
 \end{figure}
+
+It also important to note that the LOF also provides a severity of the anomaly, This is evident in that the LOF for the sun reflection reaches a maximum of $16$, while the maximum for the magnetic moment disturbance is $12$. This is even with a large duration in which the magnetic moment disturbance occurs, while the sun reflection does not occur frequently. This is expected when comparing the estimation metric during the sun reflection and the estimation metric during the magnetic disturbance in Figure~\ref{fig:reflectionEstimation} and Figure~\ref{fig:solarPanelDipoleOnEstimation}.
 
 
 \section{Linear Regression Model}
@@ -79,12 +89,15 @@ where $K = 0.001$. After the calculation of $\hat{\mathbf{X}}_{k+1}$ \cite{DeSil
 \end{equation}
 where $N$ is the number of timesteps to account for. The moving average is used as an additional input parameter for the classification of anomalies based on $\mathbf{X}$.
 
+\subsection{Analysis}
+The moving average provided by the linear regression method is a matrix and therefore it is difficult to visualize whether the method provides a feature that provides information gain. This can however be simplified to a summation of the absolute values in the moving average (SAVMA) to demonstrate the increase of the values within the matrix after an anomaly occurs. Since the moving average has, by definition, a delayed response to the anomaly, it is expected that the SAVMA will respond as shown in Figure~\ref{fig:reflectionDMD} and Figure~\ref{fig:solarPanelDipoleDMD}. In the case of the sun reflection the SAVMA increases after an anomaly occurs. The SAVMA however has a delayed response in returning to a normal stable value, which would be $0$ if there were perfect conditions.
+
 \begin{figure}[!htb]
 	\centering
 	
 	\import{Figures/TexFigures/FeatureExtraction-DMD/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/Reflection/}{DMD.pgf}
 	
-	\caption{Summation of moving average during first 2 orbits. The red area is when the sun reflection anomaly occurs}
+	\caption{Summation of absolute values in the moving average during first 2 orbits. The red area is when the sun reflection anomaly occurs}
 	\label{fig:reflectionDMD}
 \end{figure}
 
@@ -93,10 +106,11 @@ where $N$ is the number of timesteps to account for. The moving average is used 
 	
 	\import{Figures/TexFigures/FeatureExtraction-DMD/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/solarPanelDipole/}{DMD.pgf}
 	
-	\caption{Summation of moving average during first 2 orbits. The red area is when the solar panel dipole anomaly occurs}
+	\caption{Summation of absolute values in the moving average during first 2 orbits. The red area is when the  magnetic moment disturbance occurs}
 	\label{fig:solarPanelDipoleDMD}
 \end{figure}
 
+In Figure~\ref{fig:solarPanelDipoleDMD} there does not seem to be any different between the anomalous and normal periods. The moving average provides the change in the relationship between the control input and the sensors. Figure~\ref{fig:solarPanelDipoleDMD} provides us with the insight that the magnetic moment disturbance has a smaller effect on the relationship between the sensor and the control input when compared to that of the sun reflection. This also correlates with the comparison of the LOF for sun reflection and magnetic moment disturbance.
 
 \section{Summary}
 The feature extraction methods discussed in this chapter focuses on extracting features that provide information gain on whether a data point is an anomaly or not. For the LOF algorithm this is done by providing a value for the "outlierness" of that data point relative to its nearest neighbourhood~\cite{breunig2000lof}. The linear regression model is an adaptation of work by \cite{DeSilva2020} to provides an estimate of the sensor measurements based on the previous sensor measurements as well as the control inputs. This can be extended to calculate a moving average of the estimated sensor measurements and the actual sensor measurements.
