@@ -2,20 +2,20 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="210mm"
    height="297mm"
    viewBox="0 0 210 297"
    version="1.1"
    id="svg5"
    sodipodi:docname="ProjectionOnPlane.svg"
-   inkscape:version="0.92.1 r15371">
+   inkscape:version="1.1.1 (1:1.1+202109281949+c3084ef5ed)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata16848">
     <rdf:RDF>
@@ -37,13 +37,13 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="1.0633188"
-     inkscape:cx="381.35319"
-     inkscape:cy="521.95072"
+     inkscape:zoom="2.9718855"
+     inkscape:cx="469.73546"
+     inkscape:cy="515.83414"
      inkscape:window-width="1920"
-     inkscape:window-height="1057"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer3" />
   <defs
@@ -260,11 +260,7 @@
          x="48.406448"
          y="66.183823">Nadir Sensor</tspan></text>
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.265;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#marker17464)"
-       d="m 138.27007,121.71117 -9.34734,-1.226"
-       id="path16493" />
-    <path
-       style="fill:#00ff00;stroke:#00fc00;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       style="fill:#00ff00;stroke:#00fc00;stroke-width:0.265;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend);stroke-miterlimit:4;stroke-dasharray:none"
        d="m 142.21291,112.83398 32.49103,-4.89807"
        id="path16495" />
     <path
@@ -295,7 +291,7 @@
    id="tspan46883">$R_{FOV}</tspan>$</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:5.64444017px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.26458299"
+       style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.264583"
        x="99.583405"
        y="123.1189"
        id="text29349-8"
@@ -304,22 +300,30 @@
        inkscape:transform-center-y="0.35303483"><tspan
          sodipodi:role="line"
          id="tspan29347-4"
-         style="font-size:5.64444017px;stroke-width:0.26458299"
+         style="font-size:5.64444px;stroke-width:0.264583"
          x="99.583405"
          y="123.1189">$R_{Earth}$</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:5.64444017px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.26458299"
-       x="124.79092"
-       y="103.40076"
+       style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.264583"
+       x="114.93723"
+       y="105.34545"
        id="text29349-8-7"
        transform="rotate(7.0814502)"
        inkscape:transform-center-x="-9.3272644"
        inkscape:transform-center-y="0.35303483"><tspan
          sodipodi:role="line"
          id="tspan29347-4-2"
-         style="font-size:5.64444017px;stroke-width:0.26458299"
-         x="124.79092"
-         y="103.40076">$R_{moon}$</tspan></text>
+         style="font-size:5.64444px;stroke-width:0.264583"
+         x="114.93723"
+         y="105.34545">$R_{moon}$</tspan></text>
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker17464);fill-opacity:1"
+       d="m 138.27007,121.71117 -6.76167,5.85654"
+       id="path61230" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.222432;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker17464)"
+       d="m 138.24639,121.7019 7.20549,4.20227"
+       id="path61635" />
   </g>
 </svg>

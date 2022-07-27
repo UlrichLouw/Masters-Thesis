@@ -2,22 +2,22 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:xhtml="http://www.w3.org/1999/xhtml"
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="210mm"
    height="297mm"
    viewBox="0 0 210 297"
    version="1.1"
    id="svg4838"
-   inkscape:version="0.92.1 r15371"
-   sodipodi:docname="SimulationBlockDiagram.svg">
+   inkscape:version="1.1.1 (1:1.1+202109281949+c3084ef5ed)"
+   sodipodi:docname="SimulationBlockDiagram.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <defs
      id="defs4832" />
   <sodipodi:namedview
@@ -27,17 +27,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="282.11948"
-     inkscape:cy="685.8805"
+     inkscape:zoom="2.8"
+     inkscape:cx="384.28571"
+     inkscape:cy="520.71429"
      inkscape:document-units="mm"
      inkscape:current-layer="g5515"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1057"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:pagecheckerboard="0" />
   <metadata
      id="metadata4835">
     <rdf:RDF>
@@ -46,7 +47,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -63,14 +63,15 @@
            id="path5385"
            pointer-events="stroke"
            stroke-miterlimit="10"
-           d="M 260,40 V 60 40 49.88"
+           d="m 255.46197,39.487396 v 9.88 -9.88 9.88"
            inkscape:connector-curvature="0"
-           style="fill:none;stroke:#000000;stroke-miterlimit:10" />
+           style="fill:none;stroke:#000000;stroke-miterlimit:10"
+           sodipodi:nodetypes="cccc" />
         <path
            id="path5387"
            pointer-events="all"
            stroke-miterlimit="10"
-           d="m 260,58.88 -4.5,-9 h 9 z"
+           d="m 255.46197,58.367396 -4.5,-9 h 9 z"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
         <rect
@@ -80,12 +81,72 @@
            rx="6"
            height="40"
            width="120"
-           y="0"
-           x="200"
+           y="-0.5126037"
+           x="195.46196"
            style="fill:#ffffff;stroke:#000000" />
+        <rect
+           id="rect5389-4"
+           pointer-events="all"
+           ry="6"
+           rx="6"
+           height="40"
+           width="120"
+           y="146.92427"
+           x="370.8895"
+           style="fill:#ffffff;stroke:#000000" />
+        <rect
+           id="rect5389-5"
+           pointer-events="all"
+           ry="6"
+           rx="6"
+           height="40"
+           width="120"
+           y="140.25729"
+           x="193.43346"
+           style="fill:#ffffff;stroke:#000000" />
+        <rect
+           id="rect5389-5-6"
+           pointer-events="all"
+           ry="6"
+           rx="6"
+           height="40"
+           width="120"
+           y="210.34106"
+           x="194.07388"
+           style="fill:#ffffff;stroke:#000000" />
+        <rect
+           id="rect5389-5-4"
+           pointer-events="all"
+           ry="6"
+           rx="6"
+           height="40"
+           width="120"
+           y="290.52759"
+           x="191.99368"
+           style="fill:#ffffff;stroke:#000000" />
+        <rect
+           id="rect5389-5-62"
+           pointer-events="all"
+           ry="6"
+           rx="6"
+           height="40"
+           width="120"
+           y="370.71814"
+           x="192.44212"
+           style="fill:#ffffff;stroke:#000000" />
+        <rect
+           id="rect5389-0"
+           pointer-events="all"
+           ry="5.9976187"
+           rx="6.5146961"
+           height="39.984123"
+           width="130.29391"
+           y="60.007942"
+           x="188.17549"
+           style="fill:#ffffff;stroke:#000000;stroke-width:1.04181" />
         <g
            id="g5395"
-           transform="translate(-0.5,-0.5)">
+           transform="translate(-5.0380268,-1.0126038)">
           <switch
              id="switch5393">
             <foreignObject
@@ -116,68 +177,70 @@
            id="path5397"
            pointer-events="stroke"
            stroke-miterlimit="10"
-           d="m 260,370 v 29.88"
+           d="m 255.55315,250.52186 v 29.88"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
         <path
            id="path5399"
            pointer-events="all"
            stroke-miterlimit="10"
-           d="m 260,408.88 -4.5,-9 h 9 z"
+           d="m 255.55315,289.40186 -4.5,-9 h 9 z"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
         <path
            id="path5401"
            pointer-events="stroke"
            stroke-miterlimit="10"
-           d="m 260,490 v 29.88"
+           d="m 255.52868,330.67942 -0.0703,29.59331"
            inkscape:connector-curvature="0"
-           style="fill:none;stroke:#000000;stroke-miterlimit:10" />
+           style="fill:none;stroke:#000000;stroke-miterlimit:10"
+           sodipodi:nodetypes="cc" />
         <path
            id="path5403"
            pointer-events="all"
            stroke-miterlimit="10"
-           d="m 260,528.88 -4.5,-9 h 9 z"
+           d="m 255.27494,370.11239 -4.5,-9 h 9 z"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
         <path
            id="path5405"
            pointer-events="stroke"
            stroke-miterlimit="10"
-           d="M 210,680 H 60 V 250.12"
+           d="M 205.00915,475.9338 58.256154,476.14611 58.610177,209.59597"
            inkscape:connector-curvature="0"
-           style="fill:none;stroke:#000000;stroke-miterlimit:10" />
+           style="fill:none;stroke:#000000;stroke-miterlimit:10"
+           sodipodi:nodetypes="ccc" />
         <path
            id="path5407"
            pointer-events="all"
            stroke-miterlimit="10"
-           d="m 60,241.12 4.5,9 h -9 z"
+           d="m 58.610177,200.59597 4.5,9 h -9 z"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
         <path
            id="path5409"
            pointer-events="stroke"
            stroke-miterlimit="10"
-           d="m 260,720 v 29.88"
+           d="m 255.00915,515.9338 v 29.88"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
         <path
            id="path5411"
            pointer-events="all"
            stroke-miterlimit="10"
-           d="m 260,758.88 -4.5,-9 h 9 z"
+           d="m 255.00915,554.8138 -4.5,-9 h 9 z"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
         <path
            id="path5413"
            pointer-events="all"
            stroke-miterlimit="10"
-           d="m 260,640 50,40 -50,40 -50,-40 z"
+           d="m 255.00915,435.9338 50,40 -50,40 -50,-40 z"
            inkscape:connector-curvature="0"
            style="fill:#ffffff;stroke:#000000;stroke-miterlimit:10" />
         <g
            id="g5419"
-           transform="translate(-0.5,-0.5)">
+           transform="translate(-8.5608707,-220.07332)">
           <switch
              id="switch5417">
             <foreignObject
@@ -199,101 +262,78 @@
             <text
                id="text5415"
                font-size="12px"
-               y="682"
-               x="260"
-               style="font-size:12px;font-family:Helvetica;text-anchor:middle;fill:#000000">EKF - calculate $\mathbf{\hat{x}}_{k+1}$</text>
+               y="681.39691"
+               x="262.24246"
+               style="font-size:12px;font-family:Helvetica;text-anchor:middle;fill:#000000">EKF</text>
+            <text
+               xml:space="preserve"
+               style="font-size:16px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal'"
+               x="215.18309"
+               y="698.61469"
+               id="text25486"><tspan
+                 sodipodi:role="line"
+                 id="tspan25484"
+                 x="215.18309"
+                 y="698.61469"></tspan></text>
+            <text
+               xml:space="preserve"
+               style="font-size:16px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal'"
+               x="186.29318"
+               y="701.39203"
+               id="text26590"><tspan
+                 sodipodi:role="line"
+                 id="tspan26588"
+                 x="186.29318"
+                 y="701.39203" /></text>
           </switch>
         </g>
         <path
            id="path5421"
            pointer-events="stroke"
            stroke-miterlimit="10"
-           d="m 260,610 v 19.88"
+           d="m 254.61246,410.62632 0.29485,14.52695"
            inkscape:connector-curvature="0"
-           style="fill:none;stroke:#000000;stroke-miterlimit:10" />
+           style="fill:none;stroke:#000000;stroke-miterlimit:10"
+           sodipodi:nodetypes="cc" />
         <path
            id="path5423"
            pointer-events="all"
            stroke-miterlimit="10"
-           d="m 260,638.88 -4.5,-9 h 9 z"
+           d="m 255.00915,434.8138 -4.5,-9 h 9 z"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
         <path
            id="path5425"
            pointer-events="stroke"
            stroke-miterlimit="10"
-           d="m 320,100 h 110 v 89.88"
+           d="m 319.15267,77.032057 111.265,0.165201 0.23177,60.252462"
            inkscape:connector-curvature="0"
-           style="fill:none;stroke:#000000;stroke-miterlimit:10" />
+           style="fill:none;stroke:#000000;stroke-miterlimit:10"
+           sodipodi:nodetypes="ccc" />
         <path
            id="path5427"
            pointer-events="all"
            stroke-miterlimit="10"
-           d="m 430,198.88 -4.5,-9 h 9 z"
+           d="m 430.38086,147.00814 -4.5,-9 h 9 z"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
         <path
            id="path5429"
            pointer-events="stroke"
            stroke-miterlimit="10"
-           d="m 260,140 v 29.88"
+           d="M 256.75179,99.475967 V 129.35597"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
         <path
            id="path5431"
            pointer-events="all"
            stroke-miterlimit="10"
-           d="m 260,178.88 -4.5,-9 h 9 z"
+           d="m 256.75179,138.35597 -4.5,-9 h 9 z"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
-        <ellipse
-           id="ellipse5433"
-           pointer-events="all"
-           ry="40"
-           rx="60"
-           cy="100"
-           cx="260"
-           style="fill:#ffffff;stroke:#000000" />
-        <g
-           id="g5439"
-           transform="translate(-0.5,-0.5)">
-          <switch
-             id="switch5437">
-            <foreignObject
-               style="overflow: visible; text-align: left;"
-               requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
-               height="100%"
-               width="100%"
-               pointer-events="none">
-              <xhtml:div
-                 style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 100px; margin-left: 201px;">
-                <xhtml:div
-                   style="box-sizing: border-box; font-size: 0px; text-align: center;"
-                   data-drawio-colors="color: rgb(0, 0, 0); ">
-                  <xhtml:div
-                     style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Determine sun position and magnetic field for mode of operation</xhtml:div>
-                </xhtml:div>
-              </xhtml:div>
-            </foreignObject>
-            <text
-               id="text5435"
-               font-size="12px"
-               y="104"
-               x="260"
-               style="font-size:12px;font-family:Helvetica;text-anchor:middle;fill:#000000">Determine sun position and magnetic field for mode of operation</text>
-          </switch>
-        </g>
-        <ellipse
-           id="ellipse5441"
-           pointer-events="all"
-           ry="40"
-           rx="60"
-           cy="330"
-           cx="260"
-           style="fill:#ffffff;stroke:#000000" />
         <g
            id="g5447"
-           transform="translate(-0.5,-0.5)">
+           transform="translate(-9.2818679,-110.03989)">
           <switch
              id="switch5445">
             <foreignObject
@@ -318,20 +358,12 @@
                font-size="12px"
                y="334"
                x="260"
-               style="font-size:12px;font-family:Helvetica;text-anchor:middle;fill:#000000">Calculate $\mathbf{N}_c$ from $\mathbf{\hat{x}}_k$</text>
+               style="font-size:12px;font-family:Helvetica;text-anchor:middle;fill:#000000">Calculate $\mathbf{N}_c$</text>
           </switch>
         </g>
-        <ellipse
-           id="ellipse5449"
-           pointer-events="all"
-           ry="40"
-           rx="60"
-           cy="240"
-           cx="430"
-           style="fill:#ffffff;stroke:#000000" />
         <g
            id="g5455"
-           transform="translate(-0.5,-0.5)">
+           transform="translate(5.6015845,-82.770227)">
           <switch
              id="switch5453">
             <foreignObject
@@ -355,20 +387,12 @@
                font-size="12px"
                y="244"
                x="430"
-               style="font-size:12px;font-family:Helvetica;text-anchor:middle;fill:#000000">Calculate $\mathbf{N}_d$ from $\mathbf{x}_k$</text>
+               style="font-size:12px;font-family:Helvetica;text-anchor:middle;fill:#000000">Calculate $\mathbf{N}_d$</text>
           </switch>
         </g>
-        <ellipse
-           id="ellipse5457"
-           pointer-events="all"
-           ry="40"
-           rx="60"
-           cy="450"
-           cx="260"
-           style="fill:#ffffff;stroke:#000000" />
         <g
            id="g5463"
-           transform="translate(-0.5,-0.5)">
+           transform="translate(-74.029585,-141.26174)">
           <switch
              id="switch5461">
             <foreignObject
@@ -390,22 +414,44 @@
             <text
                id="text5459"
                font-size="12px"
-               y="454"
-               x="260"
-               style="font-size:12px;font-family:Helvetica;text-anchor:middle;fill:#000000">Update $\boldsymbol{\omega}_\mathcal{B}^\mathcal{I}$ with Runge-Kutta</text>
+               y="453.24301"
+               x="318.42169"
+               style="font-size:12px;font-family:Helvetica;text-anchor:middle;fill:#000000">Update $\boldsymbol{\omega}_\mathcal{B}^\mathcal{I}$</text>
+            <text
+               xml:space="preserve"
+               style="font-size:16px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal'"
+               x="204.85497"
+               y="469.13382"
+               id="text18746"><tspan
+                 sodipodi:role="line"
+                 id="tspan18744"
+                 x="204.85497"
+                 y="469.13382"> with Runge-Kutta</tspan></text>
+            <text
+               xml:space="preserve"
+               style="font-size:16px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal'"
+               x="172.93872"
+               y="467.41983"
+               id="text22872"><tspan
+                 sodipodi:role="line"
+                 id="tspan22870"
+                 x="172.93872"
+                 y="467.41983" /></text>
+            <text
+               xml:space="preserve"
+               style="font-size:16px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal'"
+               x="183.95543"
+               y="474.3356"
+               id="text34299"><tspan
+                 sodipodi:role="line"
+                 id="tspan34297"
+                 x="183.95543"
+                 y="474.3356" /></text>
           </switch>
         </g>
-        <ellipse
-           id="ellipse5465"
-           pointer-events="all"
-           ry="40"
-           rx="60"
-           cy="570"
-           cx="260"
-           style="fill:#ffffff;stroke:#000000" />
         <g
            id="g5471"
-           transform="translate(-0.5,-0.5)">
+           transform="translate(-7.5161127,-181.0605)">
           <switch
              id="switch5469">
             <foreignObject
@@ -432,19 +478,48 @@
                style="font-size:12px;font-family:Helvetica;text-anchor:middle;fill:#000000">Update $\mathbf{q}$</text>
           </switch>
         </g>
+        <g
+           id="g5471-7"
+           transform="translate(-4.8959026,-93.139722)">
+          <switch
+             id="switch5469-2">
+            <foreignObject
+               style="overflow: visible; text-align: left;"
+               requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+               height="100%"
+               width="100%"
+               pointer-events="none">
+              <xhtml:div
+                 style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 570px; margin-left: 201px;">
+                <xhtml:div
+                   style="box-sizing: border-box; font-size: 0px; text-align: center;"
+                   data-drawio-colors="color: rgb(0, 0, 0); ">
+                  <xhtml:div
+                     style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Update $\mathbf{q}$</xhtml:div>
+                </xhtml:div>
+              </xhtml:div>
+            </foreignObject>
+            <text
+               id="text5467-4"
+               font-size="12px"
+               y="574"
+               x="260"
+               style="font-size:12px;font-family:Helvetica;text-anchor:middle;fill:#000000">calculate $\mathbf{\hat{x}}_{k+1}$</text>
+          </switch>
+        </g>
         <rect
            id="rect5473"
            pointer-events="all"
-           ry="9"
-           rx="9"
-           height="60"
-           width="120"
-           y="760"
-           x="200"
-           style="fill:#ffffff;stroke:#000000" />
+           ry="8.9495296"
+           rx="23.899582"
+           height="59.663532"
+           width="318.66113"
+           y="556.10199"
+           x="98.122307"
+           style="fill:#ffffff;stroke:#000000;stroke-width:1.625" />
         <g
            id="g5479"
-           transform="translate(-0.5,-0.5)">
+           transform="translate(-5.4908463,-204.5662)">
           <switch
              id="switch5477">
             <foreignObject
@@ -475,27 +550,19 @@
            id="path5481"
            pointer-events="stroke"
            stroke-miterlimit="10"
-           d="m 260,260 v 20 -10 9.88"
+           d="m 256.32572,180.32017 v 20 -10 9.88"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
         <path
            id="path5483"
            pointer-events="all"
            stroke-miterlimit="10"
-           d="m 260,288.88 -4.5,-9 h 9 z"
+           d="m 256.32572,209.20017 -4.5,-9 h 9 z"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
-        <ellipse
-           id="ellipse5485"
-           pointer-events="all"
-           ry="40"
-           rx="60"
-           cy="220"
-           cx="260"
-           style="fill:#ffffff;stroke:#000000" />
         <g
            id="g5491"
-           transform="translate(-0.5,-0.5)">
+           transform="translate(-1.8898229,-41.024033)">
           <switch
              id="switch5489">
             <foreignObject
@@ -514,54 +581,51 @@
                 </xhtml:div>
               </xhtml:div>
             </foreignObject>
-            <text
-               id="text5487"
-               font-size="12px"
-               y="224"
-               x="260"
-               style="font-size:12px;font-family:Helvetica;text-anchor:middle;fill:#000000">Calculate $\mathbf{v}_\mathcal{B}$ for each sensor</text>
           </switch>
         </g>
         <path
            id="path5493"
            pointer-events="stroke"
            stroke-miterlimit="10"
-           d="M 430,280 V 410 H 270.12"
+           d="m 430.68074,187.60676 0.0362,124.06302 -107.60978,-0.0202"
            inkscape:connector-curvature="0"
-           style="fill:none;stroke:#000000;stroke-miterlimit:10" />
+           style="fill:none;stroke:#000000;stroke-miterlimit:10"
+           sodipodi:nodetypes="ccc" />
         <path
            id="path5495"
            pointer-events="all"
            stroke-miterlimit="10"
-           d="m 261.12,410 9,-4.5 v 9 z"
+           d="m 313.14044,312.12064 9,-4.5 v 9 z"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
         <path
            id="path5497"
            pointer-events="stroke"
            stroke-miterlimit="10"
-           d="m 120,210 h 50 v -30 h 79.88"
+           d="m 118.61018,169.47597 h 50 v 0 l 14.5673,0.0601"
            inkscape:connector-curvature="0"
-           style="fill:none;stroke:#000000;stroke-miterlimit:10" />
+           style="fill:none;stroke:#000000;stroke-miterlimit:10"
+           sodipodi:nodetypes="cccc" />
         <path
            id="path5499"
            pointer-events="all"
            stroke-miterlimit="10"
-           d="m 258.88,180 -9,4.5 v -9 z"
+           d="m 192.61963,169.47631 -9,4.5 v -9 z"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
         <path
            id="path5501"
            pointer-events="stroke"
            stroke-miterlimit="10"
-           d="M 60,180 V 60 h 189.88"
+           d="M 60,180 59.35403,81.844483 178.22635,81.53667"
            inkscape:connector-curvature="0"
-           style="fill:none;stroke:#000000;stroke-miterlimit:10" />
+           style="fill:none;stroke:#000000;stroke-miterlimit:10"
+           sodipodi:nodetypes="ccc" />
         <path
            id="path5503"
            pointer-events="all"
            stroke-miterlimit="10"
-           d="m 258.88,60 -9,4.5 v -9 z"
+           d="m 187.64087,81.01814 -9,4.5 v -9 z"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
         <rect
@@ -569,19 +633,19 @@
            pointer-events="all"
            height="60"
            width="120"
-           y="180"
-           x="0"
+           y="139.47597"
+           x="-1.389823"
            style="fill:#ffffff;stroke:#000000" />
         <path
            id="path5507"
            pointer-events="all"
            stroke-miterlimit="10"
-           d="m 12,180 v 60 m 96,-60 v 60"
+           d="m 10.610177,139.47597 v 60 m 96.000003,-60 v 60"
            inkscape:connector-curvature="0"
            style="fill:none;stroke:#000000;stroke-miterlimit:10" />
         <g
            id="g5513"
-           transform="translate(-0.5,-0.5)">
+           transform="translate(-3.4395938,-37.907721)">
           <switch
              id="switch5511">
             <foreignObject
@@ -603,11 +667,100 @@
             <text
                id="text5509"
                font-size="12px"
-               y="214"
-               x="61"
-               style="font-size:12px;font-family:Helvetica;text-anchor:middle;fill:#000000">Determine whether anomaly occurs</text>
+               y="198.81192"
+               x="61.714287"
+               style="font-size:12px;font-family:Helvetica;text-anchor:middle;fill:#000000">Simulate</text>
           </switch>
         </g>
+        <g
+           id="g5513-6"
+           transform="translate(-2.7045891,-37.007689)">
+          <switch
+             id="switch5511-2">
+            <foreignObject
+               style="overflow: visible; text-align: left;"
+               requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+               height="100%"
+               width="100%"
+               pointer-events="none">
+              <xhtml:div
+                 style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 94px; height: 1px; padding-top: 210px; margin-left: 14px;">
+                <xhtml:div
+                   style="box-sizing: border-box; font-size: 0px; text-align: center;"
+                   data-drawio-colors="color: rgb(0, 0, 0); ">
+                  <xhtml:div
+                     style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Determine whether anomaly occurs</xhtml:div>
+                </xhtml:div>
+              </xhtml:div>
+            </foreignObject>
+            <text
+               id="text5509-8"
+               font-size="12px"
+               y="214"
+               x="61"
+               style="font-size:12px;font-family:Helvetica;text-anchor:middle;fill:#000000">anomaly</text>
+          </switch>
+        </g>
+        <text
+           xml:space="preserve"
+           style="font-size:16px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal'"
+           x="197.55162"
+           y="74.2966"
+           id="text4926"><tspan
+             sodipodi:role="line"
+             id="tspan4924"
+             x="197.55162"
+             y="74.2966">Sun and magnetic</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:16px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal'"
+           x="203.72508"
+           y="93.627357"
+           id="text5656"><tspan
+             sodipodi:role="line"
+             id="tspan5654"
+             x="203.72508"
+             y="93.627357">field calculation</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:16px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal'"
+           x="206.17876"
+           y="156.82642"
+           id="text7055"><tspan
+             sodipodi:role="line"
+             id="tspan7053"
+             x="206.17876"
+             y="156.82642">Calculate $\mathbf{v}_\mathcal{B}$</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:16px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal'"
+           x="205.46129"
+           y="173.5717"
+           id="text7719"><tspan
+             sodipodi:role="line"
+             id="tspan7717"
+             x="205.46129"
+             y="173.5717">for each sensor</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:16px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal'"
+           x="401.06375"
+           y="178.502"
+           id="text11208"><tspan
+             sodipodi:role="line"
+             id="tspan11206"
+             x="401.06375"
+             y="178.502">from $\mathbf{x}_k$</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:16px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal'"
+           x="222.81802"
+           y="240.9655"
+           id="text15390"><tspan
+             sodipodi:role="line"
+             id="tspan15388"
+             x="222.81802"
+             y="240.9655">from $\mathbf{\hat{x}}_k$</tspan></text>
       </g>
       <switch
          id="switch5523">

@@ -1,4 +1,4 @@
-%% Creator: Inkscape inkscape 0.92.1, www.inkscape.org
+%% Creator: Inkscape 1.1.1 (1:1.1+202109281949+c3084ef5ed), www.inkscape.org
 %% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
 %% Accompanies image file 'SimulationBlockDiagram.pdf' (pdf, eps, ps)
 %%
@@ -35,8 +35,10 @@
     \renewcommand\transparent[1]{}%
   }%
   \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{381.27744465bp}%
+    \setlength{\unitlength}{430.78744083bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -48,30 +50,29 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,1.61524553)%
+  \begin{picture}(1,1.07522393)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{SimulationBlockDiagram.pdf}}%
-    \put(0.54054775,1.56803581){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Initial parameters}}}%
+    \put(0.44717841,1.03343998){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Initial Parameters\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{SimulationBlockDiagram.pdf}}%
-    \put(0.53914269,0.30320885){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{EKF}}}%
+    \put(0.44494927,0.27029762){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}EKF\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{SimulationBlockDiagram.pdf}}%
-    \put(0.54054775,0.97931942){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Calculate $\mathbf{N}_c$}}}%
-    \put(0.8665196,1.15073565){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Calculate $\mathbf{N}_d$}}}%
-    \put(0.86185412,1.11294143){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{from $\mathbf{x}_k$}}}%
-    \put(0.5721165,0.73765064){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Update $\boldsymbol{\omega}_\mathcal{B}^\mathcal{I}$}}}%
-    \put(0.53970555,0.69564126){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{with Runge-Kutta}}}%
-    \put(0.54054775,0.4861465){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Update $\mathbf{q}$}}}%
+    \put(0.4397899,0.68354692){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Calculate $\mathbf{N}_c$\end{tabular}}}}%
+    \put(0.76167158,0.7927603){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Calculate $\mathbf{N}_d$\end{tabular}}}}%
+    \put(0.42877631,0.53030228){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Update $\boldsymbol{\omega}_\mathcal{B}^\mathcal{I}$\end{tabular}}}}%
+    \put(0.44286407,0.38935418){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Update $\mathbf{q}$\end{tabular}}}}%
+    \put(0.44742586,0.23628429){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}calculate $\mathbf{\hat{x}}_{k+1}$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{SimulationBlockDiagram.pdf}}%
-    \put(0.54054775,0.05339077){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Update dataframe with current time step data}}}%
+    \put(0.44639006,0.04725803){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Update dataframe with current time step data\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=5]{SimulationBlockDiagram.pdf}}%
-    \put(0.52930733,1.19429222){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Calculate $\mathbf{v}_\mathcal{B}$}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=6]{SimulationBlockDiagram.pdf}}%
-    \put(0.15191063,1.20553264){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{Determine whether}}}%
-    \put(0.53938858,1.14666267){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{for each sensor}}}%
-    \put(0.54290754,0.94293029){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{from $\mathbf{\hat{x}}_k$}}}%
-    \put(0.13642131,1.16851641){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{anomaly occurs}}}%
-    \put(0.5348507,1.41486495){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{}}}%
-    \put(0.44317772,1.43160536){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Sun and magnetic}}}%
-    \put(0.45863326,1.38383363){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{field calculation}}}%
-    \put(0.53694155,0.26569563){\color[rgb]{0,0,0}\makebox(0,0)[b]{\smash{calculate $\mathbf{\hat{x}}_{k+1}$}}}%
+    \put(0.10474629,0.79332713){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Simulate\end{tabular}}}}%
+    \put(0.10478236,0.76531776){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}anomaly\end{tabular}}}}%
+    \put(0.34722712,0.94411077){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Sun and magnetic\end{tabular}}}}%
+    \put(0.3579751,0.91045596){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}field calculation\end{tabular}}}}%
+    \put(0.36224694,0.80042654){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Calculate $\mathbf{v}_\mathcal{B}$\end{tabular}}}}%
+    \put(0.36099783,0.77127303){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}for each sensor\end{tabular}}}}%
+    \put(0.70154129,0.7626894){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}from $\mathbf{x}_k$\end{tabular}}}}%
+    \put(0.39121587,0.65394058){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}from $\mathbf{\hat{x}}_k$\end{tabular}}}}%
   \end{picture}%
 \endgroup%

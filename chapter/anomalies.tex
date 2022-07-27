@@ -272,8 +272,6 @@ This the creates the array of points that will be used in the algorithm to calcu
 	\label{fig:ProjectionOnPlane}
 \end{figure}
 
-\textbf{TODO: Fix green arrow and text of Rmoon on Figure}
-
 \subsection{Calculating the Centre of the Earth}
 \label{section: Calculating the Centre of the Earth}
 The edges of the Earth are detected based on a gradient between the lowest temperature and the highest temperature within the IR nadir sensor's FoV. This will not be implemented in our case, since we can determine discrete points of both the Earth and the moon from the simulation environment. Furthermore the visible phases of the moon will not be accounted for. The reasoning for this is due to the coldest side of the moon being $140$K and the warmest part, $400$K. The temperature of space is $\num{2.7}$K and the coldest part on the Earth is $180$K. Consequently, the IR horizon sensor must be calibrated to always use the minimum value for edge detection as $180$K or it must use the smallest value in the image, which will most likely be $2.7$K. Therefore, it can be assumed that the moon will not have any detectable phases for the IR horizon sensor and it will always be seen as a full moon, due to it's lowest temperature being warmer than that of space. 
@@ -324,22 +322,22 @@ It is thus evident that when the moon overlaps the horizon of the Earth from the
 To determine the effect of the discrete moon edges on the circular fit algorithm, the measured Earth vector with and without the moon on horizon anomaly is shown in Figure~\ref{fig:Earth Vector comparison}. It is clear from Figure~\ref{fig:Earth Vector comparison} that the anomaly has no visible effect on the Earth vector. It is also evident in Figure~\ref{fig:Moon On Horizon Estimation Metric} that the estimation metric is also not influenced negatively by this anomaly. This anomaly is therefore not included in the FDIR development, since there is no evident difference due to the anomaly. It will also have a negative influence on the detection algorithms, since the data from this anomaly will be similar to normal data and this will decrease the accuracy of the detection.
 
 \begin{figure*}[!htb]
-	\begin{tabular}{@{}c@{}}
+%	\begin{tabular}{@{}c@{}}
 	\centering
 
-	\import{Figures/TexFigures/FeatureExtraction-DMD/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/MoonOnHorizon/}{Earth.pgf}
+	\import{Figures/TexFigures/FeatureExtraction-None/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/MoonOnHorizon/}{Moon on Horizon Earth.pgf}
 	
-	\label{fig:Earth Vector comparison with moon on the horizon}
-	\end{tabular}
-	\begin{tabular}{@{}c@{}}
-		\centering
-		% include second image
-		\import{Figures/TexFigures/FeatureExtraction-None/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Earth.pgf} 
-		%		\caption[Sun vector without reflection]{Sun vector without reflection.}
-		\label{fig:Sun Vector comparison without moon on the horizon}
-	\end{tabular}
+%	\label{fig:Earth Vector comparison with moon on the horizon}
+%	\end{tabular}
+%	\begin{tabular}{@{}c@{}}
+%		\centering
+%		% include second image
+%		\import{Figures/TexFigures/FeatureExtraction-None/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/None/}{Earth.pgf} 
+%		%		\caption[Sun vector without reflection]{Sun vector without reflection.}
+%		\label{fig:Sun Vector comparison without moon on the horizon}
+%	\end{tabular}
 	
-	\caption{Comparison of Earth Vector with and without moon on the horizon}
+	\caption{Difference in horizon sensor unit vector in SBC due to the moon on horizon.}
 	\label{fig:Earth Vector comparison}
 	
 \end{figure*}
@@ -408,13 +406,13 @@ where $\mu_0$ is the vacuum permeability constant and $\mathbf{r}_m$ is the vect
 The vector $\mathbf{r}_m$ between the position of the magnetometer and the solar panel influences the magnetic field significantly. The experienced magnetic field by the magnetometer will be different for each solar panel. The resulting measured vector by the magnetometer is the summation of the Earth's magnetic field, $\mathbf{B}$, and the magnetic field produced by the coils in the solar panels, $\mathbf{B}_r$. The resulting magnetometer measurement with and without the induced dipole moment is shown in Figure~\ref{fig:Magnetometer Vector comparison}. 
 
 \begin{figure*}[!htb]
-	\begin{tabular}{@{}c@{}}
+%	\begin{tabular}{@{}c@{}}
 		\centering
 		
-		\import{Figures/TexFigures/FeatureExtraction-None/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/solarPanelDipole/}{Magnetometer.pgf}
+		\import{Figures/TexFigures/FeatureExtraction-None/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/solarPanelDipole/}{Magnetic Field Measurement Due to Magnetic Moment.pgf}
 		
-		\label{fig:Magnetic field Vector comparison with solar Panel magnetic field}
-	\end{tabular}
+%		\label{fig:Magnetic field Vector comparison with solar Panel magnetic field}
+%	\end{tabular}
 %	\begin{tabular}{@{}c@{}}
 %		\centering
 %		% include second image
@@ -423,11 +421,9 @@ The vector $\mathbf{r}_m$ between the position of the magnetometer and the solar
 %		\label{fig:Magnetic field Vector comparison without solar Panel magnetic field}
 %	\end{tabular}
 %	
-	\caption{Comparison of Magnetic field Vector with and without solar Panel magnetic field}
+	\caption{Difference in magnetometer unit vector in SBC due to the magnetic moment disturbance.}
 	\label{fig:Magnetometer Vector comparison}
 \end{figure*}
-
-\textbf{TODO: Plot the magnetic field due to the solar panels and not the unit vector}.
 
 From Figure~\ref{fig:solarPanelDipoleOnEstimation} is is evident that this anomaly has a significant effect on the estimation, but not as large as the sun reflection on the sun sensor. However, it is not yet clear whether the estimation error increases due to the magnetometer anomaly or the disturbance torque, $\mathbf{N}_{dm}$. This however will be evident when the anomaly recovery results are discussed in Chapter~\ref{chap:Recovery}.
 
@@ -446,7 +442,7 @@ Failures of actuators will effect both the estimation and the control of the sat
 \begin{figure}[!htb]
 \centering
 
-\import{Figures/TexFigures/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/catastrophicReactionWheel/}{Estimation Metric.pgf}
+\import{Figures/TexFigures/FeatureExtraction-DMD/Predictor-None/Isolator-None/Recovery-None/EARTH_SUN-ORC-General CubeSat Model/catastrophicReactionWheel/}{Estimation Metric.pgf}
 
 \caption{Estimation Metric with failure of Reaction Wheels}
 \label{fig:catastrophicReactionWheels}
@@ -454,86 +450,3 @@ Failures of actuators will effect both the estimation and the control of the sat
 
 \section{Summary}
 It is evident that the reflection of solar panels on sun sensor, reaction wheel failure and the magnetic moment disturbance have considerable increases in the estimation error. Therefore, these anomalies must be recovered from to ensure autonomous fault tolerant control. The moon in the FoV of the nadir sensor and on the Earth horizon has a negligible effect on the estimation accuracy and therefore is not included in the set of anomalies that requires fault tolerant control. The results from recovery of these anomalies is discussed in Chapter~\ref{chap:Recovery}.
-
-%\begin{figure}[!htb]
-%	\centering
-%	
-%	\import{Figures/TexFigures/Summary/EKF-ignore/}{Estimation MetricSVM.pgf}
-%	
-%	\caption{Estimation Metric with failure of Reaction Wheels}
-%	\label{fig:catastrophicReactionWheels}
-%\end{figure}
-%
-%\begin{figure}[!htb]
-%	\centering
-%	
-%	\import{Figures/TexFigures/Summary/EKF-ignore/}{Pointing MetricSVM.pgf}
-%	
-%	\caption{Estimation Metric with failure of Reaction Wheels}
-%	\label{fig:catastrophicReactionWheels}
-%\end{figure}
-%
-%\begin{figure}[!htb]
-%	\centering
-%	
-%	\import{Figures/TexFigures/Summary/EKF-ignore/}{Prediction AccuracySVM.pgf}
-%	
-%	\caption{Estimation Metric with failure of Reaction Wheels}
-%	\label{fig:catastrophicReactionWheels}
-%\end{figure}
-%
-%
-%\begin{figure}[!htb]
-%	\centering
-%	
-%	\import{Figures/TexFigures/Summary/None/}{Estimation MetricNoFailure.pgf}
-%	
-%	\caption{Estimation Metric with failure of Reaction Wheels}
-%	\label{fig:catastrophicReactionWheels}
-%\end{figure}
-%
-%\begin{figure}[!htb]
-%	\centering
-%	
-%	\import{Figures/TexFigures/Summary/SVM/}{Estimation MetricSVMRFDT.pgf}
-%	
-%	\caption{Estimation Metric with failure of Reaction Wheels}
-%	\label{fig:catastrophicReactionWheels}
-%\end{figure}
-%
-%\begin{figure}[!htb]
-%	\centering
-%	
-%	\import{Figures/TexFigures/Summary/DecisionTrees100/}{Estimation MetricSVMRFDT.pgf}
-%	
-%	\caption{Estimation Metric with failure of Reaction Wheels}
-%	\label{fig:catastrophicReactionWheels}
-%\end{figure}
-%
-%\begin{figure}[!htb]
-%	\centering
-%	
-%	\import{Figures/TexFigures/Summary/RandomForest100/}{Estimation MetricSVMRFDT.pgf}
-%	
-%	\caption{Estimation Metric with failure of Reaction Wheels}
-%	\label{fig:catastrophicReactionWheels}
-%\end{figure}
-%
-%\begin{figure}[!htb]
-%	\centering
-%	
-%	\import{Figures/TexFigures/Summary/DecisionTrees100/}{Prediction AccuracySVMRFDT.pgf}
-%	
-%	\caption{Estimation Metric with failure of Reaction Wheels}
-%	\label{fig:catastrophicReactionWheels}
-%\end{figure}
-%
-%\begin{figure}[!htb]
-%	\centering
-%	
-%	\import{Figures/TexFigures/Summary/RandomForest100/}{Prediction AccuracySVMRFDT.pgf}
-%	
-%	\caption{Estimation Metric with failure of Reaction Wheels}
-%	\label{fig:catastrophicReactionWheels}
-%\end{figure}
-
