@@ -244,47 +244,66 @@ The definitions of the parameters used in the calculation and the description th
 \mathbf{s}_{\mathcal{E}} = \mathbf{r}_{sun} - \mathbf{r}_{\text{sat}}.
 \end{equation}
 
-
-\begin{table}[]
-\caption{Description and definition of Earth orbit parameters}
-\begin{tabular}{@{}cll@{}}
-	\toprule
-	\multicolumn{1}{c}{\textbf{Symbol}} &
-	\multicolumn{1}{c}{\textbf{Definition}} &
-	\multicolumn{1}{c}{\textbf{Description}} \\ \midrule
-	\multicolumn{1}{|c|}{$r_{\oplus}$} &
-	\multicolumn{1}{l|}{Sun position magnitude} &
-	\multicolumn{1}{l|}{The absolute distance of the Earth to the sun} \\ \midrule
-	\multicolumn{1}{|c|}{\multirow{3}{*}{$\lambda_e$}} &
-	\multicolumn{1}{l|}{\multirow{3}{*}{Ecliptic longitude}} &
-	\multicolumn{1}{l|}{The angle between the primary direction $0^o$} \\
-	\multicolumn{1}{|c|}{} &
-	\multicolumn{1}{l|}{} &
-	\multicolumn{1}{l|}{of the plane in which the Earth is orbiting} \\
-	\multicolumn{1}{|c|}{} &
-	\multicolumn{1}{l|}{} &
-	\multicolumn{1}{l|}{and the current Earth position.} \\ \midrule
-	\multicolumn{1}{|c|}{\multirow{2}{*}{$M_{\oplus}$}} &
-	\multicolumn{1}{l|}{\multirow{2}{*}{Mean anomaly}} &
-	\multicolumn{1}{l|}{The fraction of the orbit's period after the Earth} \\
-	\multicolumn{1}{|c|}{} &
-	\multicolumn{1}{l|}{} &
-	\multicolumn{1}{l|}{has passed the furthest position from the sun} \\ \midrule
-	\multicolumn{1}{|c|}{\multirow{2}{*}{$\epsilon$}} &
-	\multicolumn{1}{l|}{\multirow{2}{*}{Obliquity}} &
-	\multicolumn{1}{l|}{The inclination of the plane of orbit to the} \\
-	\multicolumn{1}{|c|}{} &
-	\multicolumn{1}{l|}{} &
-	\multicolumn{1}{l|}{celestial equator} \\ \midrule
-	\multicolumn{1}{|c|}{\multirow{2}{*}{$\lambda_{M_{\oplus}}$}} &
-	\multicolumn{1}{l|}{\multirow{2}{*}{Sun's mean longitude}} &
-	\multicolumn{1}{l|}{The average angle subtended at the Earth} \\
-	\multicolumn{1}{|c|}{} &
-	\multicolumn{1}{l|}{} &
-	\multicolumn{1}{l|}{between the vernal equinox and the sun. \cite{ross1916sun}} \\ \bottomrule
-\end{tabular}
-\label{table:SunOrbitParameters}
+\begin{table}[h!t!b]
+	\centering
+	\caption{\label{table:SunOrbitParameters}Description and definition of Earth orbit parameters}
+	\begin{tabular}{c c c}
+		\hline\hline
+		\textbf{Symbol} & \textbf{Definition} & \textbf{Description} \\ \hline
+		$r_{\oplus}$ & Sun position magnitude & The absolute distance of the Earth to the sun \\ \\
+ 		$\lambda_e$ & Ecliptic longitude & The angle between the primary direction $0^o$ \\
+		 &  & of the plane in which the Earth is orbiting \\
+		 & & and the current Earth position. \\ \\
+		$M_{\oplus}$ & Mean anomaly & The fraction of the orbit's period after the Earth \\
+		 & & has passed the furthest position from the sun \\ \\
+		$\epsilon$ & Obliquity & The inclination of the plane of orbit to the \\
+		 & & celestial equator \\ \\
+ 		$\lambda_{M_{\oplus}}$ & Sun's mean longitude & The average angle subtended at the Earth \\
+		 & & between the vernal equinox and the sun. \cite{ross1916sun} \\
+		\hline\hline
+	\end{tabular}
 \end{table}
+
+%\begin{table}[]
+%\caption{Description and definition of Earth orbit parameters}
+%\begin{tabular}{@{}cll@{}}
+%	\toprule
+%	\multicolumn{1}{c}{\textbf{Symbol}} &
+%	\multicolumn{1}{c}{\textbf{Definition}} &
+%	\multicolumn{1}{c}{\textbf{Description}} \\ \midrule
+%	\multicolumn{1}{|c|}{$r_{\oplus}$} &
+%	\multicolumn{1}{l|}{Sun position magnitude} &
+%	\multicolumn{1}{l|}{The absolute distance of the Earth to the sun} \\ \midrule
+%	\multicolumn{1}{|c|}{\multirow{3}{*}{$\lambda_e$}} &
+%	\multicolumn{1}{l|}{\multirow{3}{*}{Ecliptic longitude}} &
+%	\multicolumn{1}{l|}{The angle between the primary direction $0^o$} \\
+%	\multicolumn{1}{|c|}{} &
+%	\multicolumn{1}{l|}{} &
+%	\multicolumn{1}{l|}{of the plane in which the Earth is orbiting} \\
+%	\multicolumn{1}{|c|}{} &
+%	\multicolumn{1}{l|}{} &
+%	\multicolumn{1}{l|}{and the current Earth position.} \\ \midrule
+%	\multicolumn{1}{|c|}{\multirow{2}{*}{$M_{\oplus}$}} &
+%	\multicolumn{1}{l|}{\multirow{2}{*}{Mean anomaly}} &
+%	\multicolumn{1}{l|}{The fraction of the orbit's period after the Earth} \\
+%	\multicolumn{1}{|c|}{} &
+%	\multicolumn{1}{l|}{} &
+%	\multicolumn{1}{l|}{has passed the furthest position from the sun} \\ \midrule
+%	\multicolumn{1}{|c|}{\multirow{2}{*}{$\epsilon$}} &
+%	\multicolumn{1}{l|}{\multirow{2}{*}{Obliquity}} &
+%	\multicolumn{1}{l|}{The inclination of the plane of orbit to the} \\
+%	\multicolumn{1}{|c|}{} &
+%	\multicolumn{1}{l|}{} &
+%	\multicolumn{1}{l|}{celestial equator} \\ \midrule
+%	\multicolumn{1}{|c|}{\multirow{2}{*}{$\lambda_{M_{\oplus}}$}} &
+%	\multicolumn{1}{l|}{\multirow{2}{*}{Sun's mean longitude}} &
+%	\multicolumn{1}{l|}{The average angle subtended at the Earth} \\
+%	\multicolumn{1}{|c|}{} &
+%	\multicolumn{1}{l|}{} &
+%	\multicolumn{1}{l|}{between the vernal equinox and the sun. \cite{ross1916sun}} \\ \bottomrule
+%\end{tabular}
+%\label{table:SunOrbitParameters}
+%\end{table}
 
 The assumption is made that whenever the satellite is not able to view the centre of the sun it is in an eclipse. This a valid assumption given the very small angle required to change the satellite from a partial eclipse to a full eclipse, due to the comparative distances of the sun to satellite and satellite to Earth. The eclipse is therefore defined as the period during which $\theta_{s}$ is smaller than $\theta_E$. Where $\theta_E = \text{sin}(\frac{R_E}{\norm{\mathbf{r}_{\text{sat}}}})$ and $\theta_{s} = \mathbf{r}_{\text{sat}} \cdot \mathbf{s}_{\mathcal{E}}$ as shown in Figure~\ref{fig:SunToEarthToSat}. $R_E$ is the radius of the Earth.
 
@@ -436,8 +455,8 @@ where $U_d = mrd$ as the dynamic imbalance. Both $U_d$ and $U_s$ are provided by
 \end{figure}
 
 \section{Attitude Determination and Control System}
-\label{chap:ADCS}
-This chapter discusses the design of the ADCS. Therefore, the position of the actuators and sensors are discussed as well as the EKF algorithm and control methods for eclipse and sunlit phase. 
+\label{section:ADCS}
+This section discusses the design of the ADCS. Therefore, the position of the EKF algorithm and control methods for eclipse and sunlit phases are discussed. 
 
 \subsection{Sensor Models}
 \label{section:SensorModel}

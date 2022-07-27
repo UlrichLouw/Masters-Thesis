@@ -306,8 +306,8 @@
     <text
        xml:space="preserve"
        style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.264583"
-       x="114.93723"
-       y="105.34545"
+       x="136.06841"
+       y="117.58669"
        id="text29349-8-7"
        transform="rotate(7.0814502)"
        inkscape:transform-center-x="-9.3272644"
@@ -315,15 +315,11 @@
          sodipodi:role="line"
          id="tspan29347-4-2"
          style="font-size:5.64444px;stroke-width:0.264583"
-         x="114.93723"
-         y="105.34545">$R_{moon}$</tspan></text>
+         x="136.06841"
+         y="117.58669">$R_{moon}$</tspan></text>
     <path
        style="fill:#000000;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker17464);fill-opacity:1"
        d="m 138.27007,121.71117 -6.76167,5.85654"
        id="path61230" />
-    <path
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.222432;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker17464)"
-       d="m 138.24639,121.7019 7.20549,4.20227"
-       id="path61635" />
   </g>
 </svg>
