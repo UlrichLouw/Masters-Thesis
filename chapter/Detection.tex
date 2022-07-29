@@ -9,7 +9,9 @@ Detecting the anomaly is a binary classification. The method implemented must th
 \end{equation}
 $\mathbf{f}$ is the point vector within the vector space, $\mathbf{R}$, with $\mathbf{m}$ dimensions, while $y$ denotes the class of the feature, which in binary classification is either $0$ or $1$.
 
-The analysis of the each method will be done by providing the estimation metric as well as the prediction accuracy by varying the isolation accuracy. This is done to determine the dependency of the detection method on the isolation accuracy. From the previous chapter is is clear that the recovery does not change the effect of the magnetic moment disturbance and therefore the performance of the detection methods are analysed with the sun reflection anomaly.
+The analysis of the each method will be done by providing the estimation metric as well as the prediction accuracy by varying the isolation accuracy. This is done to determine the dependency of the detection method on the isolation accuracy. The isolation accuracy is implement with drawing a random value from an uniform distribution. The seed remains constant for each implementation, to ensure that the results are repeatable and that a justifiable comparison between the methods can be made. From the previous chapter is is clear that the recovery does not change the effect of the magnetic moment disturbance and therefore the performance of the detection methods are analysed with the sun reflection anomaly.
+
+The detection methods are furthermore divided into supervised learning and unsupervised learning methods. The unsupervised learning methods, LOF and Isolation Forest can only be implemented for detection (binary classification), while the supervised learning methods, Decision Trees, Random Forest and Support Vector Machines (SVM) can also be implemented for isolation (multiclass classification).
 
 \section{Supervised Learning}
 Supervised learning is a subgroup of machine learning which is based on training algorithms from labelled data to ensure accurate predictions.
@@ -39,7 +41,7 @@ It is evident in Figure \ref{fig:DecisionTree} that the most notable splits at t
 \subsection{Analysis}
 To determine the performance of the Decision Tree the estimation metric as well as the prediction accuracy is given in Figure~\ref{fig:DecisionTreesWithVaryingIsolationEstimation} and Figure~\ref{fig:DecisionTreesWithVaryingIsolationPrediction} respectively with varying isolation accuracies. This is implemented to demonstrate the dependency of the prediction accuracy of the Decision Tree on the accuracy of the isolation method as well as to analyse the effect of the isolation accuracy on the potential estimation metric given by the Decision Tree.
 
-In Figure~\ref{fig:DecisionTreesWithVaryingIsolationEstimation} the change in the estimation metric cannot be solely due to the change in the isolation accuracy. This is because of the change in prediction accuracy of the Decision Tree as shown in Figure~\ref{fig:DecisionTreesWithVaryingIsolationPrediction}. It is evident that the Decision Tree prediction accuracy can change from $99\%$ to $92\%$ due to an isolation accuracy change of $100\%$ to $70\%$.
+In Figure~\ref{fig:DecisionTreesWithVaryingIsolationEstimation} the change in the estimation metric cannot be solely due to the change in the isolation accuracy. This is because of the change in prediction accuracy of the Decision Tree as shown in Figure~\ref{fig:DecisionTreesWithVaryingIsolationPrediction}. It is evident that the Decision Tree prediction accuracy can change from $99\%$ to $92\%$ after $30$ orbits, due to an isolation accuracy change of $100\%$ to $70\%$.
 \begin{figure}[!htb]
 	\centering
 	\import{Figures/TexFigures/Summary/DecisionTrees100/}{Estimation MetricPredictionWithVaryingIsolationAccuracies.pgf}
@@ -71,7 +73,7 @@ Random forests, (RF), is an extension of the decision tree. It generates various
 		\EndFor
 	\end{algorithmic}
 \end{algorithm}
-The classification output, $\mathbf{P}$, is then provided with Algorithm~\ref{alg: Random-Forest-prediction}.
+The classification output, $\mathbf{P}$, is then provided with Algorithm~\ref{alg: Random-Forest-prediction}. $\mathbf{P}$ can either $0$ or $0$ for binary classification or any number within the range of classes in multiclass classification.
 \begin{algorithm}[!htb]
 	\caption[Random Forest]{Prediction of Random Forest from Individual Decision Trees}
 	\label{alg: Random-Forest-prediction}
@@ -83,6 +85,10 @@ The classification output, $\mathbf{P}$, is then provided with Algorithm~\ref{al
 	\end{algorithmic}
 \end{algorithm}
 
+\subsection{Analysis}
+To determine the performance of the Random Forest, the estimation metric as well as the prediction accuracy is given in Figure~\ref{fig:RandomForestWithVaryingIsolationEstimation} and Figure~\ref{fig:RandomForestWithVaryingIsolationPrediction} respectively, with varying isolation accuracies. This is implemented to demonstrate the dependency of the prediction accuracy of the Random Forest on the accuracy of the isolation method as well as to analyse the effect of the isolation accuracy on the potential estimation metric given by the Random Forest.
+
+In Figure~\ref{fig:RandomForestWithVaryingIsolationEstimation} the change in the estimation metric increases to an estimation error of $\pm 24^o$ at $70\%$ isolation accuracy from $\pm 2^o$ at $100\%$ accuracy after $30$ orbits. This occurs even though the Random Forest is a lot more accurate than that of the Decision Tree as is evident in comparing Figure~\ref{fig:RandomForestWithVaryingIsolationPrediction} with Figure~\ref{fig:DecisionTreesWithVaryingIsolationPrediction}. This emphasizes the importance of determining the estimation metric for each method rather than focusing on the prediction accuracy. \textbf{TODO: To explain this phenomena, check the ratio of false positives to false negatives for $5$ orbits}.
 \begin{figure}[!htb]
 	\centering
 	\import{Figures/TexFigures/Summary/RandomForest100/}{Estimation MetricPredictionWithVaryingIsolationAccuracies.pgf}
@@ -161,6 +167,11 @@ This is provided with the example of a polynomial division of the data shown in 
 	\label{fig:SupportVectorMachinesExamplePoly}
 \end{figure}
 
+\subsection{Analysis}
+To determine the performance of the SVM, the estimation metric as well as the prediction accuracy is given in Figure~\ref{fig:SVMWithVaryingIsolationEstimation} and Figure~\ref{fig:SVMWithVaryingIsolationPrediction} respectively, with varying isolation accuracies. This is implemented to demonstrate the dependency of the prediction accuracy of the SVM on the accuracy of the isolation method as well as to analyse the effect of the isolation accuracy on the potential estimation metric given by the SVM.
+
+In Figure~\ref{fig:SVMWithVaryingIsolationEstimation} the change in the estimation metric increases to an estimation error of $\pm 44^o$ at $70\%$ isolation accuracy from $\pm 2^o$ at $100\%$ accuracy after $30$ orbits. This occurs while the prediction accuracy decreases to $85\%$ at $70\%$ isolation accuracy after $30$ orbits. The SVM is therefore highly dependent on the accuracy of the isolation method.
+
 \begin{figure}[!htb]
 	\centering
 	\import{Figures/TexFigures/Summary/SVM/}{Estimation MetricPredictionWithVaryingIsolationAccuracies.pgf}
@@ -176,6 +187,8 @@ This is provided with the example of a polynomial division of the data shown in 
 	\caption{Prediction Accuracy of Support Vector Machines at varying isolation percentages.}
 	\label{fig:SVMWithVaryingIsolationPrediction}
 \end{figure}
+
+The SVM does not perform as well as the Decision Tree and the Random Forest for detection at lower percentages, although all three supervised learning methods have similar performances at an isolation accuracy of $100\%$. This however is not feasible and therefore the Decision Tree is considered as the best supervised detection method of the three.
 
 \section{Unsupervised Learning}
 Supervised learning is a subgroup of machine learning which is based on unlabelled data. Local Outlier factor as discussed in Section~\ref{section:OutlierFactor} can also be implemented as an unsupervised learning method.
@@ -284,4 +297,4 @@ It is evident that applying an angle of $0\degree$ to all the slices the general
 \end{figure}
 
 \section{Summary}
-For the detection of anomalies different binary classification methods are discussed. This includes supervised learning methods such as decision trees, random forests and support vector machines as well as unsupervised learning methods such as isolation forests and local outlier factor which is only discussed in Section~\ref{section:OutlierFactor}. Both supervised and unsupervised learning methods for detection only provide a binary split between anomalous and normal data points, however supervised learning methods can also be implemented for isolation, multi-class classification.
+For the detection of anomalies different binary classification methods are discussed. This includes supervised learning methods such as decision trees, random forests and support vector machines as well as unsupervised learning methods such as isolation forests and local outlier factor which is only discussed in Section~\ref{section:OutlierFactor}. Both supervised and unsupervised learning methods for detection only provide a binary split between anomalous and normal data points, however supervised learning methods can also be implemented for isolation, multiclass classification.
