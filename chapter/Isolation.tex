@@ -1,15 +1,16 @@
 \chapter{Isolation}
 \label{chap:Isolation}
+The supervised learning methods discussed in Chapter~\ref{chap:Detection} is used to classify the specific anomaly after an anomaly is detect. The supervised learning methods are therefore only trained on the different anomalies and the normal data. There is therefore three classes in which to classify the current data sample, where each class is the sensor responsible for the anomaly.
 
+%\section{Decision Trees}
+%\begin{figure}[!htb]
+%	\centering
+%	\import{Figures/TexFigures/Summary/DecisionTrees100/}{Estimation MetricIsolationWithVaryingPredictionAccuracies.pgf}
+%	
+%	\caption{Average Estimation Metric per orbit of Decision Trees at varying isolation percentages.}
+%	\label{fig:DecisionTreesWithVaryingPredictionEstimation}
+%\end{figure}
 
-\section{Decision Trees}
-\begin{figure}[!htb]
-	\centering
-	\import{Figures/TexFigures/Summary/DecisionTrees100/}{Estimation MetricIsolationWithVaryingPredictionAccuracies.pgf}
-	
-	\caption{Estimation Metric of Decision Trees at varying isolation percentages.}
-	\label{fig:DecisionTreesWithVaryingPredictionEstimation}
-\end{figure}
 
 %\begin{figure}[!htb]
 %	\centering
@@ -19,14 +20,14 @@
 %	\label{fig:DecisionTreesWithVaryingPredictionIsolation}
 %\end{figure}
 
-\section{Random Forests}
-\begin{figure}[!htb]
-	\centering
-	\import{Figures/TexFigures/Summary/RandomForest100/}{Estimation MetricIsolationWithVaryingPredictionAccuracies.pgf}
-	
-	\caption{Estimation Metric of Random Forest at varying isolation percentages.}
-	\label{fig:RandomForestWithVaryingPredictionEstimation}
-\end{figure}
+%\section{Random Forests}
+%\begin{figure}[!htb]
+%	\centering
+%	\import{Figures/TexFigures/Summary/RandomForest100/}{Estimation MetricIsolationWithVaryingPredictionAccuracies.pgf}
+%	
+%	\caption{Average Estimation Metric per orbit of Random Forest at varying isolation percentages.}
+%	\label{fig:RandomForestWithVaryingPredictionEstimation}
+%\end{figure}
 
 %\begin{figure}[!htb]
 %	\centering
@@ -36,14 +37,14 @@
 %	\label{fig:RandomForestWithVaryingPredictionIsolation}
 %\end{figure}
 
-\section{Support Vector Machines}
-\begin{figure}[!htb]
-	\centering
-	\import{Figures/TexFigures/Summary/SVM/}{Estimation MetricIsolationWithVaryingPredictionAccuracies.pgf}
-	
-	\caption{Estimation Metric of Support Vector Machines at varying isolation percentages.}
-	\label{fig:SVMWithVaryingPredictionEstimation}
-\end{figure}
+%\section{Support Vector Machines}
+%\begin{figure}[!htb]
+%	\centering
+%	\import{Figures/TexFigures/Summary/SVM/}{Estimation MetricIsolationWithVaryingPredictionAccuracies.pgf}
+%	
+%	\caption{Average Estimation Metric per orbit of Support Vector Machines at varying isolation percentages.}
+%	\label{fig:SVMWithVaryingPredictionEstimation}
+%\end{figure}
 
 %\begin{figure}[!htb]
 %	\centering
@@ -54,13 +55,23 @@
 %\end{figure}
 
 \section{Comparison}
+In Figure~\ref{fig:IsolationComparison} the various isolation methods are compared using LOF. Each isolation method is not seperately analysed with various detection accuracies, since the detection method is already chosen based on Chapter~\ref{chap:Detection}. From Figure~\ref{fig:IsolationComparison} it is evident that the isolation methods are very similar in performance. Although the Decision Trees reduce the estimation error more than the other methods....... Timing discussion
+
 \begin{figure}[!htb]
 	\centering
-	\import{Figures/TexFigures/Summary/100.0/}{Estimation MetricPerfectPredictionCompareIsolations.pgf}
+	\import{Figures/TexFigures/Summary/LOF/}{Estimation MetriccompareAllIsolationMethods.pgf}
 	
-	\caption{Comparison of Estimation Metric of Isolation Methods with a detection accuracy of $100\%$.}
-	\label{fig:IsolationMethodsWithPerfectPrediction}
+	\caption{Average Estimation Metric per orbit of Isolation Methods with Local Outlier Factor as the detection method.}
+	\label{fig:IsolationComparison}
 \end{figure}
+
+%\begin{figure}[!htb]
+%	\centering
+%	\import{Figures/TexFigures/Summary/LOF/}{Prediction AccuracycompareAllIsolationMethods.pgf}
+%	
+%	\caption{Average Estimation Metric per orbit of Isolation Methods with Local Outlier Factor as the detection method.}
+%	\label{fig:IsolationComparison}
+%\end{figure}
 
 \section{Summary}
 \textbf{TODO: Write summary on chapter}

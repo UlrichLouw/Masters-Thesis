@@ -9,12 +9,12 @@ Detecting the anomaly is a binary classification. The method implemented must th
 \end{equation}
 $\mathbf{f}$ is the point vector within the vector space, $\mathbf{R}$, with $\mathbf{m}$ dimensions, while $y$ denotes the class of the feature, which in binary classification is either $0$ or $1$.
 
-The analysis of the each method will be done by providing the estimation metric as well as the prediction accuracy by varying the isolation accuracy. This is done to determine the dependency of the detection method on the isolation accuracy. The isolation accuracy is implement with drawing a random value from an uniform distribution. The seed remains constant for each implementation, to ensure that the results are repeatable and that a justifiable comparison between the methods can be made. From the previous chapter is is clear that the recovery does not change the effect of the magnetic moment disturbance and therefore the performance of the detection methods are analysed with the sun reflection anomaly.
+The analysis of the each method will be done by providing the estimation metric as well as the prediction accuracy by varying the isolation accuracy. This implemented for $30$ orbits and the average of the metric is given for each orbit. This is done to determine the dependency of the detection method on the isolation accuracy. The isolation accuracy is implement with drawing a random value from an uniform distribution. The seed remains constant for each implementation, to ensure that the results are repeatable and that a justifiable comparison between the methods can be made. From the previous chapter is is clear that the recovery does not change the effect of the magnetic moment disturbance and therefore the performance of the detection methods are analysed with the sun reflection anomaly.
 
 The detection methods are furthermore divided into supervised learning and unsupervised learning methods. The unsupervised learning methods, LOF and Isolation Forest can only be implemented for detection (binary classification), while the supervised learning methods, Decision Trees, Random Forest and Support Vector Machines (SVM) can also be implemented for isolation (multiclass classification).
 
 \section{Supervised Learning}
-Supervised learning is a subgroup of machine learning which is based on training algorithms from labelled data to ensure accurate predictions.
+Supervised learning is a subgroup of machine learning which is based on training algorithms from labelled data to ensure accurate predictions. The methods in this category are trained on both the anomalous data as well as the normal data, where all the anomalous data samples are labelled as $1$ and all the normal data samples are labelled as $1$. 
 
 \subsection{Decision Trees}
 Decision Trees and Random Forests will be implemented to perform binary classification on regular data samples and anomalous data samples. Decision Trees \cite{Reif2008} and Random Forests \cite{Shi2006, Paul2018, Primartha2018} are supervised learning algorithms that classify data based on threshold splitting. Data samples are split based on a threshold of a specific input parameter. For instance, binary classification can be performed on data samples from a satellite orbit to determine whether the satellite was in an eclipse or not. This would be done by determining whether the magnitude of the sun vector is smaller or greater than $0$. Consequently, after two splits it can be determined which data samples are within an eclipse. The Decision Tree determines this split with the classification and regression tree (CART) algorithm.
@@ -46,7 +46,7 @@ In Figure~\ref{fig:DecisionTreesWithVaryingIsolationEstimation} the change in th
 	\centering
 	\import{Figures/TexFigures/Summary/DecisionTrees100/}{Estimation MetricPredictionWithVaryingIsolationAccuracies.pgf}
 	
-	\caption{Estimation Metric of Decision Tree at varying isolation percentages.}
+	\caption{Average Estimation Metric per orbit of Decision Tree at varying isolation percentages  during the sun reflection anomaly.}
 	\label{fig:DecisionTreesWithVaryingIsolationEstimation}
 \end{figure}
 
@@ -54,7 +54,7 @@ In Figure~\ref{fig:DecisionTreesWithVaryingIsolationEstimation} the change in th
 	\centering
 	\import{Figures/TexFigures/Summary/DecisionTrees100/}{Prediction AccuracyPredictionWithVaryingIsolationAccuracies.pgf}
 	
-	\caption{Prediction Accuracy of Decision Tree at varying isolation percentages.}
+	\caption{Average Prediction Accuracy per orbit of Decision Tree at varying isolation percentages  during the sun reflection anomaly.}
 	\label{fig:DecisionTreesWithVaryingIsolationPrediction}
 \end{figure}
 
@@ -93,7 +93,7 @@ In Figure~\ref{fig:RandomForestWithVaryingIsolationEstimation} the change in the
 	\centering
 	\import{Figures/TexFigures/Summary/RandomForest100/}{Estimation MetricPredictionWithVaryingIsolationAccuracies.pgf}
 	
-	\caption{Estimation Metric of Random Forest at varying isolation percentages.}
+	\caption{Average Estimation Metric per orbit of Random Forest at varying isolation percentages  during the sun reflection anomaly.}
 	\label{fig:RandomForestWithVaryingIsolationEstimation}
 \end{figure}
 
@@ -101,7 +101,7 @@ In Figure~\ref{fig:RandomForestWithVaryingIsolationEstimation} the change in the
 	\centering
 	\import{Figures/TexFigures/Summary/RandomForest100/}{Prediction AccuracyPredictionWithVaryingIsolationAccuracies.pgf}
 	
-	\caption{Prediction Accuracy of Random Forest at varying isolation percentages.}
+	\caption{Average Prediction Accuracy per orbit of Random Forest at varying isolation percentages  during the sun reflection anomaly.}
 	\label{fig:RandomForestWithVaryingIsolationPrediction}
 \end{figure}
 
@@ -122,7 +122,7 @@ d(\mathbf{x}_i) = \frac{\mathbf{w}^T(\mathbf{x}_i) + b}{\norm{\mathbf{w}}^2}
 \begin{figure}[!hbt]
 	\centering
 	\import{Figures/}{SupportVectorMachinesExample.pgf}
-	\caption{Support Vector Machine Example}
+	\caption{Support Vector Machine DecisionTrees100Example}
 	\label{fig:SupportVectorMachinesExample}
 \end{figure}
 
@@ -176,7 +176,7 @@ In Figure~\ref{fig:SVMWithVaryingIsolationEstimation} the change in the estimati
 	\centering
 	\import{Figures/TexFigures/Summary/SVM/}{Estimation MetricPredictionWithVaryingIsolationAccuracies.pgf}
 	
-	\caption{Estimation Metric of Support Vector Machines at varying isolation percentages.}
+	\caption{Average Estimation Metric per orbit of Support Vector Machines at varying isolation percentages  during the sun reflection anomaly.}
 	\label{fig:SVMWithVaryingIsolationEstimation}
 \end{figure}
 
@@ -184,14 +184,14 @@ In Figure~\ref{fig:SVMWithVaryingIsolationEstimation} the change in the estimati
 	\centering
 	\import{Figures/TexFigures/Summary/SVM/}{Prediction AccuracyPredictionWithVaryingIsolationAccuracies.pgf}
 	
-	\caption{Prediction Accuracy of Support Vector Machines at varying isolation percentages.}
+	\caption{Average Prediction Accuracy per orbit of Support Vector Machines at varying isolation percentages  during the sun reflection anomaly.}
 	\label{fig:SVMWithVaryingIsolationPrediction}
 \end{figure}
 
 The SVM does not perform as well as the Decision Tree and the Random Forest for detection at lower percentages, although all three supervised learning methods have similar performances at an isolation accuracy of $100\%$. This however is not feasible and therefore the Decision Tree is considered as the best supervised detection method of the three.
 
 \section{Unsupervised Learning}
-Supervised learning is a subgroup of machine learning which is based on unlabelled data. Local Outlier factor as discussed in Section~\ref{section:OutlierFactor} can also be implemented as an unsupervised learning method.
+Supervised learning is a subgroup of machine learning which is based on unlabelled data. Local Outlier factor as discussed in Section~\ref{section:OutlierFactor} can also be implemented as an unsupervised learning method. The methods in this category are trained on only the normal data. 
 
 \subsection{Isolation Forests}
 This unsupervised learning method is based on the principle of isolating data points by slicing the data with random conditions \cite{TonyLiu2008}. The data is randomly split into specified sample sizes with a randomly selected dimension and a randomly selected cut-off value. For each sample size the data must be split until each data point within the sample is isolated from all other data points. Training of a single tree is completed when all the data points are isolated and this training must be repeated for all the data samples, however many are predefined. 
@@ -262,28 +262,35 @@ The extended isolation forest algorithm generalises the isolation forest algorit
 
 It is evident that applying an angle of $0\degree$ to all the slices the general algorithm of the extended isolation forest produces the standard isolation forest algorithm where planes or slices are perpendicular to the axis of the randomly selected feature, $x$.
 
+\subsection{Analysis}
+The isolation forest does not require an evaluation of the prediction accuracy. This is due to the estimation metric of the isolation forest at even a $100\%$ isolation accuracy as seen in Figure~\ref{fig:IsolationForestWithVaryingIsolationEstimation}. It is therefore a simple analysis in that isolation forest will not suffice as a detection method.
+
 \begin{figure}[!htb]
 	\centering
 	\import{Figures/TexFigures/Summary/IsolationForest/}{Estimation MetricPredictionWithVaryingIsolationAccuracies.pgf}
 	
-	\caption{Estimation Metric of Isolation Forest at varying isolation percentages.}
+	\caption{Average Estimation Metric per orbit of Isolation Forest at varying isolation percentages during the sun reflection anomaly.}
 	\label{fig:IsolationForestWithVaryingIsolationEstimation}
 \end{figure}
 
-\begin{figure}[!htb]
-	\centering
-	\import{Figures/TexFigures/Summary/IsolationForest/}{Prediction AccuracyPredictionWithVaryingIsolationAccuracies.pgf}
-	
-	\caption{Prediction Accuracy of Isolation Forest at varying isolation percentages.}
-	\label{fig:IsolationForestWithVaryingIsolationPrediction}
-\end{figure}
+%\begin{figure}[!htb]
+%	\centering
+%	\import{Figures/TexFigures/Summary/IsolationForest/}{Prediction AccuracyPredictionWithVaryingIsolationAccuracies.pgf}
+%	
+%	\caption{Average Prediction Accuracy per orbit of Isolation Forest at varying isolation percentages  during the sun reflection anomaly.}
+%	\label{fig:IsolationForestWithVaryingIsolationPrediction}
+%\end{figure}
 
 \section{Local Outlier Factor}
+The theoretical background of LOF is discussed in Section~\ref{section:OutlierFactor} as well as the information gain thereof for feature extraction. This section therefore provides the analysis of the LOF as a detection method. The LOF is compared with the Random Forest method to analyse the reason for each methods performance. This is compared at an isolation accuracy of $90\%$ since this is an realistic isolation accuracy and provides the information required to evaluate the effect of incorrect predictions and isolations on the EKF.
+
+In Figure~\ref{fig:LOFWithVaryingIsolationEstimation} it is clear that the LOF provides an estimation metric of less than $10^o$ up until an isolation accuracy of $75\%$ after $30$ orbits. This is even though the prediction accuracy provides a $70\%$ prediction accuracy as seen in Figure~\ref{fig:LOFWithVaryingIsolationPrediction} with a $100\%$ isolation accuracy after $30$ orbits. To analyse this the confusion matrix of both the LOF and Random Forest detection methods at $90\%$ isolation accuracy is given in Table~\ref{Table: LOFvsRandomForest}. The left column provides the predicted class, either anomaly or normal, while the two sub columns below the detection method providing the actual class of the time step.
+
 \begin{figure}[!htb]
 	\centering
 	\import{Figures/TexFigures/Summary/LOF/}{Estimation MetricPredictionWithVaryingIsolationAccuracies.pgf}
 	
-	\caption{Estimation Metric of Local Outlier Factor at varying isolation percentages.}
+	\caption{Average Estimation Metric per orbit of Local Outlier Factor at varying isolation percentages  during the sun reflection anomaly.}
 	\label{fig:LOFWithVaryingIsolationEstimation}
 \end{figure}
 
@@ -291,18 +298,47 @@ It is evident that applying an angle of $0\degree$ to all the slices the general
 	\centering
 	\import{Figures/TexFigures/Summary/LOF/}{Prediction AccuracyPredictionWithVaryingIsolationAccuracies.pgf}
 	
-	\caption{Prediction Accuracy of Local Outlier Factor at varying isolation percentages.}
+	\caption{Average Prediction Accuracy per orbit of Local Outlier Factor at varying isolation percentages  during the sun reflection anomaly.}
 	\label{fig:LOFWithVaryingIsolationPrediction}
 \end{figure}
 
-\section{Comparison of Detection Methods}
+From Table~\ref{Table: LOFvsRandomForest} it is clear that the LOF is conservative in that it predicts with $99.6\%$ accuracy in predicting anomalies, while it is only $59\%$ accurate in predicting normal data samples. The Random Forest on the other hand has an accuracy of $94\%$ in predicting anomalies, while it is $99.9\%$ accurate in predicting normal samples. Therefore it is clear that incorrectly predicting the anomalies has a larger effect on the estimation accuracy than correctly predicting normal data samples.
+
+\begin{table}
+	\centering
+	\caption{Confusion matrix comparing Local Outlier Factor with Random Forest at $90\%$ isolation accuracy}
+	\label{Table: LOFvsRandomForest}
+	\begin{tabular}{c c c c c}
+		\hline\hline
+		& \multicolumn{2}{c}{LOF} & \multicolumn{2}{c}{Random Forest}\\
+		& Normal & Anomaly & Normal & Anomaly \\ \cline{2-5}
+		Normal & \textbf{90961} & 66 & \textbf{161132} & 528\\
+		Anomaly & 63256 & \textbf{15845} & 200 & \textbf{8268}\\
+		\hline\hline
+	\end{tabular}
+\end{table}
+
+The relation between the prediction accuracy and the estimation metric is not linear and is complex due to the pointing accuracy that changes due to the incorrect estimation. This in turn influences the number of anomalies that the satellite will experience. This is clear by comparing the pointing accuracy in Figure~\ref{fig:LOFvsRF} and the number of anomalies for both LOF and Random Forest in Table~\ref{Table: LOFvsRandomForest}.
+
 \begin{figure}[!htb]
 	\centering
-	\import{Figures/TexFigures/Summary/100.0/}{Estimation MetricPerfectIsolationComparePredictions.pgf}
+	\import{Figures/TexFigures/Summary/90.0/}{Pointing MetriccompareRFandLOF.pgf}
 	
-	\caption{Comparison of Estimation Metric of Detection Methods with an isolation accuracy of $100\%$.}
+	\caption{Comparison of Average Pointing accuracy per orbit of Random Forest and Local Outlier Factor at $90.0\%$ isolation accuracy.}
+	\label{fig:LOFvsRF}
+\end{figure}
+
+\section{Comparison of Detection Methods}
+To determine the best detection method of the methods discussed in this chapter, the estimation metric for all the methods at $90.0\%$ accuracy is shown in Figure~\ref{fig:DetectionMethodsWithPerfectIsolation} to ensure that the detection method is robust even when the isolation accuracy is not perfect. It is clear from Figure~\ref{fig:DetectionMethodsWithPerfectIsolation} that LOF is the best detection method for reducing the estimation error. LOF is also an unsupervised learning algorithm and can therefore be implemented to detect any anomaly, since it only determine whether the relationship between the sensor measurements is as expected from the normal training data. The LOF therefore is accurate in detecting anomalies and is chosen as the detection method for the FDIR.
+
+\begin{figure}[!htb]
+	\centering
+	\import{Figures/TexFigures/Summary/90.0/}{Estimation MetriccompareAllDetectionMethods.pgf}
+	
+	\caption{Comparison of Average Estimation Metric per orbit of the Detection Methods at $90.0\%$ isolation accuracy.}
 	\label{fig:DetectionMethodsWithPerfectIsolation}
 \end{figure}
 
+
 \section{Summary}
-For the detection of anomalies different binary classification methods are discussed. This includes supervised learning methods such as decision trees, random forests and support vector machines as well as unsupervised learning methods such as isolation forests and local outlier factor which is only discussed in Section~\ref{section:OutlierFactor}. Both supervised and unsupervised learning methods for detection only provide a binary split between anomalous and normal data points, however supervised learning methods can also be implemented for isolation, multiclass classification.
+For the detection of anomalies different binary classification methods are discussed. This includes supervised learning methods such as decision trees, random forests and support vector machines as well as unsupervised learning methods such as isolation forests and local outlier factor which is only discussed in Section~\ref{section:OutlierFactor}. Both supervised and unsupervised learning methods for detection only provide a binary split between anomalous and normal data points, however supervised learning methods can also be implemented for isolation, multiclass classification. The LOF is the best detection method to reduce estimation error and therefore is implemented for the detection aspect of the FDIR.
