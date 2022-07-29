@@ -199,15 +199,23 @@ This unsupervised learning method is based on the principle of isolating data po
 The distance measured from the first split the \emph{tree top} to the isolated data point is used to determine whether a data point is anomalous or not \cite{Hariri2021}. The logical reasoning for support of this algorithm is that data points which are non-anomalous will be more closely related and hence have more splits to separate the data points until isolation is achieved. Therefore, the distance from the tree top for non-anomalous data points will be longer than anomalous data points which will have a shorter distance from the tree top. Therefore non-anomalous data points are closer to the \emph{root}. 
 
 Figure~\ref{Figure-Isolation_Forest} demonstrates the splitting of the data points until isolated. Each split or \emph{branch} only splits the data into two groups. After training multiple trees, a single data point is "sent through the forest" and the distance from the tree top for each tree is calculated and the average of all the trees are used to calculated the average distance for the data point. Using a threshold for the distance, the data point is classified as anomalous or not.
-\textbf{TODO: redraw the isolation forest in inkscape}
-\begin{figure}[h!tb]
+
+%\begin{figure}[h!tb]
+%	\centering
+%	
+%	\includegraphics[width=10cm]{fig/Isolation_Forests} % not necessary to give extension - now you can shift between compiling to ps or to pdf without any problems
+%	
+%	\caption[Isolation Forest]{Isolation Forests \cite{Chen2020}}
+%	\label{Figure-Isolation_Forest} 
+%\end{figure}
+
+\begin{figure*}[!hbt]
 	\centering
-	
-	\includegraphics[width=10cm]{fig/Isolation_Forests} % not necessary to give extension - now you can shift between compiling to ps or to pdf without any problems
-	
+	\def\svgwidth{16cm}
+	\import{Figures/}{isolationForest.pdf_tex}
 	\caption[Isolation Forest]{Isolation Forests \cite{Chen2020}}
 	\label{Figure-Isolation_Forest} 
-\end{figure}
+\end{figure*}
 
 An example of a trained isolation forest is provided in Figure~\ref{fig:IsolationForest}. The samples in white are the training samples of which all are considered normal data. Therefore the tree is constructed and the branches are created until all the data samples in the training data set are divided into individual nodes. Thereafter, the new data set is classified and is evident that data samples far removed from the normal training samples are isolated within the anomaly threshold and are therefore considered anomalous (depicted as red).
 \begin{figure}[!hbt]
